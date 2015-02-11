@@ -23,7 +23,7 @@ use Phing\Test\AbstractBuildFileTest;
 
 /**
  * @covers \PatternSet
- * @covers \PatternSetNameEntryCreator
+ * @covers \PatternSetNameEntryCreatorBase
  * @covers \PatternSetNameEntry
  */
 class Ticket571RegressionTest extends AbstractBuildFileTest
