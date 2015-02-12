@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4475a1eb6ddaecc500ce83e9dabc83ed",
+    "hash": "cd4110321327afd7d7465c16606b6c35",
     "packages": [
         {
             "name": "sebastian/version",
@@ -801,44 +801,6 @@
             "description": "A parsing and comparison library for semantic versioning.",
             "homepage": "http://github.com/kherge/Version",
             "time": "2012-08-16 17:13:03"
-        },
-        {
-            "name": "lastcraft/simpletest",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lox/simpletest.git",
-                "reference": "d02732a94f1e78f2b45665d80c9b89caf2ee318e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lox/simpletest/zipball/d02732a94f1e78f2b45665d80c9b89caf2ee318e",
-                "reference": "d02732a94f1e78f2b45665d80c9b89caf2ee318e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.0.5"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "."
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Marcus Baker",
-                    "email": "marcus@lastcraft.com",
-                    "role": "Original project lead"
-                }
-            ],
-            "description": "Unit testing, mock objects and web testing framework for PHP built around test cases.",
-            "homepage": "http://simpletest.org/",
-            "time": "2012-12-04 07:26:10"
         },
         {
             "name": "monolog/monolog",
@@ -4744,8 +4706,7 @@
     "stability-flags": {
         "pear/pear_exception": 20,
         "pear/versioncontrol_svn": 20,
-        "pear/versioncontrol_git": 20,
-        "lastcraft/simpletest": 20
+        "pear/versioncontrol_git": 20
     },
     "prefer-stable": false,
     "platform": {
