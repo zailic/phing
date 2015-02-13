@@ -23,7 +23,7 @@
 namespace Phing\Test;
 
 use Phing\BuildEvent;
-use Phing\BuildListenerInterface;
+use Phing\Listener\BuildListenerInterface;
 
 /**
  * our own personal build listener

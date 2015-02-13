@@ -12,7 +12,7 @@ ini_set('html_errors', 'off');
 // default logger
 if (!in_array('-logger', $argv)) {
     $argv[] = '-logger';
-    $argv[] = 'phing.listener.AnsiColorLogger';
+    $argv[] = 'Phing.Listener.AnsiColorLogger';
 }
 
 putenv("PHING_HOME=" . realpath(dirname(__FILE__) . '/../'));

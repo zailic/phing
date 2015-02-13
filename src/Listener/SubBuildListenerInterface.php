@@ -17,7 +17,9 @@
  * <http://phing.info>.
  */
 
-namespace Phing;
+namespace Phing\Listener;
+
+use Phing\BuildEvent;
 
 /**
  * Instances of classes that implement this interface can register

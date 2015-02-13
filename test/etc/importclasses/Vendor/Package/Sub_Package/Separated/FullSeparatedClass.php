@@ -19,11 +19,11 @@
  * <http://phing.info>.
  */
 
-namespace Vendor\Package\Sub_Package;
+namespace Vendor\Package\Sub_Package\Separated;
 
 /**
  * Just an empty class for import tests
  *
  * @author Kirill chEbba Chebunin <iam@chebba.org>
  */
-class Separated_FullSeparatedClass {}
+class FullSeparatedClass {}

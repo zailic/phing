@@ -22,7 +22,7 @@ namespace Phing;
 use Phing\Exception\BuildException;
 use Phing\Exception\ConfigurationException;
 use Phing\Input\DefaultInputHandler;
-use DefaultLogger;
+use Phing\Listener\DefaultLogger;
 use Exception;
 use Phing\Io\FileOutputStream;
 use Phing\Io\FileReader;
@@ -30,13 +30,14 @@ use Phing\Io\IOException;
 use Phing\Io\OutputStream;
 use Phing\Io\File;
 use Phing\Io\PrintStream;
+use Phing\Listener\BuildLoggerInterface;
 use Phing\Parser\ProjectConfigurator;
 use Phing\Util\StringHelper;
 use Phing\Util\Timer;
 use Phing\Util\Properties\PropertySetImpl;
 use Properties;
 use SebastianBergmann\Version;
-use StreamRequiredBuildLogger;
+use Phing\Listener\StreamRequiredBuildLoggerInterface;
 
 /**
  * Entry point into Phing.  This class handles the full lifecycle of a build -- from
@@ -705,7 +706,7 @@ class Phing
 
             $listener = new $clz();
 
-            if ($listener instanceof StreamRequiredBuildLogger) {
+            if ($listener instanceof StreamRequiredBuildLoggerInterface) {
                 throw new ConfigurationException("Unable to add " . $listenerClassname . " as a listener, since it requires explicit error/output streams. (You can specify it as a -logger.)");
             }
             $project->addBuildListener($listener);
@@ -756,7 +757,6 @@ class Phing
                 throw new BuildException($classname . ' does not implement the BuildLogger interface.');
             }
         } else {
-            require_once 'phing/listener/DefaultLogger.php';
             $logger = new DefaultLogger();
         }
         $logger->setMessageOutputLevel(self::$msgOutputLevel);
@@ -1092,53 +1092,42 @@ class Phing
      * - PSR-0 (@link https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md)
      * - dot-path
      *
-     * @param string $dotPath Path
+     * @param string $className Path
      * @param mixed $classpath String or object supporting __toString()
      *
      * @return string         The unqualified classname (which can be instantiated).
      *
      * @throws \Phing\Exception\BuildException - if cannot find the specified file
      */
-    public static function import($dotPath, $classpath = null)
+    public static function import($className, $classpath = null)
     {
-
-        if (strpos($dotPath, '.') !== false) {
-            $classname = StringHelper::unqualify($dotPath);
-        } else {
-            $classname = $dotPath;
-            $dotPath = '';
-            $shortClassName = $classname;
-            if (($lastNsPos = strripos($shortClassName, '\\'))) {
-                $namespace = substr($shortClassName, 0, $lastNsPos);
-                $shortClassName = substr($shortClassName, $lastNsPos + 1);
-                $dotPath = str_replace('\\', '.', $namespace) . '.';
-            }
-            $dotPath .= str_replace('_', '.', $shortClassName);
+        if (strpos($className, '.') !== false) {
+            $className = \str_replace('.', '\\', $className);
         }
 
-        // first check to see that the class specified hasn't already been included.
-        // (this also handles case where this method is called w/ a classname rather than dotpath)
-        if (class_exists($classname)) {
-            return $classname;
+        $shortClassName = StringHelper::unqualify($className, '\\');
+
+        if (\class_exists($shortClassName)) {
+            return $shortClassName;
         }
 
-        $dotClassname = basename($dotPath);
-        $dotClassnamePos = strlen($dotPath) - strlen($dotClassname);
+        if (\class_exists($className)) {
+            return $className;
+        }
 
-        // 1- temporarily replace escaped '.' with another illegal char (#)
-        $tmp = str_replace('\.', '##', $dotClassname);
-        // 2- swap out the remaining '.' with DIR_SEP
-        $tmp = strtr($tmp, '.', DIRECTORY_SEPARATOR);
-        // 3- swap back the escaped '.'
-        $tmp = str_replace('##', '.', $tmp);
+        $path = \str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
 
-        $classFile = $tmp . ".php";
-
-        $path = substr_replace($dotPath, $classFile, $dotClassnamePos);
+        if (\strpos($className, '\\') === false && \strpos($path, '_') !== false) {
+            $path = \str_replace('_', DIRECTORY_SEPARATOR, $path);
+        }
 
         Phing::__import($path, $classpath);
 
-        return $classname;
+        if (\class_exists($className, false)) {
+            return $className;
+        }
+
+        return $shortClassName;
     }
 
     /**

@@ -1,13 +1,14 @@
 <?php
 use Phing\BuildEvent;
-use Phing\BuildLoggerInterface;
+use Phing\Listener\BuildLoggerInterface;
 use Phing\Exception\BuildException;
 use Phing\Io\FileOutputStream;
 use Phing\Io\IOException;
 use Phing\Io\OutputStream;
+use Phing\Listener\DefaultLogger;
 use Phing\Phing;
 use Phing\Project;
-use Phing\SubBuildListenerInterface;
+use Phing\Listener\SubBuildListenerInterface;
 use Phing\Util\StringHelper;
 
 /**

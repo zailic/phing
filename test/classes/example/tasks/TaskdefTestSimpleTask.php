@@ -23,6 +23,7 @@
 use Phing\Project;
 use Phing\Task;
 
+require_once __DIR__ . '/TestEcho.php';
 
 class TaskdefTestSimpleTask extends Task
 {
@@ -44,14 +45,4 @@ class TaskdefTestSimpleTask extends Task
         $this->log("simpletask: " . $this->echo->message, Project::MSG_INFO);
     }
 
-}
-
-class TestEcho
-{
-    public $message;
-
-    public function setMessage($s)
-    {
-        $this->message = $s;
-    }
 }

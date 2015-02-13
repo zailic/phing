@@ -18,35 +18,30 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Listener;
 
 use Phing\BuildEvent;
-use Phing\Phing;
-use Phing\Project;
-
 
 /**
- * Extends AnsiColorLogger to display times for each target
+ * Extends DefaultLogger to strip out empty targets.
  *
- * @author    Patrick McAndrew <patrick@urg.name>
- * @copyright 2013. All rights reserved
+ * @author    Andreas Aderhold <andi@binarycloud.com>
+ * @copyright 2001,2002 THYRELL. All rights reserved
  * @version   $Id$
  * @package   phing.listener
  */
-class TargetLogger extends AnsiColorLogger
+class NoBannerLogger extends DefaultLogger
 {
 
     private $targetName = null;
-    private $targetStartTime;
 
     /**
      * @param BuildEvent $event
      */
     public function targetStarted(BuildEvent $event)
     {
-        parent::targetStarted($event);
         $target = $event->getTarget();
         $this->targetName = $target->getName();
-        $this->targetStartTime = Phing::currentTimeMillis();
     }
 
     /**
@@ -54,12 +49,28 @@ class TargetLogger extends AnsiColorLogger
      */
     public function targetFinished(BuildEvent $event)
     {
-        $msg .= PHP_EOL . "Target time: " . self::formatTime(
-                Phing::currentTimeMillis() - $this->targetStartTime
-            ) . PHP_EOL;
-        $event->setMessage($msg, Project::MSG_INFO);
-        $this->messageLogged($event);
         $this->targetName = null;
+    }
 
+    /**
+     * @param BuildEvent $event
+     */
+    public function messageLogged(BuildEvent $event)
+    {
+
+        if ($event->getPriority() > $this->msgOutputLevel || null === $event->getMessage() || trim(
+                $event->getMessage() === ""
+            )
+        ) {
+            return;
+        }
+
+        if ($this->targetName !== null) {
+            $msg = PHP_EOL . $event->getProject()->getName() . ' > ' . $this->targetName . ':' . PHP_EOL;
+            $this->printMessage($msg, $this->out, $event->getPriority());
+            $this->targetName = null;
+        }
+
+        parent::messageLogged($event);
     }
 }

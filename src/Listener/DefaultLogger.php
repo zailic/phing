@@ -19,13 +19,14 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Listener;
+
 use Phing\BuildEvent;
 use Phing\Exception\BuildException;
 use Phing\Io\IOException;
 use Phing\Io\OutputStream;
 use Phing\Phing;
 use Phing\Project;
-
 
 /**
  * Writes a build event to the console.
@@ -39,7 +40,7 @@ use Phing\Project;
  * @see       BuildEvent
  * @package   phing.listener
  */
-class DefaultLogger implements StreamRequiredBuildLogger
+class DefaultLogger implements StreamRequiredBuildLoggerInterface
 {
 
     /**
@@ -103,7 +104,7 @@ class DefaultLogger implements StreamRequiredBuildLogger
      */
     public function setMessageOutputLevel($level)
     {
-        $this->msgOutputLevel = (int) $level;
+        $this->msgOutputLevel = (int)$level;
     }
 
     /**
@@ -240,7 +241,7 @@ class DefaultLogger implements StreamRequiredBuildLogger
      *  Fired when a task has finished. We don't need specific action on this
      *  event. So the methods are empty.
      *
-     * @param  BuildEvent $event  The BuildEvent
+     * @param  BuildEvent $event The BuildEvent
      * @see    BuildEvent::getException()
      */
     public function taskFinished(BuildEvent $event)

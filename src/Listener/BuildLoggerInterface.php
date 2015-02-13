@@ -20,10 +20,9 @@
  */
 
 
-namespace Phing;
+namespace Phing\Listener;
 
 use Phing\Io\OutputStream;
-use Phing\BuildListenerInterface;
 
 /**
  * Interface for build loggers.

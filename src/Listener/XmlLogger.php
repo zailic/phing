@@ -1,7 +1,12 @@
 <?php
+namespace Phing\Listener;
+
+use DOMDocument;
+use DOMElement;
+use Exception;
 use Phing\BuildEvent;
 use Phing\Exception\BuildException;
-use Phing\BuildLoggerInterface;
+use Phing\Listener\BuildLoggerInterface;
 use Phing\Io\FileOutputStream;
 use Phing\Io\IOException;
 use Phing\Io\OutputStream;
@@ -344,7 +349,7 @@ class XmlLogger implements BuildLoggerInterface
      */
     public function setMessageOutputLevel($level)
     {
-        $this->msgOutputLevel = (int) $level;
+        $this->msgOutputLevel = (int)$level;
     }
 
     /**

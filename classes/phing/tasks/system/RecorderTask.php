@@ -4,7 +4,7 @@ use Phing\BuildEvent;
 use Phing\Exception\BuildException;
 use Phing\Project;
 use Phing\Task;
-use Phing\SubBuildListenerInterface;
+use Phing\Listener\SubBuildListenerInterface;
 use Phing\Util\StringHelper;
 
 /**

@@ -26,9 +26,6 @@ use PHPUnit_Framework_TestCase;
 
 /**
  * Core Phing class test
- * Do not know why there was no test at all
- *
- * // TODO implement all methods
  *
  * @author Kirill chEbba Chebunin <iam@chebba.org>
  * @version $Revision: $
@@ -37,10 +34,10 @@ use PHPUnit_Framework_TestCase;
 class PhingTest extends PHPUnit_Framework_TestCase
 {
 
-    const NAMESPACED_CLASS = 'Vendor\\Package\\Sub_Package\\Separated_FullSeparatedClass';
+    const NAMESPACED_CLASS = 'Vendor\\Package\\Sub_Package\\Separated\\FullSeparatedClass';
     const SEPARATED_CLASS = 'Vendor_Package_SeparatedClass';
-    const DOTED_CLASS = 'Vendor.Package.DotedClass';
-    const DOTED_CLASS_SHORTNAME = 'DotedClass';
+    const DOTTED_CLASS = 'Vendor.Package.DottedClass';
+    const DOTTED_CLASS_SHORTNAME = 'DottedClass';
 
     protected $classpath;
 
@@ -48,9 +45,18 @@ class PhingTest extends PHPUnit_Framework_TestCase
      * Test a PSR-0 support of class loading
      * @link http://groups.google.com/group/php-standards/web/psr-0-final-proposal
      */
-    public function testImportPSR0()
+    public function testImportNamespacedClass()
     {
-        // Test PEAR stadard
+        $className = Phing::import(self::NAMESPACED_CLASS, self::getClassPath());
+        self::assertEquals(self::NAMESPACED_CLASS, $className);
+        self::assertTrue(class_exists(self::NAMESPACED_CLASS));
+    }
+
+    /**
+     * Tests the PEAR standard
+     */
+    public function testImportPear()
+    {
         $className = Phing::import(self::SEPARATED_CLASS, self::getClassPath());
         self::assertEquals(self::SEPARATED_CLASS, $className);
         self::assertTrue(class_exists(self::SEPARATED_CLASS));
@@ -61,9 +67,9 @@ class PhingTest extends PHPUnit_Framework_TestCase
      */
     public function testImportDotPath()
     {
-        $className = Phing::import(self::DOTED_CLASS, self::getClassPath());
-        self::assertEquals(self::DOTED_CLASS_SHORTNAME, $className);
-        self::assertTrue(class_exists(self::DOTED_CLASS_SHORTNAME));
+        $className = Phing::import(self::DOTTED_CLASS, self::getClassPath());
+        self::assertEquals(self::DOTTED_CLASS_SHORTNAME, $className);
+        self::assertTrue(class_exists(self::DOTTED_CLASS_SHORTNAME));
     }
 
     /**

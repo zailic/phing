@@ -19,11 +19,12 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Listener;
+
 use Phing\BuildEvent;
 use Phing\Exception\BuildException;
 use Phing\Io\OutputStream;
 use Phing\Phing;
-
 
 /**
  * Uses PEAR Mail package to send the build log to one or
@@ -73,9 +74,9 @@ class MailLogger extends DefaultLogger
 
     /**
      * @see DefaultLogger#printMessage
-     * @param string       $message
+     * @param string $message
      * @param OutputStream $stream
-     * @param int          $priority
+     * @param int $priority
      */
     final protected function printMessage($message, OutputStream $stream, $priority)
     {
@@ -103,7 +104,7 @@ class MailLogger extends DefaultLogger
             'Subject' => $this->_subject . (empty($event) ? " (build succesful)" : " (build failed)")
         );
 
-        $mail = Mail::factory('mail');
+        $mail = \Mail::factory('mail');
         $mail->send($this->_tolist, $hdrs, $this->_mailMessage);
     }
 }

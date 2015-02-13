@@ -12,6 +12,7 @@ use Phing\Input\InputHandlerInterface;
 use Phing\Io\IOException;
 use Phing\Exception\BuildException;
 use Phing\Io\File;
+use Phing\Listener\BuildListenerInterface;
 use Phing\Parser\ProjectConfigurator;
 use Phing\Util\Properties\PropertySet;
 use Phing\Util\Properties\PropertyFileReader;
@@ -617,7 +618,7 @@ class Project
         if ($class === "") {
             $this->log("Task $name has no class defined.", Project::MSG_ERR);
         } elseif (!isset($this->taskdefs[$name])) {
-            Phing::import($class, $classpath);
+            $className = Phing::import($class, $classpath);
             $this->taskdefs[$name] = $class;
             $this->log("  +Task definition: $name ($class)", Project::MSG_DEBUG);
         } else {

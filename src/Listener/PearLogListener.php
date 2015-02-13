@@ -19,9 +19,10 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Listener;
+
 use Phing\BuildEvent;
 use Phing\Exception\BuildException;
-use Phing\BuildListenerInterface;
 use Phing\Phing;
 use Phing\Project;
 
@@ -111,7 +112,7 @@ class PearLogListener implements BuildListenerInterface
             throw new BuildException("Cannot find PEAR Log class for use by PearLogger.");
         }
 
-        $this->logger = Log::singleton($type, $name, $ident, $conf, self::$levelMap[$this->msgOutputLevel]);
+        $this->logger = \Log::singleton($type, $name, $ident, $conf, self::$levelMap[$this->msgOutputLevel]);
     }
 
     /**

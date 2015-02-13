@@ -19,13 +19,14 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Listener;
+
 use Phing\Io\File;
 use Phing\Io\IOException;
 use Phing\Io\OutputStream;
 use Phing\Phing;
 use Phing\Project;
 use Phing\Util\Properties\Properties;
-
 
 /**
  * Uses ANSI Color Code Sequences to colorize messages
@@ -206,9 +207,9 @@ class AnsiColorLogger extends DefaultLogger
 
     /**
      * @see DefaultLogger#printMessage
-     * @param string       $message
+     * @param string $message
      * @param OutputStream $stream
-     * @param int          $priority
+     * @param int $priority
      */
     final protected function printMessage($message, OutputStream $stream, $priority)
     {
