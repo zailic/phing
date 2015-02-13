@@ -153,7 +153,10 @@ class PHPLocTask extends Task
         $this->reportDirectory = trim($directory);
     }
 
-    public function main()
+    /**
+     * @throws BuildException
+     */
+    protected function loadDependencies()
     {
         /**
          * Find PHPLoc
@@ -179,7 +182,12 @@ class PHPLocTask extends Task
         ) {
             $this->isOneSevenVersion = true;
         }
+    }
 
+    public function main()
+    {
+        $this->loadDependencies();
+        
         $this->validateProperties();
 
         if ($this->reportDirectory !== null && !is_dir($this->reportDirectory)) {

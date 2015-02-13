@@ -44,7 +44,8 @@
         "pear-pear.php.net/PEAR_PackageFileManager2": "1.0.x",
         "pear-pear.php.net/XML_Serializer": "0.20.x",
         "squizlabs/php_codesniffer": "1.5.x",
-        "ext-pdo_sqlite": "*"
+        "ext-pdo_sqlite": "*",
+        "phpmd/phpmd": "~2.2"
     },
     "autoload": {
         "classmap": ["classes/phing/"],

@@ -561,7 +561,7 @@ class File
             throw new IOException("No read access to " . $this->path);
         }
 
-        return (($fs->getBooleanAttributes($this) & $fs->BA_HIDDEN) !== 0);
+        return (($fs->getBooleanAttributes($this) & FileSystem::BA_HIDDEN) !== 0);
     }
 
     /**

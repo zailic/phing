@@ -283,10 +283,11 @@ class Path extends DataType
         for ($i = 0, $elSize = count($this->elements); $i < $elSize; $i++) {
             $o = $this->elements[$i];
             if ($o instanceof Reference) {
+                $refId = $o->getRefId();
                 $o = $o->getReferencedObject($this->project);
                 // we only support references to paths right now
                 if (!($o instanceof Path)) {
-                    $msg = $r->getRefId() . " doesn't denote a path";
+                    $msg = $refId . " doesn't denote a path";
                     throw new BuildException($msg);
                 }
             }
@@ -379,7 +380,7 @@ class Path extends DataType
                 }
                 $result[] = $element;
             } catch (BuildException $e) {
-                $this->project->log(
+                $project->log(
                     "Dropping path element " . $pathElement
                     . " as it is not valid relative to the project",
                     Project::MSG_VERBOSE

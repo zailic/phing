@@ -549,7 +549,7 @@ class Win32FileSystem extends AbstractFileSystem
     protected function _access($path)
     {
         if (!$this->checkAccess($path, false)) {
-            throw new Exception("Can't resolve path $p");
+            throw new Exception("Can't resolve path $path");
         }
 
         return true;
@@ -565,11 +565,11 @@ class Win32FileSystem extends AbstractFileSystem
      */
     public function listRoots()
     {
-        $ds = _nativeListRoots();
+        $ds = $this->_nativeListRoots();
         $n = 0;
         for ($i = 0; $i < 26; $i++) {
             if ((($ds >> $i) & 1) !== 0) {
-                if (!$this->access((string)(chr(ord('A') + $i) . ':' . $this->slash))) {
+                if (!$this->_access((string) (chr(ord('A') + $i) . ':' . $this->slash))) {
                     $ds &= ~(1 << $i);
                 } else {
                     $n++;
@@ -577,8 +577,8 @@ class Win32FileSystem extends AbstractFileSystem
             }
         }
         $fs = array();
-        $j = (int)0;
-        $slash = (string)$this->slash;
+        $j = (int) 0;
+
         for ($i = 0; $i < 26; $i++) {
             if ((($ds >> $i) & 1) !== 0) {
                 $fs[$j++] = new File(chr(ord('A') + $i) . ':' . $this->slash);
@@ -593,14 +593,14 @@ class Win32FileSystem extends AbstractFileSystem
     /** compares file paths lexicographically
      * @param File $f1
      * @param File $f2
-     * @return bool|void
+     * @return int
      */
     public function compare(File $f1, File $f2)
     {
         $f1Path = $f1->getPath();
         $f2Path = $f2->getPath();
 
-        return (boolean)strcasecmp((string)$f1Path, (string)$f2Path);
+        return \strcasecmp((string) $f1Path, (string) $f2Path);
     }
 
     /**

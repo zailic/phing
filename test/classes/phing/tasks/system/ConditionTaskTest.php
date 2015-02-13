@@ -43,4 +43,10 @@ class ConditionTaskTest extends AbstractBuildFileTest
         $this->executeTarget(__FUNCTION__);
         $this->assertPropertyUnset('ref.exists');
     }
+
+    public function testSocketCondition()
+    {
+        $this->executeTarget(__FUNCTION__);
+        $this->assertPropertyUnset('socket  ');
+    }
 }
