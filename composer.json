@@ -34,7 +34,7 @@
         "phpdocumentor/phpdocumentor": "2.x",
         "phploc/phploc": "2.x",
         "sebastian/phpcpd": "2.x",
-        "pear/pear_exception": "@dev",
+        "pear/pear_exception": "~1.0",
         "pear/versioncontrol_svn": "@dev",
         "pear/versioncontrol_git": "@dev",
         "pdepend/pdepend": "2.x",
@@ -43,7 +43,7 @@
         "pear-pear.php.net/PEAR_PackageFileManager": "1.7.x",
         "pear-pear.php.net/PEAR_PackageFileManager2": "1.0.x",
         "pear-pear.php.net/XML_Serializer": "0.20.x",
-        "squizlabs/php_codesniffer": "1.5.x",
+        "squizlabs/php_codesniffer": "~2.0",
         "ext-pdo_sqlite": "*",
         "phpmd/phpmd": "~2.2"
     },
