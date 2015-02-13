@@ -27,9 +27,9 @@ require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
  */
 class SvnCheckoutTaskTest extends AbstractSvnTaskTest
 {
-    public function setUp()
+    protected function setUp()
     {
-        parent::setUp('SvnCheckoutTest.xml');
+        $this->initialize('SvnCheckoutTest.xml');
     }
 
     public function testCheckoutSimple()

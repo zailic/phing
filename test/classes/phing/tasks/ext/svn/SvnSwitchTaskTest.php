@@ -29,7 +29,7 @@ require_once dirname(__FILE__) . '/../GitTasks/GitTestsHelper.php';
  */
 class SvnSwitchTaskTest extends AbstractBuildFileTest
 {
-    public function setUp()
+    protected function setUp()
     {
         if (is_readable(PHING_TEST_BASE . '/tmp/svn')) {
             // make sure we purge previously created directory

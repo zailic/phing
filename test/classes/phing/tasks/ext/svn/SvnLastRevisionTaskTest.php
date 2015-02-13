@@ -27,9 +27,9 @@ require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
  */
 class SvnLastRevisionTaskTest extends AbstractSvnTaskTest
 {
-    public function setUp()
+    protected function setUp()
     {
-        parent::setUp('SvnLastRevisionTest.xml');
+        $this->initialize('SvnLastRevisionTest.xml');
         GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/svn');
     }
 

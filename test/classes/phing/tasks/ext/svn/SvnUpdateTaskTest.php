@@ -27,9 +27,9 @@ require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
  */
 class SvnUpdateTaskTest extends AbstractSvnTaskTest
 {
-    public function setUp()
+    protected function setUp()
     {
-        parent::setUp('SvnUpdateTest.xml', false);
+        $this->initialize('SvnUpdateTest.xml', false);
     }
 
     public function testUpdateSimple()
