@@ -19,7 +19,7 @@
  * <http://phing.info>.
  */
 
-namespace Phing\Tests\Filter\Util;
+namespace Phing\Test\Filter\Util;
 
 use Phing\Test\AbstractBuildFileTest;
 

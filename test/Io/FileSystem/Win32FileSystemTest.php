@@ -19,7 +19,7 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-namespace Phing\Tests\Io;
+namespace Phing\Test\Io;
 
 use Phing\Io\FileSystem\AbstractFileSystem;
 use PHPUnit_Framework_TestCase;

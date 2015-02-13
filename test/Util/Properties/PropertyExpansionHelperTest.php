@@ -1,5 +1,5 @@
 <?php
-namespace Phing\Tests\Util\Properties;
+namespace Phing\Test\Util\Properties;
 
 use Phing\Util\Properties\PropertyExpansionHelper;
 use Phing\Util\Properties\PropertySet;

@@ -19,7 +19,7 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-namespace Phing\Tests\Util;
+namespace Phing\Test\Util;
 
 use Phing\Util\RegisterSlot;
 use PHPUnit_Framework_TestCase;

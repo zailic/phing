@@ -1,6 +1,6 @@
 <?php
 
-namespace Phing\Tests\Util\Properties;
+namespace Phing\Test\Util\Properties;
 
 /*
  *  $Id$

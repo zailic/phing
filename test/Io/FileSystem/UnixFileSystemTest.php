@@ -20,7 +20,7 @@
  * <http://phing.info>.
  */
 
-namespace Phing\Tests\Io;
+namespace Phing\Test\Io;
 
 use Phing\Io\File;
 use Phing\Io\FileSystem\AbstractFileSystem;

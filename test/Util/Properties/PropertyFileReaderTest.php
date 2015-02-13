@@ -1,5 +1,5 @@
 <?php
-namespace Phing\Tests\Util\Properties;
+namespace Phing\Test\Util\Properties;
 
 use Phing\Io\File;
 use Phing\Util\Properties\PropertyFileReader;

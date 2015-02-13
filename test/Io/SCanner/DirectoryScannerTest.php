@@ -1,5 +1,5 @@
 <?php
-namespace Phing\Tests\Io\Scanner;
+namespace Phing\Test\Io\Scanner;
 
 use Phing\Io\FileSystem\FileSystemFactory;
 use Phing\Io\Scanner\DirectoryScanner;

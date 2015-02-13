@@ -1,5 +1,5 @@
 <?php
-namespace Phing\Tests\Io\Scanner;
+namespace Phing\Test\Io\Scanner;
 
 use Phing\Io\Scanner\PearPackageScanner;
 use Phing\Test\AbstractBuildFileTest;

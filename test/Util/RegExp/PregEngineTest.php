@@ -21,7 +21,7 @@
  *
  * @package phing.util
  */
-namespace Phing\Tests\Util\RegExp;
+namespace Phing\Test\Util\RegExp;
 
 use Phing\Util\RegExp\PregEngine;
 use PHPUnit_Framework_TestCase;

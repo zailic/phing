@@ -20,7 +20,7 @@
  * <http://phing.info>.
  */
 
-namespace Phing\Tests\Io\FileSystem;
+namespace Phing\Test\Io\FileSystem;
 
 use Phing\Io\FileSystem\FileSystemFactory;
 use Phing\Phing;
