@@ -276,7 +276,7 @@ class UnixFileSystem extends AbstractFileSystem
      */
     public function setReadOnly($f)
     {
-        if ($f instanceof File) {
+        if ($f instanceof PhingFile) {
             $strPath = (string) $f->getPath();
             $perms = (int) (@fileperms($strPath) & 0444);
 
