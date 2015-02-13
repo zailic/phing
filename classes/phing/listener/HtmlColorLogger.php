@@ -24,6 +24,7 @@ use Phing\Io\IOException;
 use Phing\Io\OutputStream;
 use Phing\Phing;
 use Phing\Project;
+use Phing\Util\Properties\Properties;
 
 
 /**

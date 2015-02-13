@@ -1,5 +1,7 @@
 <?php
 
+namespace Phing\Util\Properties;
+
 /*
  *  $Id$
  *
@@ -19,12 +21,10 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+
+use IteratorAggregate;
 use Phing\Io\File;
 use Phing\Io\IOException;
-use Phing\Util\Properties\PropertySet;
-use Phing\Util\Properties\PropertySetImpl;
-use Phing\Util\Properties\PropertyFileReader;
-use Phing\Util\Properties\PropertyFileWriter;
 
 /**
  * A class for reading and writing property files.

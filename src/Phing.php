@@ -38,8 +38,6 @@ use Properties;
 use SebastianBergmann\Version;
 use StreamRequiredBuildLogger;
 
-include_once 'phing/system/util/Properties.php';
-
 /**
  * Entry point into Phing.  This class handles the full lifecycle of a build -- from
  * parsing & handling commandline arguments to assembling the project to shutting down

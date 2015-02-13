@@ -1,5 +1,7 @@
 <?php
 
+namespace Phing\Tests\Util\Properties;
+
 /*
  *  $Id$
  *
@@ -20,6 +22,7 @@
  * <http://phing.info>.
  */
 use Phing\Io\File;
+use Phing\Util\Properties\Properties;
 
 /**
  * Unit test for Properties class
@@ -30,7 +33,7 @@ use Phing\Io\File;
  *
  * @covers Properties
  */
-class PropertiesTest extends PHPUnit_Framework_TestCase
+class PropertiesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Properties
