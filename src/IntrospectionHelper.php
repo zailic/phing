@@ -113,6 +113,7 @@ class IntrospectionHelper
      * Factory method for helper objects.
      *
      * @param string $class The class to create a Helper for
+     * @return IntrospectionHelper
      */
     public static function getHelper($class)
     {
