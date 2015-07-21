@@ -71,4 +71,11 @@ interface BuildLoggerInterface extends BuildListenerInterface
      */
     public function setErrorStream(OutputStream $err);
 
+    /**
+     * Sets this logger to produce emacs (and other editor) friendly output.
+     *
+     * @param bool $emacsMode true if output is to be unadorned so that emacs and other editors
+     *                             can parse files names, etc.
+     */
+    public function setEmacsMode($emacsMode);
 }

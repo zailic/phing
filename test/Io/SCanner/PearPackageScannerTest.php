@@ -193,7 +193,11 @@ class PearPackageScannerTest extends AbstractBuildFileTest
 
         $arFiles = $pps->getIncludedFiles();
         $this->assertContains(
-            'PEAR2/Services/Linkback/Response/Ping.php',
+            'PEAR2' . DIRECTORY_SEPARATOR
+            . 'Services' . DIRECTORY_SEPARATOR
+            . 'Linkback' . DIRECTORY_SEPARATOR
+            . 'Response' . DIRECTORY_SEPARATOR
+            . 'Ping.php',
             $arFiles
         );
     }

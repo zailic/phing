@@ -210,10 +210,16 @@ class ApplyTaskTest extends AbstractBuildFileTest
      */
     public function testFailOnNonExistingDir()
     {
+        $nonExistentDir = DIRECTORY_SEPARATOR
+            . 'tmp' . DIRECTORY_SEPARATOR
+            . 'non' . DIRECTORY_SEPARATOR
+            . 'existent' . DIRECTORY_SEPARATOR
+            . 'dir';
+
         return $this->expectBuildExceptionContaining(
             __FUNCTION__,
             __FUNCTION__,
-            "'/tmp/non/existent/dir' is not a valid directory"
+            "'$nonExistentDir' is not a valid directory"
         );
     }
 
@@ -291,7 +297,10 @@ class ApplyTaskTest extends AbstractBuildFileTest
     public function testEscape()
     {
         $this->executeTarget(__FUNCTION__);
-        $this->assertInLogs($this->windows ? ("'echo' 'foo'  '|'  'cat'") : ("'echo' 'foo' '|' 'cat'"));
+        $this->assertInLogs(
+            $this->windows
+                ? (escapeshellarg('echo') . ' ' . escapeshellarg('foo') . " " . escapeshellarg('|') . " " . escapeshellarg('cat'))
+                : ("'echo' 'foo' '|' 'cat'"));
     }
 
     /**
@@ -357,6 +366,10 @@ class ApplyTaskTest extends AbstractBuildFileTest
      */
     public function testSpawn()
     {
+        // Validating the OS platform
+        if ($this->windows) {
+            $this->markTestSkipped("Windows does not have /bin/sleep");
+        }
 
         // Process
         $start = time();
@@ -400,6 +413,11 @@ class ApplyTaskTest extends AbstractBuildFileTest
      */
     public function testRelativeSourceFilenames()
     {
+        // Validating the OS platform
+        if ($this->windows) {
+            $this->markTestSkipped("Windows does not have 'ls'");
+        }
+        
         $this->executeTarget(__FUNCTION__);
         $this->assertNotInLogs('/etc/');
     }

@@ -39,8 +39,9 @@ class PhpDependTaskTest extends AbstractBuildFileTest
 
     public function testLoggerSummary()
     {
+        ob_start();
         $this->executeTarget(__FUNCTION__);
-
+        ob_end_clean();
         $filename = PHING_TEST_BASE . '/etc/tasks/ext/pdepend/tempoutput';
         $this->assertFileExists($filename);
         unlink($filename);
@@ -48,8 +49,9 @@ class PhpDependTaskTest extends AbstractBuildFileTest
 
     public function testAnalyzer()
     {
+        ob_start();
         $this->executeTarget(__FUNCTION__);
-
+        ob_end_clean();
         $filename = PHING_TEST_BASE . '/etc/tasks/ext/pdepend/tempoutput';
         $this->assertFileExists($filename);
         unlink($filename);

@@ -72,6 +72,8 @@ class DefaultLogger implements StreamRequiredBuildLoggerInterface
      */
     protected $err;
 
+    protected $emacsMode = false;
+
     /**
      *  Construct a new default logger.
      */
@@ -125,6 +127,17 @@ class DefaultLogger implements StreamRequiredBuildLoggerInterface
     public function setErrorStream(OutputStream $err)
     {
         $this->err = $err;
+    }
+
+    /**
+     * Sets this logger to produce emacs (and other editor) friendly output.
+     *
+     * @param bool $emacsMode <code>true</code> if output is to be unadorned so that
+     *                  emacs and other editors can parse files names, etc.
+     */
+    public function setEmacsMode($emacsMode)
+    {
+        $this->emacsMode = $emacsMode;
     }
 
     /**
@@ -252,7 +265,6 @@ class DefaultLogger implements StreamRequiredBuildLoggerInterface
      *  Print a message to the stdout.
      *
      * @param BuildEvent $event
-     * @internal param The $object BuildEvent
      * @see    BuildEvent::getMessage()
      */
     public function messageLogged(BuildEvent $event)
@@ -260,7 +272,7 @@ class DefaultLogger implements StreamRequiredBuildLoggerInterface
         $priority = $event->getPriority();
         if ($priority <= $this->msgOutputLevel) {
             $msg = "";
-            if ($event->getTask() !== null) {
+            if ($event->getTask() !== null && !$this->emacsMode) {
                 $name = $event->getTask();
                 $name = $name->getTaskName();
                 $msg = str_pad("[$name] ", self::LEFT_COLUMN_SIZE, " ", STR_PAD_LEFT);

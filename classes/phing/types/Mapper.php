@@ -20,9 +20,10 @@
  */
 
 use Phing\Exception\BuildException;
-use Phing\Phing;
+use Phing\Mapper\CompositeMapper;
+use Phing\Mapper\ContainerMapper;
+use Phing\Mapper\FileNameMapperInterface;
 use Phing\Project;
-
 
 /**
  * Filename Mapper maps source file name(s) to target file name(s).
@@ -48,8 +49,13 @@ class Mapper extends DataType
     protected $classname;
     protected $from;
     protected $to;
+
+    /** @var Path $classpath */
     protected $classpath;
     protected $classpathId;
+
+    /** @var ContainerMapper $container */
+    private $container = null;
 
     /**
      * @param Project $project
@@ -106,7 +112,8 @@ class Mapper extends DataType
         $this->createClasspath()->setRefid($r);
     }
 
-    /** Set the type of FileNameMapper to use.
+    /**
+     * Set the type of FileNameMapper to use.
      * @param $type
      * @throws BuildException
      */
@@ -118,9 +125,45 @@ class Mapper extends DataType
         $this->type = $type;
     }
 
-    /** Set the class name of the FileNameMapper to use.
-     * @param $classname
-     * @throws \Phing\Exception\BuildException
+    /**
+     * Add a nested <code>FileNameMapperInterface</code>.
+     * @param Mapper|FileNameMapperInterface $fileNameMapper the <code>FileNameMapperInterface</code> to add.
+     * @throws BuildException
+     */
+    public function add(Mapper $fileNameMapper)
+    {
+        if ($this->isReference()) {
+            throw $this->noChildrenAllowed();
+        }
+        if ($this->container == null) {
+            if ($this->type == null && $this->classname == null) {
+                $this->container = new CompositeMapper();
+            } else {
+                $m = $this->getImplementation();
+                if ($m instanceof ContainerMapper) {
+                    $this->container = $m;
+                } else {
+                    throw new BuildException("$m mapper implementation does not support nested mappers!");
+                }
+            }
+        }
+        $this->container->add($fileNameMapper);
+        $this->checked = false;
+    }
+
+    /**
+     * Add a Mapper
+     * @param Mapper $mapper the mapper to add
+     */
+    public function addMapper(Mapper $mapper)
+    {
+        $this->add($mapper);
+    }
+
+    /**
+     * Set the class name of the FileNameMapper to use.
+     * @param string $classname
+     * @throws BuildException
      */
     public function setClassname($classname)
     {
@@ -175,17 +218,34 @@ class Mapper extends DataType
     public function getImplementation()
     {
         if ($this->isReference()) {
-            $tmp = $this->getRef();
+            $o = $this->getRef();
+            if ($o instanceof FileNameMapperInterface) {
+                return $o;
+            }
+            if ($o instanceof Mapper) {
+                return $o->getImplementation();
+            }
 
-            return $tmp->getImplementation();
+            $od = $o == null ? "null" : get_class($o);
+            throw new BuildException($od . " at reference '" . $r->getRefId() . "' is not a valid mapper reference.");
         }
 
-        if ($this->type === null && $this->classname === null) {
+        if ($this->type === null && $this->classname === null && $this->container == null) {
             throw new BuildException("either type or classname attribute must be set for <mapper>");
+        }
+
+        if ($this->container != null) {
+            return $this->container;
         }
 
         if ($this->type !== null) {
             switch ($this->type) {
+                case 'chained':
+                    $this->classname = 'Phing\\Mapper\\ChainedMapper';
+                    break;
+                case 'composite':
+                    $this->classname = 'Phing\\Mapper\\CompositeMapper';
+                    break;
                 case 'identity':
                     $this->classname = 'Phing\\Mapper\\IdentityMapper';
                     break;

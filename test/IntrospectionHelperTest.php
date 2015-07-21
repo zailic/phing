@@ -30,8 +30,6 @@ use Phing\Test\Helper\IHCreatorFail1;
 use Phing\Test\Helper\IHCreatorFail2;
 use Phing\Test\Helper\IHCreatorFail3;
 
-include_once 'phing/tasks/system/condition/OsCondition.php';
-
 /**
  * testcases for phing.IntrospectionHelper.
  *

@@ -20,8 +20,6 @@
  * <http://phing.info>.
  */
 
-include_once 'phing/tasks/system/condition/ContainsCondition.php';
-
 /**
  * Testcase for the &lt;contains&gt; condition.
  *

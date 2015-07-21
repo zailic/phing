@@ -19,6 +19,8 @@
  * <http://phing.info>.
  */
 use Phing\Exception\BuildException;
+use Phing\Filter\ConcatFilter;
+use Phing\Filter\EscapeUnicode;
 use Phing\Filter\ExpandProperties;
 use Phing\Filter\HeadFilter;
 use Phing\Filter\IconvFilter;
@@ -28,17 +30,18 @@ use Phing\Filter\PrefixLines;
 use Phing\Filter\ReplaceRegexp;
 use Phing\Filter\ReplaceTokens;
 use Phing\Filter\ReplaceTokensWithFile;
+use Phing\Filter\SortFilter;
 use Phing\Filter\StripLineBreaks;
 use Phing\Filter\StripLineComments;
 use Phing\Filter\StripPhpComments;
 use Phing\Filter\StripWhitespace;
+use Phing\Filter\SuffixLines;
 use Phing\Filter\TabToSpaces;
 use Phing\Filter\TailFilter;
 use Phing\Filter\TidyFilter;
 use Phing\Filter\TranslateGettext;
 use Phing\Filter\XincludeFilter;
 use Phing\Filter\XsltFilter;
-
 
 /**
  * FilterChain may contain a chained set of filter readers.
@@ -68,6 +71,15 @@ class FilterChain extends DataType
     public function getFilterReaders()
     {
         return $this->filterReaders;
+    }
+
+    /**
+     * @param ConcatFilter $o
+     */
+    public function addConcatFilter(ConcatFilter $o)
+    {
+        $o->setProject($this->project);
+        $this->filterReaders[] = $o;
     }
 
     /**
@@ -137,6 +149,24 @@ class FilterChain extends DataType
      * @param PrefixLines $o
      */
     public function addPrefixLines(PrefixLines $o)
+    {
+        $o->setProject($this->project);
+        $this->filterReaders[] = $o;
+    }
+
+    /**
+     * @param SuffixLines $o
+     */
+    public function addSuffixLines(SuffixLines $o)
+    {
+        $o->setProject($this->project);
+        $this->filterReaders[] = $o;
+    }
+
+    /**
+     * @param PrefixLines $o
+     */
+    public function addEscapeUnicode(EscapeUnicode $o)
     {
         $o->setProject($this->project);
         $this->filterReaders[] = $o;
@@ -250,6 +280,15 @@ class FilterChain extends DataType
         $this->filterReaders[] = $o;
     }
 
+    /**
+     * @param SortFilter $o
+     */
+    public function addSortFilter(SortFilter $o)
+    {
+        $o->setProject($this->project);
+        $this->filterReaders[] = $o;
+    }
+
     /*
      * Makes this instance in effect a reference to another FilterChain
      * instance.
@@ -280,5 +319,4 @@ class FilterChain extends DataType
         }
         parent::setRefid($r);
     }
-
 }

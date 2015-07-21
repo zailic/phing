@@ -67,6 +67,7 @@ class FtpDeployTask extends Task
     private $dirmode = false;
     private $filemode = false;
     private $rawDataFallback = false;
+    private $skipOnSameSize = false;
 
     protected $logLevel = Project::MSG_VERBOSE;
 
@@ -181,6 +182,14 @@ class FtpDeployTask extends Task
     public function setRawdatafallback($fallback)
     {
         $this->rawDataFallback = (bool) $fallback;
+    }
+
+    /**
+     * @param bool|string|int $skipOnSameSize
+     */
+    public function setSkipOnSameSize($skipOnSameSize)
+    {
+        $this->skipOnSameSize = StringHelper::booleanValue($skipOnSameSize);
     }
 
     /**
@@ -344,6 +353,12 @@ class FtpDeployTask extends Task
                 }
 
                 if (!$this->depends || ($local_filemtime > $remoteFileModificationTime)) {
+
+                    if ($this->skipOnSameSize === true && $file->length() === $ftp->size($filename)) {
+                        $this->log('Skipped ' . $file->getCanonicalPath(), $this->logLevel);
+                        continue;
+                    }
+
                     $this->log('Will copy ' . $file->getCanonicalPath() . ' to ' . $filename, $this->logLevel);
                     $ret = $ftp->put($file->getCanonicalPath(), $filename, true, $this->mode);
                     if (@PEAR::isError($ret)) {

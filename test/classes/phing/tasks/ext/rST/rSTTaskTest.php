@@ -1,5 +1,6 @@
 <?php
 
+use Phing\Exception\BuildException;
 use Phing\Test\AbstractBuildFileTest;
 
 /**
@@ -14,7 +15,6 @@ use Phing\Test\AbstractBuildFileTest;
  * @author     Christian Weiske <cweiske@cweiske.de>
  * @license    LGPL v3 or later http://www.gnu.org/licenses/lgpl.html
  * @link       http://www.phing.info/
- * TODO: skip these tests when requirements are not met. (Like when running on windows?)
  */
 class rSTTaskTest extends AbstractBuildFileTest
 {
@@ -33,6 +33,15 @@ class rSTTaskTest extends AbstractBuildFileTest
     {
         // remove excess file if the test failed
         @unlink(PHING_TEST_BASE . '/etc/tasks/ext/rst/files/single.html');
+    }
+
+    protected function assertPreConditions()
+    {
+        try {
+            $this->testGetToolPathFail();
+        } catch (BuildException $be) {
+            $this->markTestSkipped($be->getMessage());
+        }
     }
 
     /**
@@ -58,12 +67,16 @@ class rSTTaskTest extends AbstractBuildFileTest
      */
     public function testGetToolPathFail()
     {
-        $rt = new rSTTask();
-        $rt->init();
-        $ref = new ReflectionClass($rt);
-        $method = $ref->getMethod('getToolPath');
-        $method->setAccessible(true);
-        $method->invoke($rt, 'doesnotexist');
+        if (method_exists('ReflectionMethod', 'setAccessible')) {
+            $rt = new rSTTask();
+            $rt->init();
+            $ref = new ReflectionClass($rt);
+            $method = $ref->getMethod('getToolPath');
+            $method->setAccessible(true);
+            $method->invoke($rt, 'doesnotexist');
+        } else {
+            $this->markTestSkipped('No ReflectionMethod::setAccessible available.');
+        }
     }
 
     /**
@@ -71,12 +84,16 @@ class rSTTaskTest extends AbstractBuildFileTest
      */
     public function testGetToolPathCustom()
     {
-        $rt = new rSTTask();
-        $rt->setToolpath('true'); //mostly /bin/true on unix
-        $ref = new ReflectionClass($rt);
-        $method = $ref->getMethod('getToolPath');
-        $method->setAccessible(true);
-        $this->assertContains('/true', $method->invoke($rt, 'foo'));
+        if (method_exists('ReflectionMethod', 'setAccessible')) {
+            $rt = new rSTTask();
+            $rt->setToolpath('true'); //mostly /bin/true on unix
+            $ref = new ReflectionClass($rt);
+            $method = $ref->getMethod('getToolPath');
+            $method->setAccessible(true);
+            $this->assertContains('/true', $method->invoke($rt, 'foo'));
+        } else {
+            $this->markTestSkipped('No ReflectionMethod::setAccessible available.');
+        }
     }
 
 

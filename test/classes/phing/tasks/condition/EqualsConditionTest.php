@@ -20,8 +20,6 @@
  * <http://phing.info>.
  */
 
-include_once 'phing/tasks/system/condition/EqualsCondition.php';
-
 /**
  * Testcase for the &lt;equals&gt; condition.
  *
