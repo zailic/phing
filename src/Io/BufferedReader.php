@@ -82,7 +82,7 @@ class BufferedReader extends AbstractReader
 
                     $data = substr($data, 0, $validSize);
 
-                    // Rewind to the begining of the forgotten stuff.
+                    // Rewind to the beginning of the forgotten stuff.
                     $this->in->skip(-$notValidPartSize + 1);
                 }
 

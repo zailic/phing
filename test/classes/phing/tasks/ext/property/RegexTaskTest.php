@@ -28,4 +28,10 @@ class RegexTaskTest extends AbstractBuildFileTest
         $this->executeTarget(__FUNCTION__);
         $this->assertPropertyEquals('test.name', 'test.DEF.name');
     }
+
+    public function testBackslash()
+    {
+        $this->executeTarget(__FUNCTION__);
+        $this->assertPropertyEquals('pack.name', '123');
+    }
 }

@@ -145,7 +145,7 @@ class Target implements TaskContainerInterface
     /**
      * Returns reference to indexed array of the dependencies this target has.
      *
-     * @return array Referece to target dependencoes
+     * @return array Reference to target dependencoes
      */
     public function getDependencies()
     {

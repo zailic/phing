@@ -161,7 +161,7 @@ class DefaultLogger implements StreamRequiredBuildLoggerInterface
 
     /**
      *  Prints whether the build succeeded or failed, and any errors that
-     *  occured during the build. Also outputs the total build-time.
+     *  occurred during the build. Also outputs the total build-time.
      *
      * @param BuildEvent $event
      * @internal param The $object BuildEvent

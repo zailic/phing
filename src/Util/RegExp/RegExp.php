@@ -59,8 +59,7 @@ class RegExp
     /**
      * Constructor sets the regex engine to use (preg by default).
      * @param string $engineType
-     * @throws \Phing\Exception\BuildException
-     * @internal param string $_engineType The regex engine to use.
+     * @throws BuildException
      */
     public function __construct($engineType = 'preg')
     {
@@ -220,5 +219,14 @@ class RegExp
     public function getMultiline()
     {
         return $this->engine->getMultiline();
+    }
+
+    /**
+     * Sets the maximum possible replacements for each pattern.
+     * @param int $limit
+     */
+    public function setLimit($limit)
+    {
+        $this->engine->setLimit($limit);
     }
 }

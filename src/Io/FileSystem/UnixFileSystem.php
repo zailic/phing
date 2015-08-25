@@ -51,7 +51,7 @@ use Phing\Util\StringHelper;
 class UnixFileSystem extends AbstractFileSystem
 {
     /**
-     * returns OS dependant path separator char
+     * returns OS dependent path separator char
      *
      * @return string
      */
@@ -61,7 +61,7 @@ class UnixFileSystem extends AbstractFileSystem
     }
 
     /**
-     * returns OS dependant directory separator char
+     * returns OS dependent directory separator char
      *
      * @return string
      */

@@ -293,7 +293,8 @@
                     <row>
                         <entry><literal>spawn</literal></entry>
                         <entry><literal role="type">Boolean</literal></entry>
-                        <entry>Whether to spawn unix programs to the background, redirecting stdout.</entry>
+                        <entry>Whether to spawn unix programs to the background, redirecting stdout (output will
+                            not be logged by Phing).</entry>
                         <entry><literal>false</literal></entry>
                         <entry>No</entry>
                         <entry></entry>
@@ -348,15 +349,6 @@
                             If you need to place it somewhere different, use a nested &lt;srcfile&gt; element between
                             your &lt;arg&gt; elements to mark the insertion point.</entry>
                         <entry><literal>true</literal></entry>
-                        <entry>No</entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry><literal>spawn</literal></entry>
-                        <entry><literal role="type">Boolean</literal></entry>
-                        <entry>Whether the command(s) to be executed are spawned as background process.
-                            If a command is spawned, its output will not be logged by Phing.</entry>
-                        <entry><literal>false</literal></entry>
                         <entry>No</entry>
                         <entry></entry>
                     </row>
@@ -483,7 +475,7 @@
         <title>AvailableTask </title>
         <para>Available Task tests if a resource/file is set and sets a certain property to a
             certain value if it exists.</para>
-        <para>Here, <literal>AvailableTask</literal> first checks for the existance of either file
+        <para>Here, <literal>AvailableTask</literal> first checks for the existence of either file
             or directory named <literal>test.txt</literal> in <literal>/tmp</literal>. Then, it
             checks for the directory <literal>foo</literal> in <literal>/home</literal> and then for
             the file or directory <literal>bar</literal> in <literal>/home/foo</literal>. If
@@ -884,7 +876,7 @@
         <title>CopyTask </title>
         <para>Copies files or directories. Files are only copied if the source file is newer than
             the destination file, or when the destination file does not exist. It is possible to
-            explictly overwrite existing files.</para>
+            explicitly overwrite existing files.</para>
         <para><literal>CopyTask</literal> does not allow self copying, i.e. copying a file to the
             same name for security reasons.</para>
         <table>
@@ -984,7 +976,7 @@
             </tgroup>
         </table>
         <note>
-            <para>No automatic exapnsion of symbolic links</para>
+            <para>No automatic expansion of symbolic links</para>
             <para>By default, <literal>CopyTask</literal> does not expand / dereference symbolic
                 links, and will simply copy the link itself. To enable dereferencing, set
                     <literal>expandsymboliclinks</literal> to <literal>true</literal> in the
@@ -2428,7 +2420,7 @@
     </sect1>
     <sect1 role="taskdef" xml:id="PathToFileSetTask">
         <title>PathToFileSetTask</title>
-        <para>Coverts a path to a fileset. This is usefull if you have a path but need to use a fileset as input
+        <para>Coverts a path to a fileset. This is useful if you have a path but need to use a fileset as input
             in a phing task.</para>
 
         <table>
@@ -2597,7 +2589,7 @@
         </sect2>
         <sect2>
             <title>Base directory of the new project</title>
-            <para>The base directory of the new project is set dependant on the <literal>dir</literal> and
+            <para>The base directory of the new project is set dependent on the <literal>dir</literal> and
                 the <literal>inheritAll</literal> attribute. This is important to keep in mind or
                 else you might run into bugs in your<filename> build.xml</filename>'s. The following
                 table shows when which value is used:</para>
@@ -3157,7 +3149,7 @@
                     </row>
                     <row>
                         <entry><literal>loglevel</literal></entry>
-                        <entry><literal role="type">Boolean</literal></entry>
+                        <entry><literal role="type">String</literal></entry>
                         <entry>At what logging level should this recorder instance record to? This is not a once only
                             parameter (like append is) -- you can increase or decrease the logging level as the build
                             process continues. [Values= {error|warn|info|verbose|debug}, Default = no change]</entry>
@@ -3370,10 +3362,9 @@
             </para>
         </sect2>
     </sect1>
-    <sect1 role="taskdef" xml:id="SwitchPathTask">
+    <sect1 role="taskdef" xml:id="SwitchTask">
         <title>SwitchTask </title>
         <para>Task definition for the phing task to switch on a particular value.</para>
-
 
         <table>
             <title>Attributes</title>
@@ -3412,19 +3403,12 @@
         </table>
         <sect2 role="nestedtags">
             <title>Supported Nested Tags</title>
-            <itemizedlist>
-                <listitem>
-                    <para>At least one <literal>&lt;case></literal> or <literal>&lt;default></literal> is required.</para>
-                </listitem>
-            </itemizedlist>
+            <para>At least one <literal>&lt;case></literal> or <literal>&lt;default></literal> is required.</para>
 
-            <title>case</title>
-            <itemizedlist>
-                <listitem>
-                    <para>An individual case to consider, if the value that is being switched on matches to value attribute
-                        of the case, then the nested tasks will be executed.</para>
-                </listitem>
-            </itemizedlist>
+            <para><literal>case</literal></para>
+
+            <para>An individual case to consider, if the value that is being switched on matches to value attribute
+                of the case, then the nested tasks will be executed.</para>
 
             <table>
                 <title>Attributes</title>
@@ -3455,13 +3439,9 @@
                 </tgroup>
             </table>
 
-            <title>default</title>
-            <itemizedlist>
-                <listitem>
-                    <para>The default case for when no match is found. Must not appear more than once per task.</para>
-                </listitem>
-            </itemizedlist>
+            <para><literal>default</literal></para>
 
+            <para>The default case for when no match is found. Must not appear more than once per task.</para>
         </sect2>
         <sect2>
             <title>Examples</title>
@@ -4110,7 +4090,7 @@ Includes the Type named "CustomProject" and makes it available by
                         <entry>Yes</entry>
                     </row>
                     <row>
-                        <entry><literal>WaitUnit</literal></entry>
+                        <entry><literal>MaxWaitUnit</literal></entry>
                         <entry><literal>String</literal></entry>
                         <entry>Set the max wait time unit. Must be one of
                                 "<literal>week</literal>","<literal>day</literal>", "<literal>hour</literal>",

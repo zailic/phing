@@ -21,6 +21,7 @@
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\FileSystem\FileSystemFactory;
+use Phing\Phing;
 use Phing\Project;
 use Phing\Task;
 
@@ -76,6 +77,12 @@ class PhpDocumentor2Task extends Task
      * @var \phpDocumentor\Application
      */
     private $app = null;
+
+    /**
+     * Path to the phpDocumentor .phar
+     * @var string
+     */
+    private $pharLocation = '';
 
     /**
      * Nested adder, adds a set of files (nested fileset attribute).
@@ -134,6 +141,14 @@ class PhpDocumentor2Task extends Task
     }
 
     /**
+     * @param string $pharLocation
+     */
+    public function setPharLocation($pharLocation)
+    {
+        $this->pharLocation = $pharLocation;
+    }
+
+    /**
      * Forces phpDocumentor to be quiet
      * @deprecated
      * @param boolean $quiet
@@ -174,16 +189,25 @@ class PhpDocumentor2Task extends Task
      */
     private function initializePhpDocumentor()
     {
-        if (class_exists('Composer\\Autoload\\ClassLoader', false)) {
+        $phpDocumentorPath = '';
+
+        if (!empty($this->pharLocation)) {
+            include_once 'phar://' . $this->pharLocation . '/vendor/autoload.php';
+
             if (!class_exists('phpDocumentor\\Bootstrap')) {
-                throw new BuildException('You need to install PhpDocumentor 2 or add your include path to your composer installation.');
+                throw new BuildException(
+                    $this->pharLocation . ' does not look like a phpDocumentor 2 .phar'
+                );
             }
-            $phpDocumentorPath = '';
+        } elseif (class_exists('Composer\\Autoload\\ClassLoader', false)) {
+            if (!class_exists('phpDocumentor\\Bootstrap')) {
+                throw new BuildException('You need to install phpDocumentor 2 or add your include path to your composer installation.');
+            }
         } else {
             $phpDocumentorPath = $this->findPhpDocumentorPath();
 
             if (empty($phpDocumentorPath)) {
-                throw new BuildException("Please make sure PhpDocumentor 2 is installed and on the include_path.");
+                throw new BuildException("Please make sure phpDocumentor 2 is installed and on the include_path.");
             }
 
             set_include_path($phpDocumentorPath . PATH_SEPARATOR . get_include_path());

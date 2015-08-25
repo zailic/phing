@@ -1,14 +1,19 @@
+sudo: false
+
+addons:
+  apt:
+    packages:
+    - python-docutils
+
 language: php
 php:
   - 5.5
   - 5.6
   - 7.0
   - hhvm
-  - hhvm-nightly
  
 matrix:
   allow_failures:
-    - php: hhvm-nightly
     - php: 7.0
   fast_finish: true
 

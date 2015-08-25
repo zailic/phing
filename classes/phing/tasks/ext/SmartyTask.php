@@ -314,7 +314,7 @@ class SmartyTask extends Task
     }
 
     /**
-     * Set whether Smarty should always recompile tempaltes.
+     * Set whether Smarty should always recompile templates.
      * @param  boolean $force
      * @return void
      */
@@ -589,7 +589,7 @@ class SmartyTask extends Task
                     $property = substr($property, 0, strpos($property, "file.contents") - 1);
 
                     // reset value, and then
-                    // read in teh contents of the file into that var
+                    // read in the contents of the file into that var
                     $value = "";
                     $f = new File($this->project->resolveFile($value)->getCanonicalPath());
                     if ($f->exists()) {

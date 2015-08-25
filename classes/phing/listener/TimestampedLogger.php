@@ -1,8 +1,5 @@
 <?php
-
-/*
- *  $Id$
- *
+/**
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -19,48 +16,41 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-use Phing\Task;
 
+include_once 'phing/listener/DefaultLogger.php';
 
 /**
- * Convert dot-notation packages to relative paths.
+ * Like a normal logger, except with timed outputs.
  *
- * @author    Hans Lellelid <hans@xmpl.org>
- * @version   $Id$
- * @package   phing.tasks.ext
+ * @author    Siad Ardroumli <siad.ardroumli@gmail.com>
+ * @package   phing.listener
  */
-class PackageAsPathTask extends Task
+class TimestampedLogger extends DefaultLogger
 {
-
-    /** The package to convert. */
-    protected $pckg;
-
-    /** The property to store the conversion in. */
-    protected $name;
+    /**
+     * what appears between the old message and the new
+     */
+    public static $SPACER = ' - at ';
 
     /**
-     * Executes the package to patch converstion and stores it
-     * in the user property <code>name</code>.
+     * This is an override point: the message that indicates whether a build failed.
+     * Subclasses can change/enhance the message.
+     *
+     * @return string The classic "BUILD FAILED" plus a timestamp
      */
-    public function main()
+    protected function getBuildFailedMessage()
     {
-        $this->project->setUserProperty($this->name, strtr($this->pckg, '.', '/'));
+        return parent::getBuildFailedMessage() . self::$SPACER . date('n/d/Y h:m a');
     }
 
     /**
-     * @param string $pckg the package to convert
+     * This is an override point: the message that indicates that a build succeeded.
+     * Subclasses can change/enhance the message.
+     *
+     * @return string The classic "BUILD SUCCESSFUL" plus a timestamp
      */
-    public function setPackage($pckg)
+    protected function getBuildSuccessfulMessage()
     {
-        $this->pckg = $pckg;
+        return parent::getBuildSuccessfulMessage() . self::$SPACER . date('n/d/Y h:m a');
     }
-
-    /**
-     * @param string $name the property to store the path in
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
 }

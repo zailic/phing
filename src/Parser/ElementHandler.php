@@ -29,7 +29,7 @@ use Phing\UnknownElement;
 /**
  * The generic element handler class.
  *
- * This class handles the occurance of runtime registered tags like
+ * This class handles the occurrence of runtime registered tags like
  * datatypes (fileset, patternset, etc) and it's possible nested tags. It
  * introspects the implementation of the class and sets up the data structures.
  *

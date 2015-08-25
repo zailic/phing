@@ -191,10 +191,52 @@ class PatternSet extends DataType
      * @param File $excludesFile file to fetch the exclude patterns from.
      * @throws BuildException
      */
-    public function setExcludesFile($file)
+    public function setExcludesFile($excludesFile)
     {
         if ($this->isReference()) {
             throw $this->tooManyAttributes();
+        }
+        if ($excludesFile instanceof File) {
+            $excludesFile = $excludesFile->getPath();
+        }
+        $o = $this->createExcludesFile();
+        $o->setName($excludesFile);
+    }
+
+    /**
+     * Reads path matching patterns from a file and adds them to the
+     * includes or excludes list
+     *
+     * @param File $patternfile
+     * @param $patternlist
+     * @param Project $p
+     *
+     * @throws BuildException
+     */
+    private function readPatterns(File $patternfile, &$patternlist, Project $p)
+    {
+        $patternReader = null;
+        try {
+            // Get a FileReader
+            $patternReader = new BufferedReader(new FileReader($patternfile));
+
+            // Create one NameEntry in the appropriate pattern list for each
+            // line in the file.
+            $line = $patternReader->readLine();
+            while ($line !== null) {
+                if (!empty($line)) {
+                    $line = $p->replaceProperties($line);
+                    $this->addPatternToList($patternlist)->setName($line);
+                }
+                $line = $patternReader->readLine();
+            }
+
+        } catch (IOException $ioe) {
+            $msg = "An error occurred while reading from pattern file: " . $patternfile->__toString();
+            if ($patternReader) {
+                $patternReader->close();
+            }
+            throw new BuildException($msg, $ioe);
         }
 
         $this->createExcludesFile()->setName($file);

@@ -1202,6 +1202,13 @@
                         <entry>Yes</entry>
                     </row>
                     <row>
+                        <entry><literal>ssl</literal></entry>
+                        <entry><literal role="type">boolean</literal></entry>
+                        <entry>Whether to connect via SSL. This requires Net/FTP to be installed.</entry>
+                        <entry><literal>false</literal></entry>
+                        <entry>No</entry>
+                    </row>
+                    <row>
                         <entry><literal>dir</literal></entry>
                         <entry><literal role="type">String</literal></entry>
                         <entry>Directory on the remote server.</entry>
@@ -1300,6 +1307,7 @@
   username="${ftp.username}"
   password="${ftp.password}"
   dir="${ftp.dir}"
+  ssl="true"
   passive="false"
   mode="${ftp.mode}">
   &lt;fileset dir=".">
@@ -3113,7 +3121,7 @@ Note that you can omit both startpoint and track attributes in this case
                                 </listitem>
                             </itemizedlist>
                         </entry>
-                        <entry>embeded growl icon v2</entry>
+                        <entry>embedded growl icon v2</entry>
                         <entry>No</entry>
                     </row>
                 </tbody>
@@ -5617,7 +5625,7 @@ Note that you can omit both startpoint and track attributes in this case
                     <row>
                         <entry><literal>checksum</literal></entry>
                         <entry><literal role="type">String</literal></entry>
-                        <entry>Comma separated list of checksums (hashing algoritms) to run, or <literal>false</literal> to disable checksum generation.
+                        <entry>Comma separated list of checksums (hashing algorithms) to run, or <literal>false</literal> to disable checksum generation.
                         Possible values are <literal>md5</literal>, <literal>crc32</literal> or any of the algorithms returned by <link
                             xlink:href="http://www.php.net/manual/en/function.hash-algos.php"
                             role="extern">hash_algos()</link>.</entry>
@@ -5644,6 +5652,54 @@ Note that you can omit both startpoint and track attributes in this case
         </sect2>
     </sect1>
 
+    <sect1 role="taskdef" xml:id="PackageAsPathTask">
+        <title>PackageAsPathTask</title>
+        <para>
+            Converts dot-notation packages to relative paths and stores
+            it in a property.</para>
+
+        <table>
+            <title>Attributes</title>
+            <tgroup cols="5">
+                <colspec colname="name" colnum="1" colwidth="1.5*"/>
+                <colspec colname="type" colnum="2" colwidth="0.8*"/>
+                <colspec colname="description" colnum="3" colwidth="3.5*"/>
+                <colspec colname="default" colnum="4" colwidth="0.8*"/>
+                <colspec colname="required" colnum="5" colwidth="1.2*"/>
+                <thead>
+                    <row>
+                        <entry>Name</entry>
+                        <entry>Type</entry>
+                        <entry>Description</entry>
+                        <entry>Default</entry>
+                        <entry>Required</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry><literal>package</literal></entry>
+                        <entry><literal role="type">String</literal></entry>
+                        <entry>The package to convert.</entry>
+                        <entry>n/a</entry>
+                        <entry>Yes</entry>
+                    </row>
+                    <row>
+                        <entry><literal>name</literal></entry>
+                        <entry><literal role="type">String</literal></entry>
+                        <entry>The property to store the path in.</entry>
+                        <entry>n/a</entry>
+                        <entry>Yes</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+        <sect2>
+            <title>Example</title>
+            <para>Sample build command:</para>
+            <programlisting language="xml">&lt;packageaspath package="phing.classes" name="path"/></programlisting>
+        </sect2>
+    </sect1>
+
     <sect1 role="taskdef" xml:id="ParallelTask">
         <title>ParallelTask</title>
         <para>Executes nested tasks in parallel.</para>
@@ -5659,12 +5715,12 @@ Note that you can omit both startpoint and track attributes in this case
         </para>
         <para>Any valid Phing task may be embedded within a parallel task, including other parallel tasks.</para>
         <para>While the tasks within the parallel task are being run, the main thread will be blocked waiting for all the child threads to complete.
-        If one of the tasks within the <literal>parallel</literal> task fails, the remaining tasks will continue to run until all tasks have completed.
-        In this situation, the parallel task will also fail.</para>
+            If one of the tasks within the <literal>parallel</literal> task fails, the remaining tasks will continue to run until all tasks have completed.
+            In this situation, the parallel task will also fail.</para>
         <para>The threadCount attribute can be used to place a maximum number of available threads for the execution.
-        When not present the value is based on the number of processors present. When present then the maximum number of concurrently executing tasks
-        will not exceed the number of threads specified. Furthermore, each task will be started in the order they are given.
-        But no guarantee is made as to the speed of execution or the order of completion of the tasks, only that each will be started before the next.
+            When not present the value is based on the number of processors present. When present then the maximum number of concurrently executing tasks
+            will not exceed the number of threads specified. Furthermore, each task will be started in the order they are given.
+            But no guarantee is made as to the speed of execution or the order of completion of the tasks, only that each will be started before the next.
         </para>
         <warning><para>This task is highly experimental, and will only work on *nix machines
             that have the PHP <literal>pcntl</literal> extension installed.</para></warning>
@@ -5699,15 +5755,14 @@ Note that you can omit both startpoint and track attributes in this case
         <sect2>
             <title>Example</title>
             <programlisting language="xml">&lt;parallel threadCount="4">
-    &lt;echo>Job 1&lt;/echo>
-    &lt;echo>Job 2&lt;/echo>
-    &lt;echo>Job 3&lt;/echo>
-    &lt;echo>Job 4&lt;/echo>
-&lt;/parallel></programlisting>
+                &lt;echo>Job 1&lt;/echo>
+                &lt;echo>Job 2&lt;/echo>
+                &lt;echo>Job 3&lt;/echo>
+                &lt;echo>Job 4&lt;/echo>
+                &lt;/parallel></programlisting>
         </sect2>
     </sect1>
-
-
+    
     <sect1 role="taskdef" xml:id="PatchTask">
         <title>PatchTask</title>
         <para> The <literal>PatchTask</literal> uses the <link
@@ -5894,7 +5949,7 @@ Note that you can omit both startpoint and track attributes in this case
                     <row>
                         <entry><literal>delimiter</literal></entry>
                         <entry><literal role="type">String</literal></entry>
-                        <entry>The delimeter to separate SQL statements (e.g. "GO" in MSSQL)</entry>
+                        <entry>The delimiter to separate SQL statements (e.g. "GO" in MSSQL)</entry>
                         <entry>;</entry>
                         <entry>No</entry>
                     </row>
@@ -5902,7 +5957,7 @@ Note that you can omit both startpoint and track attributes in this case
                         <entry><literal>delimitertype</literal></entry>
                         <entry><literal role="type">String</literal></entry>
                         <entry>The delimiter type ("normal", "row" or "none"). Normal means that any
-                            occurence of the delimiter terminate the SQL command whereas with row,
+                            occurrence of the delimiter terminate the SQL command whereas with row,
                             only a line containing just the delimiter is recognized as the end of
                             the command. None disables all delimiter detection.</entry>
                         <entry>none</entry>
@@ -5939,7 +5994,7 @@ Note that you can omit both startpoint and track attributes in this case
   &lt;formatter type="plain" outfile="path/to/output.txt"/>
   &lt;/pdosqlexec></programlisting>
             <note>
-                <para>Because of backwards compatiblity, the PDOSQLExecTask can also be called using
+                <para>Because of backwards compatibility, the PDOSQLExecTask can also be called using
                     the <literal>'pdo'</literal> statement.</para>
             </note>
             <programlisting language="xml">&lt;pdo url="pgsql:host=localhost dbname=test">
@@ -7108,7 +7163,7 @@ Note that you can omit both startpoint and track attributes in this case
                         <entry><literal role="type">String</literal></entry>
                         <entry>The output format. The <literal>full</literal> format is specified
                             in the task itself. Additionally all report formats of PHP_CodeSniffer
-                            can be choosen (ex. <literal>checkstyle</literal>,
+                            can be chosen (ex. <literal>checkstyle</literal>,
                                 <literal>full</literal>, <literal>summary</literal>, ...).</entry>
                         <entry>full</entry>
                         <entry>No Ignored if nested <literal>formatter</literal> elements are
@@ -7163,7 +7218,7 @@ Note that you can omit both startpoint and track attributes in this case
                         <entry><literal>sniffs</literal></entry>
                         <entry><literal role="type">String</literal></entry>
                         <entry>The list of allowed sniffs (separated by space, comma or semicolon).
-                            The sniffs must be part of the choosen standard.</entry>
+                            The sniffs must be part of the chosen standard.</entry>
                         <entry>n/a</entry>
                         <entry>No</entry>
                     </row>
@@ -7485,7 +7540,7 @@ Note that you can omit both startpoint and track attributes in this case
                     <row>
                         <entry><literal>pharlocation</literal></entry>
                         <entry><literal role="type">String</literal></entry>
-                        <entry>Location of the PHPUnit PHAR package.</entry>
+                        <entry>Location of the PHPCPD PHAR package.</entry>
                         <entry>n/a</entry>
                         <entry>No</entry>
                     </row>
@@ -7652,7 +7707,7 @@ Note that you can omit both startpoint and track attributes in this case
                     <row>
                         <entry><literal>pharlocation</literal></entry>
                         <entry><literal role="type">String</literal></entry>
-                        <entry>Location of the PHPUnit PHAR package.</entry>
+                        <entry>Location of the PHPLOC PHAR package.</entry>
                         <entry>n/a</entry>
                         <entry>No</entry>
                     </row>
@@ -8147,6 +8202,13 @@ Note that you can omit both startpoint and track attributes in this case
                         <entry><literal>Default</literal></entry>
                         <entry>No</entry>
                     </row>
+                    <row>
+                        <entry><literal>pharlocation</literal></entry>
+                        <entry><literal role="type">String</literal></entry>
+                        <entry>Location of the phpDocumentor PHAR package.</entry>
+                        <entry>n/a</entry>
+                        <entry>No</entry>
+                    </row>
                 </tbody>
             </tgroup>
         </table>
@@ -8461,9 +8523,10 @@ Note that you can omit both startpoint and track attributes in this case
                         attribute to <literal>false</literal>. The name of the file is predetermined
                         by the formatter and can be changed by the <literal>outfile</literal>
                         attribute.</para>
-                    <para>There are three predefined formatters - <literal>xml</literal> and
-                            <literal>clover</literal> print the test results in the JUnit and Clover
-                        XML formats, the <literal>plain</literal> formatter emits a short
+                    <para>There are four predefined formatters - <literal>xml</literal>,
+                            <literal>clover</literal>, and <literal>crap4j</literal> print the test
+                        results in the JUnit, Clover, and Crap4J
+                        XML formats respectively. The <literal>plain</literal> formatter emits a short
                         statistics line for all test cases. Custom formatters that implement
                         phing.tasks.ext.phpunit.formatter.PHPUnitResultFormatter can be
                         specified.</para>
@@ -8491,7 +8554,8 @@ Note that you can omit both startpoint and track attributes in this case
                                     <entry><literal role="type">String</literal></entry>
                                     <entry>Use a predefined formatter (either
                                         <literal>xml</literal>, <literal>plain</literal>,
-                                            <literal>clover</literal>, or
+                                            <literal>clover</literal>,
+                                            <literal>crap4j</literal>, or
                                         <literal>summary</literal>).</entry>
                                     <entry>n/a</entry>
                                     <entry morerows="1">One of these is required.</entry>

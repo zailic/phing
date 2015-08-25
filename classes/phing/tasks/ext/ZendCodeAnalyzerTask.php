@@ -97,7 +97,7 @@ class ZendCodeAnalyzerTask extends Task
     }
 
     /**
-     * Disable warning levels. Seperate warning levels with ','
+     * Disable warning levels. Separate warning levels with ','
      *
      * @param string $disable
      */
@@ -107,7 +107,7 @@ class ZendCodeAnalyzerTask extends Task
     }
 
     /**
-     * Enable warning levels. Seperate warning levels with ','
+     * Enable warning levels. Separate warning levels with ','
      *
      * @param string $enable
      */

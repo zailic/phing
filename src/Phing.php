@@ -45,7 +45,7 @@ use Phing\Listener\StreamRequiredBuildLoggerInterface;
  * and cleaning up in the end.
  *
  * If you are invoking Phing from an external application, this is still
- * the class to use.  Your applicaiton can invoke the start() method, passing
+ * the class to use.  Your application can invoke the start() method, passing
  * any commandline arguments or additional properties.
  *
  * @author    Andreas Aderhold <andi@binarycloud.com>
