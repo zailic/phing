@@ -17,7 +17,15 @@
  * <http://phing.info>.
  */
 
-require_once 'phing/listener/XmlLogger.php';
+namespace Phing\Listener;
+
+use Exception;
+use Phing\BuildEvent;
+use Phing\Exception\BuildException;
+use Phing\Io\FileOutputStream;
+use Phing\Io\IOException;
+use Phing\Io\OutputStreamWriter;
+use Phing\Phing;
 
 /**
  * Generates a file in the current directory with
@@ -83,7 +91,8 @@ class JsonLogger extends XmlLogger
         array_pop($this->getTimesStack());
     }
 
-    private function xml2js($xmlnode) {
+    private function xml2js(\SimpleXMLElement $xmlnode)
+    {
         $root = (func_num_args() > 1 ? false : true);
         $jsnode = array();
 

@@ -17,8 +17,10 @@
  * <http://phing.info>.
  */
 
-include_once 'phing/listener/DefaultLogger.php';
-include_once 'phing/BuildEvent.php';
+namespace Phing\Listener;
+
+use Phing\BuildEvent;
+use Phing\Phing;
 
 /**
  * This is a special logger that is designed to profile builds.

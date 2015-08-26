@@ -17,40 +17,47 @@
  * <http://phing.info>.
  */
 
-include_once 'phing/listener/DefaultLogger.php';
+namespace Phing\Listener;
+
+use Phing\BuildEvent;
 
 /**
- * Like a normal logger, except with timed outputs.
+ * A logger which logs nothing but build failure and what task might output.
  *
  * @author    Siad Ardroumli <siad.ardroumli@gmail.com>
  * @package   phing.listener
  */
-class TimestampedLogger extends DefaultLogger
+class SilentLogger extends DefaultLogger
 {
-    /**
-     * what appears between the old message and the new
-     */
-    public static $SPACER = ' - at ';
-
-    /**
-     * This is an override point: the message that indicates whether a build failed.
-     * Subclasses can change/enhance the message.
-     *
-     * @return string The classic "BUILD FAILED" plus a timestamp
-     */
-    protected function getBuildFailedMessage()
+    public function buildStarted(BuildEvent $event)
     {
-        return parent::getBuildFailedMessage() . self::$SPACER . date('n/d/Y h:m a');
+        // log nothing
     }
 
-    /**
-     * This is an override point: the message that indicates that a build succeeded.
-     * Subclasses can change/enhance the message.
-     *
-     * @return string The classic "BUILD SUCCESSFUL" plus a timestamp
-     */
-    protected function getBuildSuccessfulMessage()
+    public function buildFinished(BuildEvent $event)
     {
-        return parent::getBuildSuccessfulMessage() . self::$SPACER . date('n/d/Y h:m a');
+        if ($event->getException() != null) {
+            parent::buildFinished($event);
+        }
+    }
+
+    public function targetStarted(BuildEvent $event)
+    {
+        // log nothing
+    }
+
+    public function targetFinished(BuildEvent $event)
+    {
+        // log nothing
+    }
+
+    public function taskStarted(BuildEvent $event)
+    {
+        // log nothing
+    }
+
+    public function taskFinished(BuildEvent $event)
+    {
+        // log nothing
     }
 }
