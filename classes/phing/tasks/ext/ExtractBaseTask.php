@@ -160,8 +160,6 @@ abstract class ExtractBaseTask extends MatchingTask
     /**
      * @param File $compressedArchiveFile
      * @throws BuildException
-     * @internal param array $files array of filenames
-     * @internal param PhingFile $dir
      * @return boolean
      */
     protected function isDestinationUpToDate(File $compressedArchiveFile)

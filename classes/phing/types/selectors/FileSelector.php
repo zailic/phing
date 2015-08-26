@@ -38,9 +38,9 @@ interface FileSelector
      * of a selector, it can throw a BuildException to indicate
      * the problem.
      *
-     * @param File $basedir A PhingFile object for the base directory
+     * @param File $basedir A File object for the base directory
      * @param string $filename The name of the file to check
-     * @param File $file A PhingFile object for this filename
+     * @param File $file A File object for this filename
      * @return whether        the file should be selected or not
      * @throws \Phing\Exception\BuildException if the selector was not configured correctly
      */

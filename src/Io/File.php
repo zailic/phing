@@ -820,7 +820,7 @@ class File
 
     /**
      * Simple-copies file denoted by this abstract pathname into another
-     * PhingFile
+     * File
      *
      * @param  File $destFile The new abstract pathname for the named file
      * @throws IOException
@@ -974,7 +974,7 @@ class File
      * operations such the insertion or ejection of removable media and the
      * disconnecting or unmounting of physical or virtual disk drives.
      *
-     * This method returns an array of PhingFile objects that
+     * This method returns an array of File objects that
      * denote the root directories of the available filesystem roots.  It is
      * guaranteed that the canonical pathname of any file physically present on
      * the local machine will begin with one of the roots returned by this
@@ -985,12 +985,12 @@ class File
      * or may not begin with one of the roots returned by this method.  If the
      * pathname of a remote file is syntactically indistinguishable from the
      * pathname of a local file then it will begin with one of the roots
-     * returned by this method.  Thus, for example, PhingFile objects
+     * returned by this method.  Thus, for example, File objects
      * denoting the root directories of the mapped network drives of a Windows
-     * platform will be returned by this method, while PhingFile
+     * platform will be returned by this method, while File
      * objects containing UNC pathnames will not be returned by this method.
      *
-     * @return array An array of PhingFile objects denoting the available
+     * @return array An array of File objects denoting the available
      *               filesystem roots, or null if the set of roots
      *               could not be determined.  The array will be empty if there are
      *               no filesystem roots.
@@ -1016,7 +1016,7 @@ class File
     /**
      * Static method that creates a unique filename whose name begins with
      * $prefix and ends with $suffix in the directory $directory. $directory
-     * is a reference to a PhingFile Object.
+     * is a reference to a File Object.
      * Then, the file is locked for exclusive reading/writing.
      *
      * @author manuel holtgrewe, grin@gmx.net

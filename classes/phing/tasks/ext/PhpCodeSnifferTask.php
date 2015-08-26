@@ -348,7 +348,7 @@ class PhpCodeSnifferTask extends Task
     }
 
     /**
-     * Executes PHP code sniffer against PhingFile or a FileSet
+     * Executes PHP code sniffer against File or a FileSet
      */
     public function main()
     {

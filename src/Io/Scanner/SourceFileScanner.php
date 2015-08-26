@@ -177,7 +177,7 @@ class SourceFileScanner
 
     /**
      * Convenience layer on top of restrict that returns the source
-     * files as PhingFile objects (containing absolute paths if srcDir is
+     * files as File objects (containing absolute paths if srcDir is
      * absolute).
      * @param $files
      * @param $srcDir

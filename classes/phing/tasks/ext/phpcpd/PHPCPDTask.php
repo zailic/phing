@@ -276,7 +276,7 @@ class Application
     }
 
     /**
-     * Executes PHPCPD against PhingFile or a FileSet
+     * Executes PHPCPD against File or a FileSet
      *
      * @throws BuildException
      */

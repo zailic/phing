@@ -235,7 +235,6 @@ class PDOSQLExecFormatterElement
     /**
      * Sets the output file for the formatter results.
      * @param File $outfile
-     * @internal param PhingFile $outFile
      */
     public function setOutfile(File $outfile)
     {
@@ -251,7 +250,7 @@ class PDOSQLExecFormatterElement
         return $this->outfile;
         /*
         } else {
-            return new PhingFile($this->formatter->getPreferredOutfile());
+            return new File($this->formatter->getPreferredOutfile());
         }*/
     }
 

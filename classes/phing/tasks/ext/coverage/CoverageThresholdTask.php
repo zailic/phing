@@ -129,7 +129,7 @@ class CoverageThresholdTask extends Task
     /**
      * Sets the optional coverage database to use
      *
-     * @param PhingFile The database file
+     * @param File The database file
      */
     public function setDatabase(File $database)
     {

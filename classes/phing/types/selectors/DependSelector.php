@@ -140,7 +140,7 @@ class DependSelector extends BaseSelector
      *
      * @param File $basedir base directory the scan is being done from
      * @param string $filename the name of the file to check
-     * @param File $file a PhingFile object the selector can use
+     * @param File $file a File object the selector can use
      *
      * @throws BuildException
      *

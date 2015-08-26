@@ -56,7 +56,7 @@ class PhingTask extends Task
     private $dir;
 
     /** build.xml (can be absolute) in this case dir will be ignored */
-    private $phingFile;
+    private $File;
 
     /** the target to call if any */
     protected $newTarget;
@@ -155,8 +155,8 @@ class PhingTask extends Task
     public function main()
     {
 
-        // Call Phing on the file set with the attribute "phingfile"
-        if ($this->phingFile !== null or $this->dir !== null) {
+        // Call Phing on the file set with the attribute "File"
+        if ($this->File !== null or $this->dir !== null) {
             $this->processFile();
         }
 
@@ -164,7 +164,7 @@ class PhingTask extends Task
         if (!empty($this->filesets)) {
             // preserve old settings
             $savedDir = $this->dir;
-            $savedPhingFile = $this->phingFile;
+            $savedFile = $this->File;
             $savedTarget = $this->newTarget;
 
             // set no specific target for files in filesets
@@ -181,7 +181,7 @@ class PhingTask extends Task
                 foreach ($srcFiles as $fname) {
                     $f = new File($ds->getbasedir(), $fname);
                     $f = $f->getAbsoluteFile();
-                    $this->phingFile = $f->getAbsolutePath();
+                    $this->File = $f->getAbsolutePath();
                     $this->dir = $f->getParentFile();
                     $this->processFile(); // run Phing!
                 }
@@ -189,7 +189,7 @@ class PhingTask extends Task
 
             // side effect free programming ;-)
             $this->dir = $savedDir;
-            $this->phingFile = $savedPhingFile;
+            $this->File = $savedFile;
             $this->newTarget = $savedTarget;
 
             // [HL] change back to correct dir
@@ -215,7 +215,7 @@ class PhingTask extends Task
 
         $buildFailed = false;
         $savedDir = $this->dir;
-        $savedPhingFile = $this->phingFile;
+        $savedFile = $this->File;
         $savedTarget = $this->newTarget;
 
         $savedBasedirAbsPath = null; // this is used to save the basedir *if* we change it
@@ -258,19 +258,19 @@ class PhingTask extends Task
             }
 
             $this->overrideProperties();
-            if ($this->phingFile === null) {
-                $this->phingFile = "build.xml";
+            if ($this->File === null) {
+                $this->File = "build.xml";
             }
 
             $fu = new FileUtils();
-            $file = $fu->resolveFile($this->dir, $this->phingFile);
-            $this->phingFile = $file->getAbsolutePath();
+            $file = $fu->resolveFile($this->dir, $this->File);
+            $this->File = $file->getAbsolutePath();
 
-            $this->log("Calling Buildfile '" . $this->phingFile . "' with target '" . $this->newTarget . "'", Project::MSG_VERBOSE);
+            $this->log("Calling Buildfile '" . $this->File . "' with target '" . $this->newTarget . "'", Project::MSG_VERBOSE);
 
-            $this->newProject->setUserProperty("phing.file", $this->phingFile);
+            $this->newProject->setUserProperty("phing.file", $this->File);
 
-            ProjectConfigurator::configureProject($this->newProject, new File($this->phingFile));
+            ProjectConfigurator::configureProject($this->newProject, new File($this->File));
 
             if ($this->newTarget === null) {
                 $this->newTarget = $this->newProject->getDefaultTarget();
@@ -310,7 +310,7 @@ class PhingTask extends Task
         }
 
         $this->dir = $savedDir;
-        $this->phingFile = $savedPhingFile;
+        $this->File = $savedFile;
         $this->newTarget = $savedTarget;
 
         // If the basedir for any project was changed, we need to set that back here.
@@ -556,22 +556,22 @@ class PhingTask extends Task
      *
      * @param $s
      */
-    public function setPhingfile($s)
+    public function setFile($s)
     {
         // it is a string and not a file to handle relative/absolute
         // otherwise a relative file will be resolved based on the current
         // basedir.
-        $this->phingFile = $s;
+        $this->File = $s;
     }
 
     /**
-     * Alias function for setPhingfile
+     * Alias function for setFile
      *
      * @param $s
      */
     public function setBuildfile($s)
     {
-        $this->setPhingFile($s);
+        $this->setFile($s);
     }
 
     /**

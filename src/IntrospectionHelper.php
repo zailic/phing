@@ -352,7 +352,7 @@ class IntrospectionHelper
                     $value = StringHelper::booleanValue($value);
                 }
 
-                // does method expect a PhingFile object? if so, then
+                // does method expect a File object? if so, then
                 // pass a project-relative file.
                 $params = $method->getParameters();
 

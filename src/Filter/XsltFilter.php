@@ -120,7 +120,7 @@ class XsltFilter extends BaseParamFilterReader implements ChainableReaderInterfa
 
     /**
      * Set the XSLT stylesheet.
-     * @param mixed $file PhingFile object or path.
+     * @param mixed $file File object or path.
      */
     public function setStyle(File $file)
     {

@@ -340,7 +340,7 @@ class PhpDependTask extends Task
     }
 
     /**
-     * Executes PHP_Depend_TextUI_Runner against PhingFile or a FileSet
+     * Executes PHP_Depend_TextUI_Runner against File or a FileSet
      *
      * @throws BuildException
      */

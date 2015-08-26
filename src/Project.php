@@ -115,7 +115,7 @@ class Project
 
     /* -- properties that come in via xml attributes -- */
 
-    /** basedir (PhingFile object) */
+    /** basedir (File object) */
     private $basedir;
 
     /** the default target name */
@@ -564,7 +564,7 @@ class Project
     /**
      * Returns the basedir of this project
      *
-     * @return \Phing\Io\File      Basedir PhingFile object
+     * @return \Phing\Io\File      Basedir File object
      *
      * @throws BuildException
      *

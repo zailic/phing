@@ -21,6 +21,7 @@
  */
 namespace Phing\Test\Io;
 
+use Phing\Io\File;
 use Phing\Io\FileSystem\AbstractFileSystem;
 use PHPUnit_Framework_TestCase;
 use Win32FileSystem;
@@ -144,7 +145,7 @@ class Win32FileSystemTest extends PHPUnit_Framework_TestCase
      */
     public function testResolveFile($expected, $path, $prefix)
     {
-        $file = $this->getMockBuilder('PhingFile')->disableOriginalConstructor()->getMock();
+        $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $file->expects($this->any())->method('getPath')->will($this->returnValue($path));
         $file->expects($this->any())->method('getPrefixLength')->will($this->returnValue($prefix));
 
@@ -180,7 +181,7 @@ class Win32FileSystemTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('InvalidArgumentException', 'Unresolvable path: file.txt');
 
-        $file = $this->getMockBuilder('PhingFile')->disableOriginalConstructor()->getMock();
+        $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $file->expects($this->any())->method('getPath')->will($this->returnValue('file.txt'));
         $file->expects($this->any())->method('getPrefixLength')->will($this->returnValue(5));
 
@@ -226,7 +227,7 @@ class Win32FileSystemTest extends PHPUnit_Framework_TestCase
      */
     public function testIsAbsolute($expected, $path, $prefix)
     {
-        $file = $this->getMockBuilder('PhingFile')->disableOriginalConstructor()->getMock();
+        $file = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
         $file->expects($this->any())->method('getPath')->will($this->returnValue($path));
         $file->expects($this->any())->method('getPrefixLength')->will($this->returnValue($prefix));
 

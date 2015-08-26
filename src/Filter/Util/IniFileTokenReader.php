@@ -37,7 +37,7 @@ class IniFileTokenReader extends AbstractTokenReader
 
     /**
      * Holds the path to the INI file that is to be read.
-     * @var object  Reference to a PhingFile Object representing
+     * @var object  Reference to a File Object representing
      *              the path to the INI file.
      */
     private $file = null;

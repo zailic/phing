@@ -53,7 +53,7 @@ class AndSelector extends BaseSelectorContainer
      *
      * @param File $basedir the base directory the scan is being done from
      * @param string $filename the name of the file to check
-     * @param File $file a PhingFile object for the filename that the selector
+     * @param File $file a File object for the filename that the selector
      * can use
      * @return bool whether the file should be selected or not
      */

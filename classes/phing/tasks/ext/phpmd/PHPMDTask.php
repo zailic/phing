@@ -249,7 +249,7 @@ class PHPMDTask extends Task
     }
 
     /**
-     * Executes PHPMD against PhingFile or a FileSet
+     * Executes PHPMD against File or a FileSet
      *
      * @throws BuildException - if the phpmd classes can't be loaded.
      */

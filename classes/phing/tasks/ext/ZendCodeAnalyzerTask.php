@@ -137,7 +137,7 @@ class ZendCodeAnalyzerTask extends Task
     }
 
     /**
-     * Analyze against PhingFile or a FileSet
+     * Analyze against File or a FileSet
      */
     public function main()
     {

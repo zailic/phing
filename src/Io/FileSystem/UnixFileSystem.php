@@ -42,7 +42,7 @@ use Phing\Util\StringHelper;
  *
  * FIXME:
  *  - Comments
- *  - Error handling reduced to min, error are handled by PhingFile mainly
+ *  - Error handling reduced to min, error are handled by File mainly
  *
  * @author    Andreas Aderhold, andi@binarycloud.com
  *
@@ -276,7 +276,7 @@ class UnixFileSystem extends AbstractFileSystem
      */
     public function setReadOnly($f)
     {
-        if ($f instanceof PhingFile) {
+        if ($f instanceof File) {
             $strPath = (string) $f->getPath();
             $perms = (int) (@fileperms($strPath) & 0444);
 

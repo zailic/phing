@@ -187,7 +187,7 @@ class FileUtils
      *
      * @throws IOException
      *
-     * @return File A PhingFile object pointing to an absolute file that doesn't contain ./ or ../ sequences
+     * @return File A File object pointing to an absolute file that doesn't contain ./ or ../ sequences
      *                   and uses the correct separator for the current platform.
      */
     public function resolveFile($file, $filename)

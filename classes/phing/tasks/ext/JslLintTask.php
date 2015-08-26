@@ -184,7 +184,7 @@ class JslLintTask extends Task
     }
 
     /**
-     * Execute lint check against PhingFile or a FileSet
+     * Execute lint check against File or a FileSet
      */
     public function main()
     {

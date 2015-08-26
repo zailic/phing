@@ -69,7 +69,7 @@ class MajoritySelector extends BaseSelectorContainer
      *
      * @param File $basedir the base directory the scan is being done from
      * @param string $filename is the name of the file to check
-     * @param File $file is a PhingFile object for the filename that the selector
+     * @param File $file is a File object for the filename that the selector
      * can use
      * @return whether the file should be selected or not
      */

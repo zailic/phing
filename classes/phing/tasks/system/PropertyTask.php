@@ -135,7 +135,7 @@ class PropertyTask extends Task
         $this->file = $file;
     }
 
-    /** Get the PhingFile that is being used as property source. */
+    /** Get the File that is being used as property source. */
     public function getFile()
     {
         return $this->file;

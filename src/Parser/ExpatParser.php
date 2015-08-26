@@ -64,13 +64,13 @@ class ExpatParser extends AbstractSaxParser
     /**
      * Constructs a new ExpatParser object.
      *
-     * The constructor accepts a PhingFile object that represents the filename
+     * The constructor accepts a File object that represents the filename
      * for the file to be parsed. It sets up php's internal expat parser
      * and options.
      *
      * @param  \Phing\Io\AbstractReader $reader The Reader Object that is to be read from.
      * @param  string $filename Filename to read.
-     * @throws Exception if the given argument is not a PhingFile object
+     * @throws Exception if the given argument is not a File object
      */
     public function __construct(AbstractReader $reader, $filename = null)
     {

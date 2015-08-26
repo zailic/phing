@@ -3557,7 +3557,7 @@ file defines a task in the format: name=path.to.Task -->
     </sect1>
     <sect1 role="taskdef" xml:id="TempFileTask">
         <title>Tempfile Task</title>
-        <para> This task sets a property to the name of a temporary file. Unlike PhingFile::createTempFile(),
+        <para> This task sets a property to the name of a temporary file. Unlike File::createTempFile(),
             this task does not actually create the temporary file, but it does guarantee that the file did not
             exist when the task was executed.
         </para>

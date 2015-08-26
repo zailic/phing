@@ -255,7 +255,6 @@ class ApplyTask extends Task
      * File to which output should be written
      *
      * @param $append
-     * @internal param PhingFile $outputfile Output log file
      *
      * @return void
      */

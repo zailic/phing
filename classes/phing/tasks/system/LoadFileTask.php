@@ -58,7 +58,7 @@ class LoadFileTask extends Task
      * Set file to read
      * @param File $file
      */
-    public function setFile($file)
+    public function setFile(File $file)
     {
         $this->file = $file;
     }
@@ -66,9 +66,8 @@ class LoadFileTask extends Task
     /**
      * Convenience setter to maintain Ant compatibility (@see setFile())
      * @param $srcFile
-     * @internal param PhingFile $file
      */
-    public function setSrcFile($srcFile)
+    public function setSrcFile(File $srcFile)
     {
         $this->file = $srcFile;
     }

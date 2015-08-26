@@ -166,7 +166,7 @@ class CopyTask extends Task
      * type that is coming due to limited type support in php
      * in and convert it manually if necessary.
      *
-     * @param File $file The source file. Either a string or an PhingFile object
+     * @param File $file The source file. Either a string or an File object
      *
      * @return void
      */
@@ -180,7 +180,7 @@ class CopyTask extends Task
      * type that is coming due to limited type support in php
      * in and convert it manually if necessary.
      *
-     * @param File $file The dest file. Either a string or an PhingFile object
+     * @param File $file The dest file. Either a string or an File object
      *
      * @return void
      */
@@ -207,7 +207,7 @@ class CopyTask extends Task
      * type that is coming due to limited type support in php
      * in and convert it manually if necessary.
      *
-     * @param File $dir The directory, either a string or an PhingFile object
+     * @param File $dir The directory, either a string or an File object
      *
      * @return void
      */

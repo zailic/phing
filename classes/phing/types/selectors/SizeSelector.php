@@ -274,9 +274,9 @@ class SizeSelector extends BaseExtendSelector
      *
      * {@inheritdoc}
      *
-     * @param File $basedir A PhingFile object for the base directory
+     * @param File $basedir A File object for the base directory
      * @param string $filename The name of the file to check
-     * @param File $file A PhingFile object for this filename
+     * @param File $file A File object for this filename
      *
      * @return bool whether the file should be selected or not
      */

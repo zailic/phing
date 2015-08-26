@@ -31,12 +31,12 @@ use Phing\Phing;
  * classes Your local filesytem implementation must extend this class.
  * You should also use this class as a template to write your local implementation
  * Some native PHP filesystem specific methods are abstracted here as well. Anyway
- * you _must_ always use this methods via a PhingFile object (that by nature uses the
+ * you _must_ always use this methods via a File object (that by nature uses the
  * *FileSystem drivers to access the real filesystem via this class using natives.
  *
  * FIXME:
  *  - Error handling reduced to min fallthrough runtime exceptions
- *    more precise errorhandling is done by the PhingFile class
+ *    more precise errorhandling is done by the File class
  *
  * @author Charlie Killian <charlie@tizac.com>
  * @author Hans Lellelid <hans@xmpl.org>
@@ -107,7 +107,7 @@ abstract class AbstractFileSystem
 
     /**
      * Resolve the given abstract pathname into absolute form.  Invoked by the
-     * getAbsolutePath and getCanonicalPath methods in the PhingFile class.
+     * getAbsolutePath and getCanonicalPath methods in the File class.
      *
      * @param File $f
      */
@@ -115,7 +115,7 @@ abstract class AbstractFileSystem
 
     /**
      * Return the parent pathname string to be used when the parent-directory
-     * argument in one of the two-argument PhingFile constructors is the empty
+     * argument in one of the two-argument File constructors is the empty
      * pathname.
      */
     abstract public function getDefaultParent();
@@ -123,7 +123,7 @@ abstract class AbstractFileSystem
     /**
      * Post-process the given URI path string if necessary.  This is used on
      * win32, e.g., to transform "/c:/foo" into "c:/foo".  The path string
-     * still has slash separators; code in the PhingFile class will translate them
+     * still has slash separators; code in the File class will translate them
      * after this method returns.
      *
      * @param string $path
@@ -439,7 +439,7 @@ abstract class AbstractFileSystem
     /* -- Filesystem interface -- */
 
     /**
-     * List the available filesystem roots, return array of PhingFile objects
+     * List the available filesystem roots, return array of File objects
      * @throws IOException
      */
     public function listRoots()

@@ -117,7 +117,6 @@ class PhpLintTask extends Task
      * File to save error messages to
      *
      * @param File $tofile
-     * @internal param PhingFile $file
      */
     public function setToFile(File $tofile)
     {
@@ -170,7 +169,7 @@ class PhpLintTask extends Task
     }
 
     /**
-     * Execute lint check against PhingFile or a FileSet
+     * Execute lint check against File or a FileSet
      */
     public function main()
     {

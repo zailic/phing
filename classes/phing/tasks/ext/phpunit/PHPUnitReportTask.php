@@ -47,7 +47,7 @@ class PHPUnitReportTask extends Task
     private $styleDir = "";
 
     /**
-     * @var PhingFile
+     * @var File
      */
     private $toDir;
 

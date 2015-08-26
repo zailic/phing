@@ -131,7 +131,7 @@ class ContainsSelector extends BaseExtendSelector
      *
      * @internal param the $basedir base directory the scan is being done from
      * @internal param is $filename the name of the file to check
-     * @internal param a $file PhingFile object the selector can use
+     * @internal param a $file File object the selector can use
      *
      * @return bool whether the file should be selected or not
      */

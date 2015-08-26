@@ -581,7 +581,6 @@ class CvsTask extends Task
     /**
      * File to which output should be written.
      * @param File $f
-     * @internal param PhingFile $output
      */
     public function setOutput(File $f)
     {
@@ -591,7 +590,6 @@ class CvsTask extends Task
     /**
      * File to which error output should be written.
      * @param File $f
-     * @internal param PhingFile $output
      */
     public function setError(File $f)
     {

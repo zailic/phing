@@ -141,7 +141,7 @@ class ContainsRegexpSelector extends BaseExtendSelector
      *
      * @param File $basedir base directory the scan is being done from
      * @param string $filename the name of the file to check
-     * @param File $file PhingFile object the selector can use
+     * @param File $file File object the selector can use
      *
      * @throws BuildException
      *

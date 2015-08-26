@@ -65,7 +65,7 @@ class Phing
     /** Our current message output status. Follows Project::MSG_XXX */
     private static $msgOutputLevel = Project::MSG_INFO;
 
-    /** PhingFile that we are using for configuration */
+    /** File that we are using for configuration */
     private $buildFile = null;
 
     /** The build targets */
