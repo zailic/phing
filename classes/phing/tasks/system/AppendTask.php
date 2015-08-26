@@ -25,6 +25,7 @@ use Phing\Io\FileWriter;
 use Phing\Io\Util\FileUtils;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\FileSet;
 use Phing\Util\Register;
 
 

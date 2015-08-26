@@ -8,6 +8,8 @@ use Phing\Mapper\FlattenMapper;
 use Phing\Mapper\IdentityMapper;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\FileSet;
+use Phing\Type\Mapper;
 
 /**
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS

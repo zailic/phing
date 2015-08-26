@@ -30,6 +30,7 @@ use Phing\Io\StringReader;
 use Phing\Io\Util\FileUtils;
 use Phing\Parser\ProjectConfigurator;
 use Phing\Project;
+use Phing\Type\FileSet;
 use Phing\Util\StringHelper;
 
 

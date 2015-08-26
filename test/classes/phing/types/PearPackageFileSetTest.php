@@ -2,6 +2,7 @@
 use Phing\Exception\BuildException;
 use Phing\Project;
 use Phing\Test\AbstractBuildFileTest;
+use Phing\Type\PearPackageFileSet;
 
 /**
  *  $Id$

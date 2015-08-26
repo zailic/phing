@@ -25,6 +25,7 @@ use Phing\Io\FileSystem\FileSystemFactory;
 use Phing\Parser\ProjectConfigurator;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\FileSet;
 
 
 /**

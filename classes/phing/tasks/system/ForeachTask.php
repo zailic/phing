@@ -23,6 +23,8 @@ use Phing\Io\File;
 use Phing\Io\FileSystem\FileSystemFactory;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\FileSet;
+use Phing\Type\Mapper;
 
 
 /**

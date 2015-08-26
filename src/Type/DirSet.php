@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  $Id$
+ * $Id$
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -19,24 +19,36 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-
-use Phing\Type\FileSet;
-
-require_once 'phing/types/AbstractFileSetTest.php';
+namespace Phing\Type;
 
 /**
- * Unit tests for FileSet -- including Selectors.
+ * Subclass as hint for supporting tasks that the included directories
+ * instead of files should be used.
  *
- * @author Hans Lellelid <hans@xmpl.org>
- * @version $Id$
  * @package phing.types
  */
-class FileSetTest extends AbstractFileSetTest
+class DirSet extends AbstractFileSet
 {
 
-    protected function getInstance()
+    /**
+     * @param null $dirset
+     */
+    public function __construct($dirset = null)
     {
-        return new FileSet();
+        parent::__construct($dirset);
+    }
+
+    /**
+     * Return a DirSet that has the same basedir and same patternsets
+     * as this one.
+     */
+    public function __clone()
+    {
+        if ($this->isReference()) {
+            return new DirSet($this->getRef($this->getProject()));
+        } else {
+            return new DirSet($this);
+        }
     }
 
 }

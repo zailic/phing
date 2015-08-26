@@ -20,6 +20,7 @@
  */
 use Phing\Exception\BuildException;
 use Phing\Task;
+use Phing\Type\Path;
 
 
 /**

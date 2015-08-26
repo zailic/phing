@@ -1,8 +1,6 @@
 <?php
 
 /*
- *  $Id$
- *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -20,23 +18,57 @@
  * <http://phing.info>.
  */
 
-use Phing\Type\FileSet;
+namespace Phing\Type;
 
-require_once 'phing/types/AbstractFileSetTest.php';
+use Phing\Type\Path;
+use Phing\Io\File;
 
 /**
- * Unit tests for FileSet -- including Selectors.
+ * Helper class, holds the nested <code>&lt;pathelement&gt;</code> values.
  *
- * @author Hans Lellelid <hans@xmpl.org>
- * @version $Id$
  * @package phing.types
  */
-class FileSetTest extends AbstractFileSetTest
+class PathElement
 {
+    /** @var array $parts */
+    private $parts = array();
 
-    protected function getInstance()
+    /** @var Path $outer */
+    private $outer;
+
+    /**
+     * @param Path $outer
+     */
+    public function __construct(Path $outer)
     {
-        return new FileSet();
+        $this->outer = $outer;
     }
 
+    /**
+     * @param File $loc
+     *
+     * @return void
+     */
+    public function setDir(File $loc)
+    {
+        $this->parts = array(Path::translateFile($loc->getAbsolutePath()));
+    }
+
+    /**
+     * @param $path
+     *
+     * @return void
+     */
+    public function setPath($path)
+    {
+        $this->parts = Path::translatePath($this->outer->getProject(), $path);
+    }
+
+    /**
+     * @return array
+     */
+    public function getParts()
+    {
+        return $this->parts;
+    }
 }

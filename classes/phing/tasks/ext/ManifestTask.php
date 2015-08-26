@@ -3,6 +3,7 @@ use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\FileSet;
 
 /**
  * $Id$

@@ -23,6 +23,7 @@ use Phing\Exception\BuildException;
 use Phing\Io\FileSystem\FileSystemFactory;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\FileSet;
 
 
 /**

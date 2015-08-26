@@ -6,6 +6,7 @@ use Phing\Io\FileWriter;
 use Phing\Io\Util\FileUtils;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\FileSet;
 
 /**
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS

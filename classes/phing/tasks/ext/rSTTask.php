@@ -4,6 +4,8 @@ use Phing\Io\File;
 use Phing\Io\Util\FileUtils;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\FileSet;
+use Phing\Type\Mapper;
 
 /**
  * reStructuredText rendering task for Phing, the PHP build tool.

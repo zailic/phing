@@ -23,7 +23,8 @@
 namespace Phing;
 
 use Exception;
-use Path;
+use Phing\Io\File;
+use Phing\Type\Path;
 use Phing\Exception\BuildException;
 use Phing\AbstractProjectComponent;
 use Reference;
@@ -365,10 +366,10 @@ class IntrospectionHelper
                 // there should only be one param; we'll just assume ....
                 if ($classname !== null) {
                     switch ($classname) {
-                        case 'Phing\\Io\\File':
+                        case File::class:
                             $value = $project->resolveFile($value);
                             break;
-                        case 'Path':
+                        case Path::class:
                             $value = new Path($project, $value);
                             break;
                         case 'Reference':
@@ -500,7 +501,8 @@ class IntrospectionHelper
             $typedefs = $project->getDataTypeDefinitions();
             if (isset($typedefs[$elementName])) {
                 $elementClass = Phing::import($typedefs[$elementName]);
-                $parentClass = get_parent_class($elementClass);
+                $refClass = new \ReflectionClass($elementClass);
+                $parentClass = $refClass->getParentClass()->getShortName();
                 $addMethod = 'add' . strtolower($parentClass);
 
                 if (isset($this->nestedCreators[$addMethod])) {

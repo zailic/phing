@@ -1,6 +1,7 @@
 <?php
 use Phing\Io\File;
 use Phing\Task;
+use Phing\Type\FileSet;
 
 /**
  * $Id$

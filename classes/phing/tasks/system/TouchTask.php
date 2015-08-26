@@ -26,6 +26,7 @@ use Phing\Io\Util\FileUtils;
 use Phing\Phing;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\FileSet;
 
 
 /**

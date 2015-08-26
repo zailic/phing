@@ -1,6 +1,5 @@
 <?php
-
-/*
+/**
  * $Id$
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -20,35 +19,32 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Type;
 
 /**
- * Subclass as hint for supporting tasks that the included directories
- * instead of files should be used.
+ * Moved out of MatchingTask to make it a standalone object that could
+ * be referenced (by scripts for example).
  *
  * @package phing.types
+ * @author  Hans Lellelid <hans@xmpl.org> (Phing)
+ * @author  Arnout J. Kuiper <ajkuiper@wxs.nl> (Ant)
+ * @author  Stefano Mazzocchi <stefano@apache.org> (Ant)
+ * @author  Sam Ruby <rubys@us.ibm.com> (Ant)
+ * @author  Jon S. Stevens <jon@clearink.com> (Ant)
+ * @author  Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
+ * @author  Magesh Umasankar (Ant)
  */
-class DirSet extends AbstractFileSet
+class FileSet extends AbstractFileSet
 {
-
     /**
-     * @param null $dirset
-     */
-    public function __construct($dirset = null)
-    {
-        parent::__construct($dirset);
-    }
-
-    /**
-     * Return a DirSet that has the same basedir and same patternsets
-     * as this one.
+     * Return a FileSet that has the same basedir and same patternsets as this one.
      */
     public function __clone()
     {
         if ($this->isReference()) {
-            return new DirSet($this->getRef($this->getProject()));
+            return new FileSet($this->getRef($this->getProject()));
         } else {
-            return new DirSet($this);
+            return new FileSet($this);
         }
     }
-
 }

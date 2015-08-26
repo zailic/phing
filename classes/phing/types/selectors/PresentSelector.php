@@ -2,6 +2,7 @@
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Mapper\IdentityMapper;
+use Phing\Type\Mapper;
 
 /**
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS

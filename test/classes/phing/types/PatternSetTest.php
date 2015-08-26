@@ -1,6 +1,7 @@
 <?php
 
 use Phing\Project;
+use Phing\Type\PatternSet;
 
 class PatternSetInitializationTest extends PHPUnit_Framework_TestCase
 {

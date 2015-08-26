@@ -2,8 +2,6 @@
 <project name="test" basedir="." default="testConsoleGetopt">
   <includepath classpath="../../classes/phing/types" />
 
-  <typedef name="pearPackageFileSet" classname="phing.types.PearPackageFileSet" />
-
   <if>
     <not>
       <isset property="env.TMP" />

@@ -24,6 +24,7 @@ use Phing\Io\File;
 use Phing\Io\IOException;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\Path;
 
 
 /**

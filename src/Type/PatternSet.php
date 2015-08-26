@@ -1,4 +1,5 @@
 <?php
+
 /*
  *  $Id$
  *
@@ -18,13 +19,17 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+
+namespace Phing\Type;
+
+use DataType;
 use Phing\Exception\BuildException;
 use Phing\Io\BufferedReader;
 use Phing\Io\File;
 use Phing\Io\FileReader;
 use Phing\Io\IOException;
 use Phing\Project;
-
+use Reference;
 
 /**
  * The patternset storage component. Carries all necessary data and methods
@@ -60,7 +65,7 @@ class PatternSet extends DataType
     /**
      * Add a name entry on the include list
      *
-     * @return PatternSetNameEntry Reference to object
+     * @return \Phing\Type\PatternSet\PatternSetNameEntry Reference to object
      * @throws \Phing\Exception\BuildException
      */
     public function createInclude()
@@ -75,7 +80,7 @@ class PatternSet extends DataType
     /**
      * Add a name entry on the include files list
      *
-     * @return PatternSetNameEntry Reference to object
+     * @return \Phing\Type\PatternSet\PatternSetNameEntry Reference to object
      * @throws BuildException
      */
     public function createIncludesFile()
@@ -90,7 +95,7 @@ class PatternSet extends DataType
     /**
      * Add a name entry on the exclude list
      *
-     * @return PatternSetNameEntry Reference to object
+     * @return \Phing\Type\PatternSet\PatternSetNameEntry Reference to object
      * @throws \Phing\Exception\BuildException
      */
     public function createExclude()
@@ -105,7 +110,7 @@ class PatternSet extends DataType
     /**
      * add a name entry on the exclude files list
      *
-     * @return PatternSetNameEntry Reference to object
+     * @return \Phing\Type\PatternSet\PatternSetNameEntry Reference to object
      * @throws \Phing\Exception\BuildException
      */
     public function createExcludesFile()
@@ -130,7 +135,8 @@ class PatternSet extends DataType
         if ($this->isReference()) {
             throw $this->tooManyAttributes();
         }
-        /*return*/ $this->createInclude()->setName($includes);
+        /*return*/
+        $this->createInclude()->setName($includes);
     }
 
     /**
@@ -146,25 +152,26 @@ class PatternSet extends DataType
         if ($this->isReference()) {
             throw $this->tooManyAttributes();
         }
-        /*return*/ $this->createExclude()->setName($excludes);
+        /*return*/
+        $this->createExclude()->setName($excludes);
     }
 
     /**
      * add a name entry to the given list
      *
      * @param  array List onto which the nameentry should be added
-     * @return PatternSetNameEntry Reference to the created PatternSetNameEntry instance
+     * @return \Phing\Type\PatternSet\PatternSetNameEntry Reference to the created PatternSetNameEntry instance
      */
     private function creatorValue(&$list)
     {
-        $c = new PatternSetNameEntryValueCreator($list);
+        $c = new PatternSet\PatternSetNameEntryValueCreator($list);
         $this->creators[] = $c;
         return $c;
     }
 
     private function creatorFile(&$list)
     {
-        $c = new PatternSetNameEntryFileCreator($list, $this->project);
+        $c = new PatternSet\PatternSetNameEntryFileCreator($list, $this->project);
         $this->creators[] = $c;
         return $c;
     }
@@ -371,7 +378,7 @@ class PatternSet extends DataType
 
         $tmpNames = array();
         foreach ($list as $ne) {
-            $pattern = (string) $ne->evalName($p);
+            $pattern = (string)$ne->evalName($p);
             if ($pattern !== null && strlen($pattern) > 0) {
                 array_push($tmpNames, $pattern);
             }
@@ -391,7 +398,10 @@ class PatternSet extends DataType
         }
     }
 
-    public function __toString() { return $this->toString(); }
+    public function __toString()
+    {
+        return $this->toString();
+    }
 
     /**
      * @return string
@@ -407,253 +417,5 @@ class PatternSet extends DataType
                 includes: { $includes }
                 excludes: { $excludes }
          }";
-    }
-}
-
-abstract class PatternSetNameEntryCreatorBase
-{
-    protected $target;
-    protected $name, $ifCond, $unlessCond;
-
-    public function __construct(&$target)
-    {
-        $this->target =& $target;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    public function setIf($cond)
-    {
-        $this->ifCond = $cond;
-        return $this;
-    }
-
-    public function setUnless($cond)
-    {
-        $this->unlessCond = $cond;
-        return $this;
-    }
-
-    abstract public function apply();
-
-    protected function create($name)
-    {
-        $c = new PatternSetNameEntry();
-        if ($name !== null) $c->setName($name);
-        if ($this->ifCond !== null) $c->setIf($this->ifCond);
-        if ($this->unlessCond !== null) $c->setUnless($this->unlessCond);
-        return $c;
-    }
-}
-
-class PatternSetNameEntryValueCreator extends PatternSetNameEntryCreatorBase
-{
-
-    public function apply()
-    {
-        foreach (explode(",", $this->name) as $n) {
-            $n = trim($n);
-            if (!$n) {
-                continue;
-            }
-            $this->target[] = $this->create($n);
-        }
-    }
-}
-
-class PatternSetNameEntryFileCreator extends PatternSetNameEntryCreatorBase
-{
-    protected $project;
-
-    public function __construct(&$target, Project $p)
-    {
-        parent::__construct($target);
-        $this->project = $p;
-    }
-
-    public function setName($n)
-    {
-        if ($n instanceof File) {
-            $n = $n->getPath();
-        }
-        parent::setName($n);
-    }
-
-    public function apply()
-    {
-        $f = $this->project->resolveFile($this->name);
-
-        if (!$f->exists()) {
-            $this->project->log('Pattern file ' . $f->getAbsolutePath() . ' not found.', Project::MSG_WARN);
-            return;
-        }
-
-        $patternReader = null;
-        try {
-            // Get a FileReader
-            $patternReader = new BufferedReader(new FileReader($f));
-
-            // Create one NameEntry in the appropriate pattern list for each
-            // line in the file.
-            for (
-                $line = $patternReader->readLine();
-                $line !== null;
-                $line = $patternReader->readLine()
-            ) {
-                if (!($line = trim($line))) {
-                    continue;
-                }
-                $line = $this->project->replaceProperties($line);
-                $this->target[] = $this->create($line);
-            }
-
-        } catch (IOException $ioe) {
-            $msg = "An error occured while reading from pattern file: " . $f->__toString();
-            if ($patternReader) {
-                $patternReader->close();
-            }
-            throw new BuildException($msg, $ioe);
-        }
-
-        $patternReader->close();
-    }
-
-
-}
-
-/**
- * "Internal" class for holding an include/exclude pattern.
- *
- * @package  phing.types
- */
-class PatternSetNameEntry
-{
-
-    /**
-     * The pattern.
-     * @var string
-     */
-    private $name;
-
-    /**
-     * The if-condition property for this pattern to be applied.
-     * @var string
-     */
-    private $ifCond;
-
-    /**
-     * The unless-condition property for this pattern to be applied.
-     * @var string
-     */
-    private $unlessCond;
-
-    /**
-     * An alias for the setName() method.
-     * @see setName()
-     * @param string $pattern
-     */
-    public function setPattern($pattern)
-    {
-        return $this->setName($pattern);
-    }
-
-    /**
-     * Set the pattern text.
-     * @param string $name The pattern
-     */
-    public function setName($name)
-    {
-        $this->name = (string) $name;
-        return $this;
-    }
-
-    /**
-     * Sets an if-condition property for this pattern to match.
-     * @param string $cond
-     */
-    public function setIf($cond)
-    {
-        $this->ifCond = (string) $cond;
-        return $this;
-    }
-
-    /**
-     * Sets an unless-condition property for this pattern to match.
-     * @param string $cond
-     */
-    public function setUnless($cond)
-    {
-        $this->unlessCond = (string) $cond;
-        return $this;
-    }
-
-    /**
-     * Get the pattern text.
-     * @return string The pattern.
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Evaluates the pattern.
-     * @param Project $project
-     * @return string The pattern or null if it is ruled out by a condition.
-     */
-    public function evalName(Project $project)
-    {
-        return $this->valid($project) ? $this->name : null;
-    }
-
-    /**
-     * Checks whether pattern should be applied based on whether the if and unless
-     * properties are set in project.
-     * @param  Project $project
-     * @return boolean
-     */
-    protected function valid(Project $project)
-    {
-        if ($this->ifCond !== null && $project->getProperty($this->ifCond) === null) {
-            return false;
-        } else {
-            if ($this->unlessCond !== null && $project->getProperty($this->unlessCond) !== null) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Gets a string representation of this pattern.
-     * @return string
-     */
-    public function toString()
-    {
-        $buf = $this->name;
-        if (($this->ifCond !== null) || ($this->unlessCond !== null)) {
-            $buf .= ":";
-            $connector = "";
-
-            if ($this->ifCond !== null) {
-                $buf .= "if->{$this->ifCond}";
-                $connector = ";";
-            }
-            if ($this->unlessCond !== null) {
-                $buf .= "$connector unless->{$this->unlessCond}";
-            }
-        }
-
-        return $buf;
-    }
-
-    public function __toString()
-    {
-        return $this->toString();
     }
 }

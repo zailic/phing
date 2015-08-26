@@ -18,11 +18,16 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+
+namespace Phing\Type;
+
+use DataType;
+use FileList;
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\Util\PathTokenizer;
 use Phing\Project;
-
+use Reference;
 
 /**
  * This object represents a path as used by include_path or PATH
@@ -66,13 +71,12 @@ use Phing\Project;
  */
 class Path extends DataType
 {
-
     private $elements = array();
 
     /**
      * Constructor for internally instantiated objects sets project.
      * @param Project $project
-     * @param string  $path    (for use by IntrospectionHelper)
+     * @param string $path (for use by IntrospectionHelper)
      */
     public function __construct($project = null, $path = null)
     {
@@ -141,7 +145,7 @@ class Path extends DataType
     /**
      * Creates the nested <code>&lt;pathelement&gt;</code> element.
      *
-     * @return void
+     * @return PathElement
      *
      * @throws BuildException
      */
@@ -297,8 +301,10 @@ class Path extends DataType
             } elseif ($o instanceof PathElement) {
                 $parts = $o->getParts();
                 if ($parts === null) {
-                    throw new BuildException("You must either set location or"
-                        . " path on <pathelement>");
+                    throw new BuildException(
+                        "You must either set location or"
+                        . " path on <pathelement>"
+                    );
                 }
                 foreach ($parts as $part) {
                     $result[] = $part;
@@ -517,55 +523,5 @@ class Path extends DataType
         }
 
         return $relativeName;
-    }
-}
-
-/**
- * Helper class, holds the nested <code>&lt;pathelement&gt;</code> values.
- *
- * @package phing.types
- */
-class PathElement
-{
-    /** @var array $parts */
-    private $parts = array();
-
-    /** @var Path $outer */
-    private $outer;
-
-    /**
-     * @param Path $outer
-     */
-    public function __construct(Path $outer)
-    {
-        $this->outer = $outer;
-    }
-
-    /**
-     * @param File $loc
-     *
-     * @return void
-     */
-    public function setDir(File $loc)
-    {
-        $this->parts = array(Path::translateFile($loc->getAbsolutePath()));
-    }
-
-    /**
-     * @param $path
-     *
-     * @return void
-     */
-    public function setPath($path)
-    {
-        $this->parts = Path::translatePath($this->outer->getProject(), $path);
-    }
-
-    /**
-     * @return array
-     */
-    public function getParts()
-    {
-        return $this->parts;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 use Phing\Project;
+use Phing\Type\FileSet;
+use Phing\Type\Path;
 
 /**
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS

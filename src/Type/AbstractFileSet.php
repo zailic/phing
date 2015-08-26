@@ -19,15 +19,36 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Type;
 
-// Load all of the selectors (not really necessary but
-// helps reveal parse errors right away)
+use AndSelector;
+use ContainsRegexpSelector;
+use ContainsSelector;
+use DataType;
+use DateSelector;
+use DependSelector;
+use DepthSelector;
+use Exception;
+use ExtendSelector;
+use FilenameSelector;
+use FileSelector;
+use Phing\Type\FileSet;
+use MajoritySelector;
+use NoneSelector;
+use NotSelector;
+use OrSelector;
+use Phing\Type\PatternSet;
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\Scanner\DirectoryScanner;
 use Phing\Io\Scanner\SelectorScannerInterface;
 use Phing\Project;
-
+use PresentSelector;
+use Reference;
+use SelectorContainer;
+use SelectSelector;
+use SizeSelector;
+use TypeSelector;
 
 /**
  * The FileSet class provides methods and properties for accessing
@@ -133,7 +154,7 @@ class AbstractFileSet extends DataType implements SelectorContainer
         if ($dir instanceof File) {
             $dir = $dir->getPath();
         }
-        $this->dir = new File((string) $dir);
+        $this->dir = new File((string)$dir);
     }
 
     /**

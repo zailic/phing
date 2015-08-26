@@ -20,6 +20,7 @@
  */
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\FileSet;
 
 
 /**

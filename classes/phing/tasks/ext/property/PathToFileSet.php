@@ -22,8 +22,8 @@ use Phing\Io\File;
 use Phing\Io\IOException;
 use Phing\Io\Util\FileUtils;
 use Phing\Task;
-
-include_once 'phing/types/FileSet.php';
+use Phing\Type\FileSet;
+use Phing\Type\Path;
 
 /**
  * Coverts a path to a fileset.

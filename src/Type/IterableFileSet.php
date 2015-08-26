@@ -19,6 +19,12 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Type;
+
+use ArrayIterator;
+use Iterator;
+use IteratorAggregate;
+
 /**
  * FileSet adapter to SPL's Iterator.
  *
@@ -27,9 +33,7 @@
  * @since 2.4.0
  * @internal
  */
-class IterableFileSet
-    extends FileSet
-    implements IteratorAggregate
+class IterableFileSet extends FileSet implements IteratorAggregate
 {
     /**
      * @return Iterator

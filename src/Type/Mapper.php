@@ -19,11 +19,15 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Type;
+
+use DataType;
 use Phing\Exception\BuildException;
 use Phing\Mapper\CompositeMapper;
 use Phing\Mapper\ContainerMapper;
 use Phing\Mapper\FileNameMapperInterface;
 use Phing\Project;
+use Reference;
 
 /**
  * Filename Mapper maps source file name(s) to target file name(s).

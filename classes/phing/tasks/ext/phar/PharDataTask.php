@@ -21,6 +21,8 @@
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Project;
+use Phing\Type\FileSet;
+use Phing\Type\IterableFileSet;
 
 /**
  * Data task for {@link http://php.net/manual/en/class.phardata.php PharData class}.

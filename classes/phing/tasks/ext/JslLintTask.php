@@ -4,6 +4,7 @@ use Phing\Io\File;
 use Phing\Io\FileWriter;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\FileSet;
 use Phing\Util\DataStore;
 use Phing\Util\StringHelper;
 

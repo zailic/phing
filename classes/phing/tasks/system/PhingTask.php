@@ -28,6 +28,7 @@ use Phing\Phing;
 use Phing\Project;
 use Phing\AbstractProjectComponent;
 use Phing\Task;
+use Phing\Type\FileSet;
 
 
 /**

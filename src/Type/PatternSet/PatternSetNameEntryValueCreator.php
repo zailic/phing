@@ -1,7 +1,6 @@
 <?php
-/**
- * $Id$
- *
+
+/*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -19,31 +18,21 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Type\PatternSet;
 
-/**
- * Moved out of MatchingTask to make it a standalone object that could
- * be referenced (by scripts for example).
- *
- * @package phing.types
- * @author  Hans Lellelid <hans@xmpl.org> (Phing)
- * @author  Arnout J. Kuiper <ajkuiper@wxs.nl> (Ant)
- * @author  Stefano Mazzocchi <stefano@apache.org> (Ant)
- * @author  Sam Ruby <rubys@us.ibm.com> (Ant)
- * @author  Jon S. Stevens <jon@clearink.com> (Ant)
- * @author  Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
- * @author  Magesh Umasankar (Ant)
- */
-class FileSet extends AbstractFileSet
+use Phing\Type\PatternSet;
+
+class PatternSetNameEntryValueCreator extends PatternSet\PatternSetNameEntryCreatorBase
 {
-    /**
-     * Return a FileSet that has the same basedir and same patternsets as this one.
-     */
-    public function __clone()
+
+    public function apply()
     {
-        if ($this->isReference()) {
-            return new FileSet($this->getRef($this->getProject()));
-        } else {
-            return new FileSet($this);
+        foreach (explode(",", $this->name) as $n) {
+            $n = trim($n);
+            if (!$n) {
+                continue;
+            }
+            $this->target[] = $this->create($n);
         }
     }
 }

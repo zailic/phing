@@ -1,8 +1,4 @@
 <?php
-use Phing\Exception\BuildException;
-use Phing\Io\File;
-use Phing\Io\Scanner\PearPackageScanner;
-use Phing\Project;
 
 /**
  * Part of phing, the PHP build tool
@@ -17,12 +13,18 @@ use Phing\Project;
  * @link     http://www.phing.info/
  */
 
+namespace Phing\Type;
+
+use Phing\Exception\BuildException;
+use Phing\Io\File;
+use Phing\Io\Scanner\PearPackageScanner;
+use Phing\Project;
+
 /**
  * Fileset that contains files of an installed PEAR package.
  * It can be used to package up PEAR package dependencies in own
  * release files (zip, tgz, phar).
  *
- * @internal
  * A normal fileset is used that way in CopyTask, rSTTask:
  * <code>
  *  $ds = $fs->getDirectoryScanner($project);
@@ -120,7 +122,7 @@ class PearPackageFileSet extends FileSet
             $this->loadPearPackageScanner($p);
         }
 
-        return new File((string) $this->pps->getBaseDir());
+        return new File((string)$this->pps->getBaseDir());
     }
 
     /**

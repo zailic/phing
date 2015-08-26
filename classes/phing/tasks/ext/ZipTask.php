@@ -24,6 +24,7 @@ use Phing\Io\IOException;
 use Phing\Io\Scanner\SourceFileScanner;
 use Phing\Mapper\MergeMapper;
 use Phing\Project;
+use Phing\Type\FileSet;
 
 
 /**

@@ -1,8 +1,6 @@
 <?php
 
 /*
- *  $Id$
- *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -20,23 +18,52 @@
  * <http://phing.info>.
  */
 
-use Phing\Type\FileSet;
+namespace Phing\Type\PatternSet;
 
-require_once 'phing/types/AbstractFileSetTest.php';
+use Phing\Type\PatternSet;
 
-/**
- * Unit tests for FileSet -- including Selectors.
- *
- * @author Hans Lellelid <hans@xmpl.org>
- * @version $Id$
- * @package phing.types
- */
-class FileSetTest extends AbstractFileSetTest
+abstract class PatternSetNameEntryCreatorBase
 {
+    protected $target;
+    protected $name, $ifCond, $unlessCond;
 
-    protected function getInstance()
+    public function __construct(&$target)
     {
-        return new FileSet();
+        $this->target =& $target;
     }
 
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setIf($cond)
+    {
+        $this->ifCond = $cond;
+        return $this;
+    }
+
+    public function setUnless($cond)
+    {
+        $this->unlessCond = $cond;
+        return $this;
+    }
+
+    abstract public function apply();
+
+    protected function create($name)
+    {
+        $c = new PatternSet\PatternSetNameEntry();
+        if ($name !== null) {
+            $c->setName($name);
+        }
+        if ($this->ifCond !== null) {
+            $c->setIf($this->ifCond);
+        }
+        if ($this->unlessCond !== null) {
+            $c->setUnless($this->unlessCond);
+        }
+        return $c;
+    }
 }
