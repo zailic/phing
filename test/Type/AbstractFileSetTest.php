@@ -20,9 +20,13 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Type;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Project;
+use PHPUnit_Framework_TestCase;
+use Reference;
 
 /**
  * Unit tests for AbstractFileSet.

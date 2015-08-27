@@ -17,6 +17,8 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Filter;
+
 use Phing\Io\Util\FileUtils;
 use Phing\Test\AbstractBuildFileTest;
 
@@ -24,14 +26,14 @@ use Phing\Test\AbstractBuildFileTest;
  * @author  Siad Ardroumli <siad.ardroumli@gmail.com>
  * @package phing.filters
  */
-class SuffixLinesTest extends AbstractBuildFileTest
+class EscapeUnicodeTest extends AbstractBuildFileTest
 {
-    /** @var FileUtils $fu */
+
     protected $fu;
 
     public function setUp()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/filters/suffixlines.xml");
+        $this->configureProject(PHING_TEST_BASE . "/etc/filters/escapeunicode.xml");
         $this->fu = new FileUtils();
     }
 
@@ -40,13 +42,12 @@ class SuffixLinesTest extends AbstractBuildFileTest
         $this->executeTarget("cleanup");
     }
 
-    public function testSuffixLines()
+    public function testEscapeUnicode()
     {
-        $this->executeTarget("testSuffixLines");
+        $this->executeTarget("testEscapeUnicode");
 
-        $expected = $this->getProject()->resolveFile("expected/suffixlines.test");
-        $result = $this->getProject()->resolveFile("result/suffixlines.test");
-
+        $expected = $this->getProject()->resolveFile("expected/escapeunicode.test");
+        $result = $this->getProject()->resolveFile("result/escapeunicode.test");
         $this->assertTrue($this->fu->contentEquals($expected, $result), "Files don't match!");
     }
 }

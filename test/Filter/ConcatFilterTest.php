@@ -1,6 +1,5 @@
 <?php
-
-/*
+/**
  *  $Id$
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -20,23 +19,38 @@
  * <http://phing.info>.
  */
 
-use Phing\Type\FileSet;
+namespace Phing\Test\Filter;
 
-require_once 'phing/types/AbstractFileSetTest.php';
+use Phing\Io\Util\FileUtils;
+use Phing\Test\AbstractBuildFileTest;
 
 /**
- * Unit tests for FileSet -- including Selectors.
- *
- * @author Hans Lellelid <hans@xmpl.org>
- * @version $Id$
- * @package phing.types
+ * @author  Siad Ardroumli <siad.ardroumli@gmail.com>
+ * @package phing.filters
  */
-class FileSetTest extends AbstractFileSetTest
+class ConcatFilterTest extends AbstractBuildFileTest
 {
 
-    protected function getInstance()
+    protected $fu;
+
+    public function setUp()
     {
-        return new FileSet();
+        $this->configureProject(PHING_TEST_BASE . "/etc/filters/concatfilter.xml");
+        $this->fu = new FileUtils();
+    }
+
+    public function tearDown()
+    {
+        $this->executeTarget("cleanup");
+    }
+
+    public function testConcatFilter()
+    {
+        $this->executeTarget("testConcatFilter");
+
+        $expected = $this->getProject()->resolveFile("expected/concatfilter.test");
+        $result = $this->getProject()->resolveFile("result/concatfilter.test");
+        $this->assertTrue($this->fu->contentEquals($expected, $result), "Files don't match!");
     }
 
 }

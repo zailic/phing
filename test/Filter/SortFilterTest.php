@@ -1,5 +1,7 @@
 <?php
-/**
+/*
+ *  $Id$
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -17,21 +19,23 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Filter;
+
 use Phing\Io\Util\FileUtils;
 use Phing\Test\AbstractBuildFileTest;
 
 /**
- * @author  Siad Ardroumli <siad.ardroumli@gmail.com>
+ * @author  Siad A6rdroumli <siad.ardroumli@gmail.com>
  * @package phing.filters
  */
-class EscapeUnicodeTest extends AbstractBuildFileTest
+class SortFilterTest extends AbstractBuildFileTest
 {
 
     protected $fu;
 
     public function setUp()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/filters/escapeunicode.xml");
+        $this->configureProject(PHING_TEST_BASE . "/etc/filters/sortfilter.xml");
         $this->fu = new FileUtils();
     }
 
@@ -40,12 +44,13 @@ class EscapeUnicodeTest extends AbstractBuildFileTest
         $this->executeTarget("cleanup");
     }
 
-    public function testEscapeUnicode()
+    public function testSortFilter()
     {
-        $this->executeTarget("testEscapeUnicode");
+        $this->executeTarget("testSortFilter");
 
-        $expected = $this->getProject()->resolveFile("expected/escapeunicode.test");
-        $result = $this->getProject()->resolveFile("result/escapeunicode.test");
+        $expected = $this->getProject()->resolveFile("expected/sortfilter.test");
+        $result = $this->getProject()->resolveFile("result/sortfilter.test");
         $this->assertTrue($this->fu->contentEquals($expected, $result), "Files don't match!");
     }
+
 }

@@ -1,9 +1,12 @@
 <?php
 
+namespace Phing\Test\Type;
+
 use Phing\Project;
 use Phing\Type\PatternSet;
+use PHPUnit_Framework_TestCase;
 
-class PatternSetInitializationTest extends PHPUnit_Framework_TestCase
+class PatternSetTest extends PHPUnit_Framework_TestCase
 {
     /** @var PatternSet */
     protected $ps;

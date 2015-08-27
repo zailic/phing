@@ -1,4 +1,7 @@
 <?php
+namespace Phing\Test\Type;
+
+use PEAR_Registry;
 use Phing\Test\AbstractBuildFileTest;
 
 /**

@@ -1,5 +1,6 @@
 <?php
-use Phing\Exception\BuildException;
+namespace Phing\Test\Type;
+
 use Phing\Project;
 use Phing\Test\AbstractBuildFileTest;
 use Phing\Type\PearPackageFileSet;

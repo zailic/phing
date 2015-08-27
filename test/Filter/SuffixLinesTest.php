@@ -1,7 +1,5 @@
 <?php
-/*
- *  $Id$
- *
+/**
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -19,21 +17,23 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Filter;
+
 use Phing\Io\Util\FileUtils;
 use Phing\Test\AbstractBuildFileTest;
 
 /**
- * @author  Siad A6rdroumli <siad.ardroumli@gmail.com>
+ * @author  Siad Ardroumli <siad.ardroumli@gmail.com>
  * @package phing.filters
  */
-class SortFilterTest extends AbstractBuildFileTest
+class SuffixLinesTest extends AbstractBuildFileTest
 {
-
+    /** @var FileUtils $fu */
     protected $fu;
 
     public function setUp()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/filters/sortfilter.xml");
+        $this->configureProject(PHING_TEST_BASE . "/etc/filters/suffixlines.xml");
         $this->fu = new FileUtils();
     }
 
@@ -42,13 +42,13 @@ class SortFilterTest extends AbstractBuildFileTest
         $this->executeTarget("cleanup");
     }
 
-    public function testSortFilter()
+    public function testSuffixLines()
     {
-        $this->executeTarget("testSortFilter");
+        $this->executeTarget("testSuffixLines");
 
-        $expected = $this->getProject()->resolveFile("expected/sortfilter.test");
-        $result = $this->getProject()->resolveFile("result/sortfilter.test");
+        $expected = $this->getProject()->resolveFile("expected/suffixlines.test");
+        $result = $this->getProject()->resolveFile("result/suffixlines.test");
+
         $this->assertTrue($this->fu->contentEquals($expected, $result), "Files don't match!");
     }
-
 }
