@@ -22,15 +22,14 @@
 namespace Phing\Filter\Util;
 
 use Exception;
-use Parameterizable;
+use Phing\Type\ParameterizableInterface;
 use Phing\Filter\BaseFilterReader;
 use Phing\Filter\ChainableReaderInterface;
 use Phing\Io\AbstractReader;
 use Phing\Io\FilterReader;
 use Phing\Phing;
 use Phing\Project;
-use PhingFilterReader;
-
+use Phing\Type\FilterReader as FilterReaderType;
 
 /**
  * Process a FilterReader chain.
@@ -140,7 +139,7 @@ class ChainReaderHelper
      * Assemble the reader
     */
     /**
-     * @return FilterReader|null|Parameterizable|\Phing\Io\AbstractReader
+     * @return FilterReader|null|ParameterizableInterface|\Phing\Io\AbstractReader
      * @throws Exception
      */
     public function getAssembledReader()
@@ -166,7 +165,7 @@ class ChainReaderHelper
             for ($i = 0; $i < $filtersCount; $i++) {
                 $filter = $finalFilters[$i];
 
-                if ($filter instanceof PhingFilterReader) {
+                if ($filter instanceof FilterReaderType) {
 
                     // This filter reader is an external class.
                     $className = $filter->getClassName();
@@ -179,13 +178,13 @@ class ChainReaderHelper
                     }
 
                     if (!($impl instanceof FilterReader)) {
-                        throw new Exception($className . " does not extend phing.system.io.FilterReader");
+                        throw new Exception($className . " does not extend " . FilterReader::class);
                     }
 
                     $impl->setReader($instream); // chain
                     $impl->setProject($this->getProject()); // what about $project above ?
 
-                    if ($impl instanceof Parameterizable) {
+                    if ($impl instanceof ParameterizableInterface) {
                         $impl->setParameters($filter->getParams());
                     }
 

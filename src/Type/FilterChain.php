@@ -18,6 +18,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type;
+
 use Phing\Exception\BuildException;
 use Phing\Filter\ConcatFilter;
 use Phing\Filter\EscapeUnicode;
@@ -42,7 +44,8 @@ use Phing\Filter\TidyFilter;
 use Phing\Filter\TranslateGettext;
 use Phing\Filter\XincludeFilter;
 use Phing\Filter\XsltFilter;
-use Phing\Type\DataType;
+use Phing\Type\FilterReader;
+use Phing\Type\Reference;
 
 /**
  * FilterChain may contain a chained set of filter readers.
@@ -273,9 +276,9 @@ class FilterChain extends DataType
     }
 
     /**
-     * @param PhingFilterReader $o
+     * @param FilterReader $o
      */
-    public function addFilterReader(PhingFilterReader $o)
+    public function addFilterReader(FilterReader $o)
     {
         $o->setProject($this->project);
         $this->filterReaders[] = $o;

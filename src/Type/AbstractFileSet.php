@@ -44,7 +44,7 @@ use Phing\Io\Scanner\DirectoryScanner;
 use Phing\Io\Scanner\SelectorScannerInterface;
 use Phing\Project;
 use PresentSelector;
-use Reference;
+use Phing\Type\Reference;
 use SelectorContainer;
 use SelectSelector;
 use SizeSelector;

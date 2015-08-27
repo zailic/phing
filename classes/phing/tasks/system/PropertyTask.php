@@ -27,6 +27,8 @@ use Phing\Io\Util\FileUtils;
 use Phing\Project;
 use Phing\Task;
 use Phing\Type\FileList;
+use Phing\Type\FilterChain;
+use Phing\Type\Reference;
 use Phing\Util\StringHelper;
 use Phing\Util\Properties\PropertySetImpl;
 use Phing\Util\Properties\PropertySet;

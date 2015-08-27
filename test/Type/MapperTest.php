@@ -28,7 +28,7 @@ use Phing\Mapper\GlobMapper;
 use Phing\Project;
 use Phing\Type\Mapper;
 use PHPUnit_Framework_TestCase;
-use Reference;
+use Phing\Type\Reference;
 
 /**
  * Unit test for mappers.

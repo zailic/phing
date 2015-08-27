@@ -25,7 +25,7 @@ use Exception;
 use Phing\Filter\BaseParamFilterReader;
 use Phing\Filter\ChainableReaderInterface;
 use Phing\Io\AbstractReader;
-use RegularExpression;
+use Phing\Type\RegularExpression;
 
 
 /**

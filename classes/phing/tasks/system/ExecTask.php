@@ -4,6 +4,8 @@ use Phing\Io\File;
 use Phing\Phing;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\CommandLine;
+use Phing\Type\CommandLine\CommandLineArgument;
 
 /**
  *  $Id$
@@ -53,7 +55,7 @@ class ExecTask extends Task
     /**
      * Commandline managing object
      *
-     * @var Commandline
+     * @var CommandLine
      */
     protected $commandline;
 
@@ -137,7 +139,7 @@ class ExecTask extends Task
      */
     public function __construct()
     {
-        $this->commandline = new Commandline();
+        $this->commandline = new CommandLine();
     }
 
     /**
@@ -227,7 +229,7 @@ class ExecTask extends Task
             );
         } else {
             if ($this->command === null) {
-                $this->realCommand = Commandline::toString($this->commandline->getCommandline(), $this->escape);
+                $this->realCommand = CommandLine::toString($this->commandline->getCommandline(), $this->escape);
             } else {
                 if ($this->commandline->getExecutable() === null) {
                     $this->realCommand = $this->command;
@@ -531,7 +533,7 @@ class ExecTask extends Task
     /**
      * Creates a nested <arg> tag.
      *
-     * @return CommandlineArgument Argument object
+     * @return CommandLineArgument Argument object
      */
     public function createArg()
     {

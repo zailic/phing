@@ -5,6 +5,7 @@ use Phing\Io\Util\FileUtils;
 use Phing\Project;
 use Phing\Task;
 use Phing\Type\FileSet;
+use Phing\Type\FilterChain;
 use Phing\Type\Mapper;
 
 /**

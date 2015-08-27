@@ -18,6 +18,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
 */
+namespace Phing\Type;
+
 use Phing\Exception\BuildException;
 use Phing\Project;
 use Phing\Type\DataType;

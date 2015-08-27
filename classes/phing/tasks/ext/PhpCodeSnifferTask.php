@@ -24,6 +24,7 @@ use Phing\Project;
 use Phing\Task;
 use Phing\Type\DataType;
 use Phing\Type\FileSet;
+use Phing\Type\Parameter;
 use Phing\Util\StringHelper;
 
 

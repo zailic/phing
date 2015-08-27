@@ -21,6 +21,7 @@
  */
 use Phing\Exception\BuildException;
 use Phing\Task;
+use Phing\Type\CommandLine;
 
 
 /**
@@ -47,7 +48,7 @@ class ComposerTask extends Task
 
     /**
      *
-     * @var Commandline
+     * @var CommandLine
      */
     private $commandLine = null;
     /**
@@ -61,7 +62,7 @@ class ComposerTask extends Task
      */
     public function __construct()
     {
-        $this->commandLine = new Commandline();
+        $this->commandLine = new CommandLine();
     }
 
     /**
@@ -151,7 +152,7 @@ class ComposerTask extends Task
         $this->commandLine->createArgument(true)->setValue($this->getComposer());
         $commandLine = strval($this->commandLine);
         //Creating new Commandline instance. It allows to handle subsequent calls correctly
-        $this->commandLine = new Commandline();
+        $this->commandLine = new CommandLine();
 
         return $commandLine;
     }

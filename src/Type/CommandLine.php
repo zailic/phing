@@ -18,8 +18,10 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type;
+
 use Phing\Exception\BuildException;
-use Phing\Io\File;
+use Phing\Type\CommandLine\CommandLineArgument;
 
 /**
  * Commandline objects help handling command lines specifying processes to
@@ -44,11 +46,11 @@ use Phing\Io\File;
  * @author <a href="mailto:stefan.bodewig@epost.de">Stefan Bodewig</a>
  * @package phing.types
  */
-class Commandline
+class CommandLine
 {
 
     /**
-     * @var CommandlineArgument[]
+     * @var CommandLineArgument[]
      */
     public $arguments = array(); // public so "inner" class can access
 
@@ -83,13 +85,13 @@ class Commandline
      * <p>Each commandline object has at most one instance of the
      * argument class.</p>
      *
-     * @param  boolean             $insertAtStart if true, the argument is inserted at the
+     * @param  boolean $insertAtStart if true, the argument is inserted at the
      *                                            beginning of the list of args, otherwise it is appended.
-     * @return CommandlineArgument
+     * @return CommandLineArgument
      */
     public function createArgument($insertAtStart = false)
     {
-        $argument = new CommandlineArgument($this);
+        $argument = new CommandLineArgument($this);
         if ($insertAtStart) {
             array_unshift($this->arguments, $argument);
         } else {
@@ -313,11 +315,11 @@ class Commandline
     }
 
     /**
-     * @return Commandline
+     * @return CommandLine
      */
     public function __copy()
     {
-        $c = new Commandline();
+        $c = new CommandLine();
         $c->setExecutable($this->executable);
         $c->addArguments($this->getArguments());
 
@@ -330,11 +332,11 @@ class Commandline
      * <p>This marker can be used to locate a position on the
      * commandline - to insert something for example - when all
      * parameters have been set.</p>
-     * @return CommandlineMarker
+     * @return \Phing\Type\CommandLine\CommandLineMarker
      */
     public function createMarker()
     {
-        return new CommandlineMarker($this, count($this->arguments));
+        return new CommandLine\CommandLineMarker($this, count($this->arguments));
     }
 
     /**
@@ -344,7 +346,7 @@ class Commandline
      *
      * <p>This method assumes that the first entry in the array is the
      * executable to run.</p>
-     * @param  array  $args CommandlineArgument[] to use
+     * @param  array $args CommandlineArgument[] to use
      * @return string
      */
     public function describeCommand($args = null)
@@ -400,128 +402,5 @@ class Commandline
         $buf .= self::DISCLAIMER;
 
         return $buf;
-    }
-}
-
-/**
- * "Inner" class used for nested xml command line definitions.
- *
- * @package phing.types
- */
-class CommandlineArgument
-{
-
-    private $parts = array();
-    private $outer;
-
-    /**
-     * @param Commandline $outer
-     */
-    public function __construct(Commandline $outer)
-    {
-        $this->outer = $outer;
-    }
-
-    /**
-     * Sets a single commandline argument.
-     *
-     * @param string $value a single commandline argument.
-     */
-    public function setValue($value)
-    {
-        $this->parts = array($value);
-    }
-
-    /**
-     * Line to split into several commandline arguments.
-     *
-     * @param string $line line to split into several commandline arguments
-     */
-    public function setLine($line)
-    {
-        if ($line === null) {
-            return;
-        }
-        $this->parts = $this->outer->translateCommandline($line);
-    }
-
-    /**
-     * Sets a single commandline argument and treats it like a
-     * PATH - ensures the right separator for the local platform
-     * is used.
-     *
-     * @param a $value
-     * @internal param a $value single commandline argument.
-     */
-    public function setPath($value)
-    {
-        $this->parts = array((string) $value);
-    }
-
-    /**
-     * Sets a single commandline argument to the absolute filename
-     * of the given file.
-     *
-     * @param a|File $value
-     * @internal param a $value single commandline argument.
-     */
-    public function setFile(File $value)
-    {
-        $this->parts = array($value->getAbsolutePath());
-    }
-
-    /**
-     * Returns the parts this Argument consists of.
-     * @return array string[]
-     */
-    public function getParts()
-    {
-        return $this->parts;
-    }
-}
-
-/**
- * Class to keep track of the position of an Argument.
- *
- * <p>This class is there to support the srcfile and targetfile
- * elements of &lt;execon&gt; and &lt;transform&gt; - don't know
- * whether there might be additional use cases.</p> --SB
- *
- * @package phing.types
- */
-class CommandlineMarker
-{
-
-    private $position;
-    private $realPos = -1;
-    private $outer;
-
-    /**
-     * @param Commandline $outer
-     * @param $position
-     */
-    public function __construct(Commandline $outer, $position)
-    {
-        $this->outer = $outer;
-        $this->position = $position;
-    }
-
-    /**
-     * Return the number of arguments that preceded this marker.
-     *
-     * <p>The name of the executable - if set - is counted as the
-     * very first argument.</p>
-     */
-    public function getPosition()
-    {
-        if ($this->realPos == -1) {
-            $this->realPos = ($this->outer->executable === null ? 0 : 1);
-            for ($i = 0; $i < $this->position; $i++) {
-                $arg = $this->outer->arguments[$i];
-                $this->realPos += count($arg->getParts());
-            }
-        }
-
-        return $this->realPos;
     }
 }

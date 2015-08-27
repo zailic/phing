@@ -19,7 +19,7 @@
 
 namespace Phing\Filter;
 
-use Parameter;
+use Phing\Type\Parameter;
 use Phing\Exception\BuildException;
 use Phing\Io\AbstractReader;
 use Phing\Io\BufferedReader;

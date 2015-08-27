@@ -2,7 +2,7 @@
 namespace Phing\Filter;
 
 use Exception;
-use Parameterizable;
+use Phing\Type\ParameterizableInterface;
 
 /**
  * TTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -32,7 +32,7 @@ use Parameterizable;
  * @see       FilterReader
  * @package   phing.filters
  */
-class BaseParamFilterReader extends BaseFilterReader implements Parameterizable
+class BaseParamFilterReader extends BaseFilterReader implements ParameterizableInterface
 {
     /**
      * The passed in parameter array.

@@ -19,12 +19,15 @@
  * <http://phing.info>.
 */
 
+namespace Phing\Type;
+
 use Phing\Exception\BuildException;
 use Phing\Filter\Util\AbstractTokenReader;
 use Phing\Io\IOException;
 use Phing\Phing;
 use Phing\Project;
 use Phing\Type\DataType;
+use Phing\Type\Parameter;
 
 
 /**

@@ -29,7 +29,7 @@ use Phing\Io\File;
 use Phing\Io\FileReader;
 use Phing\Io\IOException;
 use Phing\Project;
-use Reference;
+use Phing\Type\Reference;
 
 /**
  * The patternset storage component. Carries all necessary data and methods

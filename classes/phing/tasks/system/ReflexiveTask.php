@@ -7,6 +7,7 @@ use Phing\Io\Util\FileUtils;
 use Phing\Project;
 use Phing\Task;
 use Phing\Type\FileSet;
+use Phing\Type\FilterChain;
 
 /**
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS

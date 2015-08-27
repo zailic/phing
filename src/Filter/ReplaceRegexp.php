@@ -26,7 +26,7 @@ use Phing\Filter\BaseFilterReader;
 use Phing\Filter\ChainableReaderInterface;
 use Phing\Io\AbstractReader;
 use Phing\Project;
-use RegularExpression;
+use Phing\Type\RegularExpression;
 
 
 /**

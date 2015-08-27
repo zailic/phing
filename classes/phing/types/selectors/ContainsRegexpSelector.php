@@ -24,6 +24,7 @@ use Phing\Io\BufferedReader;
 use Phing\Io\File;
 use Phing\Io\FileReader;
 use Phing\Io\IOException;
+use Phing\Type\RegularExpression;
 use Phing\Util\RegExp\RegExp;
 
 

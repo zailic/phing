@@ -18,9 +18,10 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
 */
+namespace Phing\Type;
+
 use Phing\Exception\BuildException;
-use Phing\Type\DataType;
-use Phing\Type\Path;
+use Phing\Type\Reference;
 
 
 /**
@@ -32,11 +33,21 @@ use Phing\Type\Path;
  * @see       FilterReader
  * @package   phing.types
  */
-class PhingFilterReader extends DataType
+class FilterReader extends DataType
 {
-
+    /**
+     * @var string
+     */
     private $className;
+
+    /**
+     * @var array
+     */
     private $parameters = array();
+
+    /**
+     * @var Path
+     */
     private $classPath;
 
     /**
@@ -155,7 +166,7 @@ class PhingFilterReader extends DataType
             throw $this->tooManyAttributes();
         }
         $o = $r->getReferencedObject($this->getProject());
-        if ($o instanceof PhingFilterReader) {
+        if ($o instanceof FilterReader) {
             $this->setClassName($o->getClassName());
             $this->setClasspath($o->getClassPath());
             foreach ($o->getParams() as $p) {

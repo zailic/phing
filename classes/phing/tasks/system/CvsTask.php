@@ -25,6 +25,7 @@ use Phing\Io\IOException;
 use Phing\Phing;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\CommandLine;
 
 
 /**
@@ -129,15 +130,15 @@ class CvsTask extends Task
 
     public function init()
     {
-        $this->cmd = new Commandline();
+        $this->cmd = new CommandLine();
     }
 
     /**
      * Sets up the environment for toExecute and then runs it.
-     * @param  Commandline    $toExecute
+     * @param  CommandLine    $toExecute
      * @throws \Phing\Exception\BuildException
      */
-    protected function runCommand(Commandline $toExecute)
+    protected function runCommand(CommandLine $toExecute)
     {
 
         // We are putting variables into the script's environment
@@ -521,10 +522,10 @@ class CvsTask extends Task
     }
 
     /**
-     * @param Commandline $c
+     * @param CommandLine $c
      * @return bool
      */
-    protected function removeCommandline(Commandline $c)
+    protected function removeCommandline(CommandLine $c)
     {
         $idx = array_search($c, $this->commandlines, true);
         if ($idx === false) {
@@ -537,11 +538,11 @@ class CvsTask extends Task
 
     /**
      * Configures and adds the given Commandline.
-     * @param Commandline $c
+     * @param CommandLine $c
      * @param bool|If $insertAtStart
      * @internal param If $insertAtStart true, c is
      */
-    public function addConfiguredCommandline(Commandline $c, $insertAtStart = false)
+    public function addConfiguredCommandline(CommandLine $c, $insertAtStart = false)
     {
         if ($c === null) {
             return;

@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Type;
+
 use Phing\Exception\BuildException;
 use Phing\Project;
 
@@ -45,7 +47,7 @@ class Reference
      */
     public function setRefId($id)
     {
-        $this->refid = (string) $id;
+        $this->refid = (string)$id;
     }
 
     /**

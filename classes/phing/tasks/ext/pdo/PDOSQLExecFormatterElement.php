@@ -6,6 +6,7 @@ use Phing\Io\FileWriter;
 use Phing\Io\LogWriter;
 use Phing\Phing;
 use Phing\Project;
+use Phing\Type\Parameter;
 
 /**
  * $Id$

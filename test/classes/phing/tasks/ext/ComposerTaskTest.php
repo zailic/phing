@@ -19,6 +19,7 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+use Phing\Type\CommandLine\CommandLineArgument;
 
 /**
  * Test class for the ComposerTask.
@@ -91,7 +92,7 @@ class ComposerTaskTest extends PHPUnit_Framework_TestCase
     {
         $o = $this->object;
         $arg = $o->createArg();
-        $this->assertTrue(get_class($arg) == 'CommandlineArgument');
+        $this->assertInstanceOf(CommandLineArgument::class, $arg);
     }
 
     public function testMultipleCalls()

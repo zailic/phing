@@ -18,9 +18,9 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
 */
-use Phing\Type\DataType;
-use Phing\Util\RegisterSlot;
+namespace Phing\Type;
 
+use Phing\Util\RegisterSlot;
 
 /**
  * A parameter is composed of a name, type and value. Nested
@@ -51,7 +51,7 @@ class Parameter extends DataType
      */
     public function setName($name)
     {
-        $this->name = (string) $name;
+        $this->name = (string)$name;
     }
 
     /**
@@ -59,7 +59,7 @@ class Parameter extends DataType
      */
     public function setType($type)
     {
-        $this->type = (string) $type;
+        $this->type = (string)$type;
     }
 
     /**
@@ -76,7 +76,7 @@ class Parameter extends DataType
      */
     public function setValue($value)
     {
-        $this->value = (string) $value;
+        $this->value = (string)$value;
     }
 
     public function getName()

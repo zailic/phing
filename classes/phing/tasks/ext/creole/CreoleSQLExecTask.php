@@ -31,6 +31,7 @@ use Phing\Io\Util\FileUtils;
 use Phing\Parser\ProjectConfigurator;
 use Phing\Project;
 use Phing\Type\FileSet;
+use Phing\Type\FilterChain;
 use Phing\Util\StringHelper;
 
 

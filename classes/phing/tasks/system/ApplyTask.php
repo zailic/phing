@@ -23,6 +23,8 @@ use Phing\Io\File;
 use Phing\Phing;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\CommandLine;
+use Phing\Type\CommandLine\CommandLineArgument;
 use Phing\Type\FileList;
 use Phing\Type\FileSet;
 
@@ -55,7 +57,7 @@ class ApplyTask extends Task
 
     /**
      * Commandline managing object
-     * @var commandline
+     * @var CommandLine
      */
     protected $commandline;
 
@@ -451,7 +453,7 @@ class ApplyTask extends Task
     /**
      * Supports embedded <arg> element.
      *
-     * @return CommandlineArgument
+     * @return CommandLineArgument
      */
     public function createArg()
     {
@@ -469,7 +471,7 @@ class ApplyTask extends Task
     public function init()
     {
 
-        $this->commandline = new Commandline();
+        $this->commandline = new CommandLine();
         $this->loglevel = Project::MSG_VERBOSE;
     }
 
@@ -637,7 +639,7 @@ class ApplyTask extends Task
         $this->log('Command building started ', $this->loglevel);
 
         // Building the executable
-        $this->realCommand = Commandline::toString($this->commandline->getCommandline(), $this->escape);
+        $this->realCommand = CommandLine::toString($this->commandline->getCommandline(), $this->escape);
 
         // Adding the source filename at the end of command, validating the existing
         // sourcefile position explicit mentioning

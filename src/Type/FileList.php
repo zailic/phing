@@ -27,7 +27,7 @@ use Phing\Io\File;
 use Phing\Io\FileReader;
 use Phing\Project;
 use Phing\Type\DataType;
-use Reference;
+use Phing\Type\Reference;
 
 
 /**

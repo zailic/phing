@@ -26,8 +26,7 @@ use Exception;
 use Phing\Io\File;
 use Phing\Type\Path;
 use Phing\Exception\BuildException;
-use Phing\AbstractProjectComponent;
-use Reference;
+use Phing\Type\Reference;
 use ReflectionClass;
 use Phing\Util\Register;
 use Phing\Util\StringHelper;
@@ -372,7 +371,7 @@ class IntrospectionHelper
                         case Path::class:
                             $value = new Path($project, $value);
                             break;
-                        case 'Reference':
+                        case Reference::class:
                             $value = new Reference($value);
                             break;
                         // any other object params we want to support should go here ...
@@ -488,7 +487,7 @@ class IntrospectionHelper
             } catch (Exception $exc) {
                 throw new BuildException($exc);
             }
-        } elseif ($this->bean->implementsInterface('Phing\\Parser\\CustomChildCreatorInterface')) {
+        } elseif ($this->bean->implementsInterface(CustomChildCreatorInterface::class)) {
             $method = $this->bean->getMethod('customChildCreator');
 
             try {

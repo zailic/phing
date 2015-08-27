@@ -26,7 +26,7 @@ use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Project;
 use PHPUnit_Framework_TestCase;
-use Reference;
+use Phing\Type\Reference;
 
 /**
  * Unit tests for AbstractFileSet.

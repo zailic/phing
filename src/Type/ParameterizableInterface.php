@@ -1,4 +1,5 @@
 <?php
+
 /*
  * $Id$
  *
@@ -19,49 +20,20 @@
  * <http://phing.info>.
  */
 
-/** Class to hold a property value
- *  Class only required to make it possible to add a property as reference
+namespace Phing\Type;
+
+/**
+ * Parameterizable objects take genric key value pairs.
+ *
+ * @author Hans Lellelid, hans@xmpl.org (Phing)
+ * @author Magesh Umasankar (Ant)
  * @package phing.types
  */
-class PropertyValue
+interface ParameterizableInterface
 {
-
     /**
-     * @var string
+     * @param $parameters
+     * @return mixed
      */
-    protected $value;
-
-    /**
-     * Constructor optionaly sets a the value of property component.
-     * @param    mixed      Value of name, all scalars allowed
-     */
-    public function __construct($value = null)
-    {
-        if ($value !== null) {
-            $this->setValue($value);
-        }
-    }
-
-    /**
-     * Sets a the value of property component.
-     * @param    mixed      Value of name, all scalars allowed
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-    }
-
-    /** Get the value of property component. */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * @return string
-     */
-    public function toString()
-    {
-        return $this->getValue();
-    }
+    public function setParameters($parameters);
 }

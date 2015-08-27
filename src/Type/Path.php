@@ -27,7 +27,7 @@ use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\Util\PathTokenizer;
 use Phing\Project;
-use Reference;
+use Phing\Type\Reference;
 
 /**
  * This object represents a path as used by include_path or PATH

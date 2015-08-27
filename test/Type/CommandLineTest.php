@@ -20,7 +20,12 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Type;
+
 use Phing\Exception\BuildException;
+use Phing\Type\CommandLine;
+use Phing\Type\CommandLine\CommandLineMarker;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Unit test for mappers.
@@ -29,10 +34,10 @@ use Phing\Exception\BuildException;
  * @author Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
  * @package phing.types
  */
-class CommandlineTest extends PHPUnit_Framework_TestCase
+class CommandLineTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Commandline
+     * @var CommandLine
      */
     private $cmd;
 
@@ -40,24 +45,24 @@ class CommandlineTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->cmd = new Commandline();
+        $this->cmd = new CommandLine();
     }
 
     public function testTranslateCommandline()
     {
         // This should work fine; we expect 5 args
         $cmd1 = "cvs -d:pserver:hans@xmpl.org:/cvs commit -m \"added a new test file\" Test.php";
-        $c = new Commandline($cmd1);
+        $c = new CommandLine($cmd1);
         $this->assertEquals(5, count($c->getArguments()));
 
         // This has some extra space, but we expect same number of args
         $cmd2 = "cvs -d:pserver:hans@xmpl.org:/cvs   commit  -m \"added a new test file\"    Test.php";
-        $c2 = new Commandline($cmd2);
+        $c2 = new CommandLine($cmd2);
         $this->assertEquals(5, count($c2->getArguments()));
 
         // nested quotes should not be a problem either
         $cmd3 = "cvs -d:pserver:hans@xmpl.org:/cvs   commit  -m \"added a new test file for 'fun'\"    Test.php";
-        $c3 = new Commandline($cmd3);
+        $c3 = new CommandLine($cmd3);
         $this->assertEquals(5, count($c3->getArguments()));
         $args = $c3->getArguments();
         $this->assertEquals("added a new test file for 'fun'", $args[3]);
@@ -65,7 +70,7 @@ class CommandlineTest extends PHPUnit_Framework_TestCase
         // now try unbalanced quotes -- this should fail
         $cmd4 = "cvs -d:pserver:hans@xmpl.org:/cvs   commit  -m \"added a new test file for 'fun' Test.php";
         try {
-            $c4 = new Commandline($cmd4);
+            $c4 = new CommandLine($cmd4);
             $this->fail("Should throw BuildException because 'unbalanced quotes'");
         } catch (BuildException $be) {
             if (false === strpos($be->getMessage(), "unbalanced quotes")) {
@@ -78,14 +83,14 @@ class CommandlineTest extends PHPUnit_Framework_TestCase
     {
         $this->cmd->addArguments(array('foo'));
         $marker = $this->cmd->createMarker();
-        self::assertInstanceOf('CommandlineMarker', $marker);
+        self::assertInstanceOf(CommandLineMarker::class, $marker);
         self::assertEquals(1, $marker->getPosition());
     }
 
     public function testCreateMarkerWithoutArgument()
     {
         $marker = $this->cmd->createMarker();
-        self::assertInstanceOf('CommandlineMarker', $marker);
+        self::assertInstanceOf(CommandLineMarker::class, $marker);
         self::assertEquals(0, $marker->getPosition());
     }
 

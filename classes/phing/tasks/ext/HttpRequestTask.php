@@ -1,5 +1,6 @@
 <?php
 use Phing\Exception\BuildException;
+use Phing\Type\Parameter;
 use Phing\Util\StringHelper;
 
 /**

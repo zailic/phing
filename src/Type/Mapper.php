@@ -27,7 +27,7 @@ use Phing\Mapper\CompositeMapper;
 use Phing\Mapper\ContainerMapper;
 use Phing\Mapper\FileNameMapperInterface;
 use Phing\Project;
-use Reference;
+use Phing\Type\Reference;
 
 /**
  * Filename Mapper maps source file name(s) to target file name(s).

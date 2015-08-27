@@ -25,7 +25,7 @@ namespace Phing\Filter;
 use Exception;
 use Phing\Io\AbstractReader;
 use Phing\Project;
-use TokenSource;
+use Phing\Type\TokenSource;
 
 /**
  * Replaces tokens in the original input with user-supplied values.

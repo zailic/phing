@@ -16,7 +16,7 @@ use Phing\Listener\BuildListenerInterface;
 use Phing\Parser\ProjectConfigurator;
 use Phing\Util\Properties\PropertySet;
 use Phing\Util\Properties\PropertyFileReader;
-use PropertyValue;
+use Phing\Type\PropertyValue;
 use Phing\Util\StringHelper;
 use Phing\Util\Properties\PropertySetImpl;
 use Phing\Util\Properties\PropertyExpansionHelper;
