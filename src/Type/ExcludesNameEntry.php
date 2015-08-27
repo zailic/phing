@@ -19,6 +19,8 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Type;
+
 /**
  * Class for holding nested excludes elements (file, class, method).
  *
@@ -56,7 +58,7 @@ class ExcludesNameEntry
      */
     public function setName($name)
     {
-        $this->name = (string) $name;
+        $this->name = (string)$name;
     }
 
     /**

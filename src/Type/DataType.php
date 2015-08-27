@@ -1,7 +1,10 @@
 <?php
+namespace Phing\Type;
+
 use Phing\Exception\BuildException;
 use Phing\Project;
 use Phing\AbstractProjectComponent;
+use Reference;
 
 /**
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -72,7 +75,7 @@ class DataType extends AbstractProjectComponent
      */
     public function setDescription($desc)
     {
-        $this->description = (string) $desc;
+        $this->description = (string)$desc;
     }
 
     /**

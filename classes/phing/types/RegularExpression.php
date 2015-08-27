@@ -20,6 +20,7 @@
 */
 use Phing\Exception\BuildException;
 use Phing\Project;
+use Phing\Type\DataType;
 use Phing\Util\RegExp\RegExp;
 
 

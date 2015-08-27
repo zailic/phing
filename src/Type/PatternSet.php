@@ -22,7 +22,7 @@
 
 namespace Phing\Type;
 
-use DataType;
+use Phing\Type\DataType;
 use Phing\Exception\BuildException;
 use Phing\Io\BufferedReader;
 use Phing\Io\File;

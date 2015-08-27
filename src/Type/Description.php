@@ -19,6 +19,9 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type;
+
+use Phing\Type\DataType;
 
 /**
  * Description is used to provide a project-wide description element

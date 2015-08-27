@@ -18,11 +18,16 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Io\BufferedReader;
 use Phing\Io\File;
 use Phing\Io\FileReader;
 use Phing\Project;
+use Phing\Type\DataType;
+use Reference;
 
 
 /**
@@ -161,7 +166,7 @@ class FileList extends DataType
 
     /**
      * Get the source "list" file that contains file names.
-     * @param  Project   $p
+     * @param  Project $p
      * @return File
      */
     public function getListFile(Project $p)
@@ -248,8 +253,10 @@ class FileList extends DataType
             if ($listReader) {
                 $listReader->close();
             }
-            throw new BuildException("An error occurred while reading from list file " . $this->listfile->__toString(
-                ) . ": " . $e->getMessage());
+            throw new BuildException(
+                "An error occurred while reading from list file " . $this->listfile->__toString(
+                ) . ": " . $e->getMessage()
+            );
         }
 
         $listReader->close();

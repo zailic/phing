@@ -2,6 +2,7 @@
 use Phing\Exception\BuildException;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\DataType;
 use Phing\Util\StringHelper;
 
 /**

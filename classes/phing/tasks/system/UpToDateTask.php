@@ -24,6 +24,7 @@ use Phing\Io\Scanner\SourceFileScanner;
 use Phing\Mapper\MergeMapper;
 use Phing\Project;
 use Phing\Task;
+use Phing\Type\FileList;
 use Phing\Type\FileSet;
 use Phing\Type\Mapper;
 

@@ -2,7 +2,7 @@
 namespace Phing;
 
 use Condition;
-use DataType;
+use Phing\Type\DataType;
 use Phing\Input\DefaultInputHandler;
 use Exception;
 use Phing\Io\FileSystem\AbstractFileSystem;

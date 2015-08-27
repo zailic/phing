@@ -24,7 +24,7 @@ namespace Phing\Type;
 use AndSelector;
 use ContainsRegexpSelector;
 use ContainsSelector;
-use DataType;
+use Phing\Type\DataType;
 use DateSelector;
 use DependSelector;
 use DepthSelector;

@@ -27,6 +27,7 @@ use Phing\Io\IOException;
 use Phing\Io\LogWriter;
 use Phing\Io\StringReader;
 use Phing\Project;
+use Phing\Type\FileList;
 use Phing\Type\FileSet;
 
 

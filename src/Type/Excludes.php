@@ -1,6 +1,10 @@
 <?php
+namespace Phing\Type;
+
+use Phing\Type\ExcludesNameEntry;
 use Phing\Io\Scanner\DirectoryScanner;
 use Phing\Project;
+use Phing\Type\DataType;
 
 /**
  *  $Id$

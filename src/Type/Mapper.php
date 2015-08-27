@@ -21,7 +21,7 @@
 
 namespace Phing\Type;
 
-use DataType;
+use Phing\Type\DataType;
 use Phing\Exception\BuildException;
 use Phing\Mapper\CompositeMapper;
 use Phing\Mapper\ContainerMapper;

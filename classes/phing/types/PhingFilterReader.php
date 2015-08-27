@@ -19,6 +19,7 @@
  * <http://phing.info>.
 */
 use Phing\Exception\BuildException;
+use Phing\Type\DataType;
 use Phing\Type\Path;
 
 

@@ -21,8 +21,8 @@
 
 namespace Phing\Type;
 
-use DataType;
-use FileList;
+use Phing\Type\DataType;
+use Phing\Type\FileList;
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\Util\PathTokenizer;
