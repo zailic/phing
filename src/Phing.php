@@ -31,6 +31,7 @@ use Phing\Io\OutputStream;
 use Phing\Io\File;
 use Phing\Io\PrintStream;
 use Phing\Listener\BuildLoggerInterface;
+use Phing\Listener\SilentLogger;
 use Phing\Parser\ProjectConfigurator;
 use Phing\Util\StringHelper;
 use Phing\Util\Timer;
@@ -787,7 +788,6 @@ class Phing
     private function createLogger()
     {
         if ($this->silent) {
-            require_once 'phing/listener/SilentLogger.php';
             $logger = new SilentLogger();
             self::$msgOutputLevel = Project::MSG_WARN;
         } elseif ($this->loggerClassname !== null) {
