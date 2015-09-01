@@ -6,6 +6,7 @@ use Phing\Task;
 use Phing\Type\FileList;
 use Phing\Type\FileSet;
 use Phing\Type\Path;
+use Phing\Util\Properties\Properties;
 
 /**
  * $Id$
