@@ -4,6 +4,7 @@ use Phing\Io\File;
 use Phing\Task;
 use Phing\Type\Excludes;
 use Phing\Type\Path;
+use Phing\Util\Properties\Properties;
 use Phing\Util\StringHelper;
 
 /**

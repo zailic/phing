@@ -34,13 +34,16 @@ use Phing\Type\FileSet;
  */
 class CoverageMergerTask extends Task
 {
-    /** the list of filesets containing the .php filename rules */
+    /**
+     * the list of filesets containing the .php filename rules
+     * @var Fileset[]
+     */
     private $filesets = array();
 
     /**
      * Add a new fileset containing the .php files to process
      *
-     * @param FileSet the new fileset containing .php files
+     * @param FileSet $fileset the new fileset containing .php files
      */
     public function addFileSet(FileSet $fileset)
     {

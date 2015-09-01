@@ -39,22 +39,31 @@ use Phing\Util\Properties\Properties;
  */
 class CoverageSetupTask extends Task
 {
-    /** the list of filesets containing the .php filename rules */
+    /**
+     * the list of filesets containing the .php filename rules
+     * @var Fileset[]
+     */
     private $filesets = array();
 
-    /** Any filelists of files containing the .php filenames */
+    /**
+     * Any filelists of files containing the .php filenames
+     * @var FileList[]
+     */
     private $filelists = array();
 
     /** the filename of the coverage database */
     private $database = "coverage.db";
 
-    /** the classpath to use (optional) */
+    /**
+     * the classpath to use (optional)
+     * @var Path
+     */
     private $classpath = null;
 
     /**
      * Add a new fileset containing the .php files to process
      *
-     * @param FileSet the new fileset containing .php files
+     * @param FileSet $fileset the new fileset containing .php files
      */
     public function addFileSet(FileSet $fileset)
     {
@@ -75,7 +84,7 @@ class CoverageSetupTask extends Task
     /**
      * Sets the filename of the coverage database to use
      *
-     * @param string the filename of the database
+     * @param string $database the filename of the database
      */
     public function setDatabase($database)
     {

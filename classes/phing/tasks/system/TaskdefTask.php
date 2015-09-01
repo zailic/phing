@@ -26,6 +26,7 @@ use Phing\Project;
 use Phing\Task;
 use Phing\Type\Path;
 use Phing\Type\Reference;
+use Phing\Util\Properties\Properties;
 
 
 /**

@@ -3,6 +3,7 @@ use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Task;
 use Phing\Type\Path;
+use Phing\Util\Properties\Properties;
 
 /**
  * $Id$
