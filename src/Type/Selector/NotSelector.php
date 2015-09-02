@@ -1,4 +1,5 @@
 <?php
+
 /*
  * $Id$
  *
@@ -18,18 +19,20 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-use Phing\Io\File;
+namespace Phing\Type\Selector;
 
 
 /**
- * This selector has a collection of other selectors, any of which have to
- * select a file in order for this selector to select it.
+ * This selector has one other selectors whose meaning it inverts. It
+ * actually relies on NoneSelector for its implementation of the
+ * isSelected() method, but it adds a check to ensure there is only one
+ * other selector contained within.
  *
  * @author Hans Lellelid <hans@xmpl.org> (Phing)
  * @author Bruce Atherton <bruce@callenish.com> (Ant)
  * @package phing.types.selectors
  */
-class OrSelector extends BaseSelectorContainer
+class NotSelector extends NoneSelector
 {
 
     /**
@@ -39,7 +42,7 @@ class OrSelector extends BaseSelectorContainer
     {
         $buf = "";
         if ($this->hasSelectors()) {
-            $buf .= "{orselect: ";
+            $buf .= "{notselect: ";
             $buf .= parent::toString();
             $buf .= "}";
         }
@@ -48,32 +51,17 @@ class OrSelector extends BaseSelectorContainer
     }
 
     /**
-     * Returns true (the file is selected) if any of the other selectors
-     * agree that the file should be selected.
-     *
-     * @param File $basedir the base directory the scan is being done from
-     * @param string filename the name of the file to check
-     * @param File $file a File object for the filename that the selector
-     * can use
-     * @return boolean Whether the file should be selected or not
+     * Makes sure that there is only one entry, sets an error message if
+     * not.
      */
-    public function isSelected(File $basedir, $filename, File $file)
+    public function verifySettings()
     {
-
-        $this->validate();
-
-        $selectors = $this->selectorElements();
-
-        // First, check that all elements are correctly configured
-
-        for ($i = 0, $size = count($selectors); $i < $size; $i++) {
-            $result = $selectors[$i]->isSelected($basedir, $filename, $file);
-            if ($result) {
-                return true;
-            }
+        if ($this->selectorCount() != 1) {
+            $this->setError(
+                "One and only one selector is allowed within the " .
+                "<not> tag"
+            );
         }
-
-        return false;
     }
 
 }

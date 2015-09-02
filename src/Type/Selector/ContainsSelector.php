@@ -19,43 +19,29 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type\Selector;
+
 use Phing\Exception\BuildException;
 use Phing\Io\BufferedReader;
 use Phing\Io\File;
 use Phing\Io\FileReader;
 use Phing\Io\IOException;
-use Phing\Type\RegularExpression;
-use Phing\Util\RegExp\RegExp;
 
 
 /**
  * Selector that filters files based on whether they contain a
- * particular string using regexp.
+ * particular string.
  *
- * @author    Hans Lellelid <hans@xmpl.org> (Phing)
- * @author    Bruce Atherton <bruce@callenish.com> (Ant)
- * @version   $Id$
- * @package   phing.types.selectors
+ * @author Hans Lellelid <hans@xmpl.org> (Phing)
+ * @author Bruce Atherton <bruce@callenish.com> (Ant)
+ * @package phing.types.selectors
  */
-class ContainsRegexpSelector extends BaseExtendSelector
+class ContainsSelector extends AbstractExtendSelector
 {
-    /**
-     * The expression set from XML.
-     *
-     * @var string $userProvidedExpression
-     */
-    private $userProvidedExpression;
 
-    /** @var RegExp $myExpression */
-    private $myExpression;
-
-    /** @var bool $casesensitive */
+    private $contains = null;
     private $casesensitive = true;
-
-    /** @var RegularExpression $myRegExp */
-    private $myRegExp;
-
-    const EXPRESSION_KEY = "expression";
+    const CONTAINS_KEY = "text";
     const CASE_KEY = "casesensitive";
 
     /**
@@ -63,8 +49,8 @@ class ContainsRegexpSelector extends BaseExtendSelector
      */
     public function toString()
     {
-        $buf = "{containsregexpselector expression: ";
-        $buf .= $this->userProvidedExpression;
+        $buf = "{containsselector text: ";
+        $buf .= $this->contains;
         $buf .= " casesensitive: ";
         if ($this->casesensitive) {
             $buf .= "true";
@@ -77,17 +63,17 @@ class ContainsRegexpSelector extends BaseExtendSelector
     }
 
     /**
-     * The expression to match on within a file.
+     * The string to search for within a file.
      *
-     * @param string $exp the string that a file must contain to be selected.
+     * @param string $contains the string that a file must contain to be selected.
      */
-    public function setExpression($exp)
+    public function setText($contains)
     {
-        $this->userProvidedExpression = $exp;
+        $this->contains = $contains;
     }
 
     /**
-     * Whether to ignore case in the regex match.
+     * Whether to ignore case in the string being searched.
      *
      * @param boolean $casesensitive whether to pay attention to case sensitivity
      */
@@ -101,8 +87,7 @@ class ContainsRegexpSelector extends BaseExtendSelector
      * It translates each parameter into the appropriate setXXX() call.
      *
      * @param array $parameters the complete set of parameters for this selector
-     *
-     * @return void
+     * @return mixed|void
      */
     public function setParameters($parameters)
     {
@@ -111,8 +96,8 @@ class ContainsRegexpSelector extends BaseExtendSelector
             for ($i = 0, $size = count($parameters); $i < $size; $i++) {
                 $paramname = $parameters[$i]->getName();
                 switch (strtolower($paramname)) {
-                    case self::EXPRESSION_KEY:
-                        $this->setExpression($parameters[$i]->getValue());
+                    case self::CONTAINS_KEY:
+                        $this->setText($parameters[$i]->getValue());
                         break;
                     case self::CASE_KEY:
                         $this->setCasesensitive($parameters[$i]->getValue());
@@ -131,8 +116,8 @@ class ContainsRegexpSelector extends BaseExtendSelector
      */
     public function verifySettings()
     {
-        if ($this->userProvidedExpression === null) {
-            $this->setError("The expression attribute is required");
+        if ($this->contains === null) {
+            $this->setError("The text attribute is required");
         }
     }
 
@@ -140,11 +125,15 @@ class ContainsRegexpSelector extends BaseExtendSelector
      * The heart of the matter. This is where the selector gets to decide
      * on the inclusion of a file in a particular fileset.
      *
-     * @param File $basedir base directory the scan is being done from
-     * @param string $filename the name of the file to check
-     * @param File $file File object the selector can use
+     * @param File $basedir
+     * @param string $filename
+     * @param File $file
      *
-     * @throws BuildException
+     * @throws \Phing\Exception\BuildException
+     *
+     * @internal param the $basedir base directory the scan is being done from
+     * @internal param is $filename the name of the file to check
+     * @internal param a $file File object the selector can use
      *
      * @return bool whether the file should be selected or not
      */
@@ -157,13 +146,9 @@ class ContainsRegexpSelector extends BaseExtendSelector
             return true;
         }
 
-        if ($this->myRegExp === null) {
-            $this->myRegExp = new RegularExpression();
-            $this->myRegExp->setPattern($this->userProvidedExpression);
-            if (!$this->casesensitive) {
-                $this->myRegExp->setIgnoreCase(true);
-            }
-            $this->myExpression = $this->myRegExp->getRegexp($this->getProject());
+        $userstr = $this->contains;
+        if (!$this->casesensitive) {
+            $userstr = strtolower($this->contains);
         }
 
         $in = null;
@@ -171,7 +156,10 @@ class ContainsRegexpSelector extends BaseExtendSelector
             $in = new BufferedReader(new FileReader($file));
             $teststr = $in->readLine();
             while ($teststr !== null) {
-                if ($this->myExpression->matches($teststr)) {
+                if (!$this->casesensitive) {
+                    $teststr = strtolower($teststr);
+                }
+                if (strpos($teststr, $userstr) !== false) {
                     return true;
                 }
                 $teststr = $in->readLine();
@@ -187,5 +175,4 @@ class ContainsRegexpSelector extends BaseExtendSelector
             throw new BuildException("Could not read file " . $filename);
         }
     }
-
 }

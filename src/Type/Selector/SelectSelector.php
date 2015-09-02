@@ -19,8 +19,13 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type\Selector;
+
 use Phing\Exception\BuildException;
 use Phing\Project;
+use Phing\Type\Selector\AndSelector;
+use Phing\Type\Selector\FileSelectorInterface;
+use the;
 
 
 /**
@@ -118,17 +123,16 @@ class SelectSelector extends AndSelector
     /**
      * Add a new selector into this container.
      *
-     * @param FileSelector|the $selector
+     * @param FileSelectorInterface $selector
      * @throws BuildException
-     * @internal param the $selector new selector to add
-     * @return the selector that was added
+     * @return FileSelectorInterface the selector that was added
      */
-    public function appendSelector(FileSelector $selector)
+    public function appendSelector(FileSelectorInterface $selector)
     {
         if ($this->isReference()) {
             throw $this->noChildrenAllowed();
         }
-        parent::appendSelector($selector);
+        return parent::appendSelector($selector);
     }
 
     /**

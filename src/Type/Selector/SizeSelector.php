@@ -1,4 +1,7 @@
 <?php
+namespace Phing\Type\Selector;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 
@@ -28,7 +31,7 @@ use Phing\Io\File;
  *
  * @package phing.types.selectors
  */
-class SizeSelector extends BaseExtendSelector
+class SizeSelector extends AbstractExtendSelector
 {
     /** @var int $size */
     private $size = -1;

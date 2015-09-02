@@ -19,6 +19,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type\Selector;
+
 use Phing\Type\ParameterizableInterface;
 
 
@@ -35,7 +37,7 @@ use Phing\Type\ParameterizableInterface;
  * @author Bruce Atherton <bruce@callenish.com> (Ant)
  * @package phing.types.selectors
  */
-interface ExtendFileSelector extends ParameterizableInterface, FileSelector
+interface ExtendFileSelectorInterface extends ParameterizableInterface, FileSelectorInterface
 {
     // No further methods necessary. This is just an amalgamation of two other
     // interfaces.

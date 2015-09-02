@@ -1,4 +1,8 @@
 <?php
+namespace Phing\Tests\Type\Selector;
+
+use Phing\Type\Selector\SelectorUtils;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Class SelectorUtilsTest

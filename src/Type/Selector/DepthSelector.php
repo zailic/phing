@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Type\Selector;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 
@@ -30,7 +32,7 @@ use Phing\Io\File;
  *
  * @package   phing.types.selectors
  */
-class DepthSelector extends BaseExtendSelector
+class DepthSelector extends AbstractExtendSelector
 {
     /** @var int $min */
     public $min = -1;
@@ -64,7 +66,7 @@ class DepthSelector extends BaseExtendSelector
      */
     public function setMin($min)
     {
-        $this->min = (int) $min;
+        $this->min = (int)$min;
     }
 
     /**
@@ -76,7 +78,7 @@ class DepthSelector extends BaseExtendSelector
      */
     public function setMax($max)
     {
-        $this->max = (int) $max;
+        $this->max = (int)$max;
     }
 
     /**
@@ -167,8 +169,10 @@ class DepthSelector extends BaseExtendSelector
                 $basetoken = $tok_base[$i];
                 // Sanity check. Ditch it if you want faster performance
                 if ($basetoken !== $filetoken) {
-                    throw new BuildException("File " . $filename .
-                        " does not appear within " . $abs_base . "directory");
+                    throw new BuildException(
+                        "File " . $filename .
+                        " does not appear within " . $abs_base . "directory"
+                    );
                 }
             } else { // no more basepath tokens
                 $depth++;
@@ -178,8 +182,10 @@ class DepthSelector extends BaseExtendSelector
             }
         }
         if (isset($tok_base[$i + 1])) {
-            throw new BuildException("File " . $filename .
-                " is outside of " . $abs_base . "directory tree");
+            throw new BuildException(
+                "File " . $filename .
+                " is outside of " . $abs_base . "directory tree"
+            );
         }
         if ($this->min > -1 && $depth < $this->min) {
             return false;

@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Type\Selector;
+
 use Phing\Io\File;
 use Phing\Util\StringHelper;
 
@@ -29,7 +31,7 @@ use Phing\Util\StringHelper;
  *
  * @package phing.types.selectors
  */
-class FilenameSelector extends BaseExtendSelector
+class FilenameSelector extends AbstractExtendSelector
 {
 
     private $pattern = null;

@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Type\Selector;
+
 use Phing\Exception\BuildException;
 use Phing\Type\DataType;
 
@@ -33,7 +35,7 @@ use Phing\Type\DataType;
  *
  * @package phing.types.selectors
  */
-abstract class BaseSelector extends DataType implements FileSelector
+abstract class AbstractSelector extends DataType implements FileSelectorInterface
 {
     /** @var string $errmsg */
     private $errmsg = null;

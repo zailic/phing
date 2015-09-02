@@ -19,48 +19,33 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type\Selector;
 
+use Phing\Exception\BuildException;
+use Phing\Io\File;
 
 /**
- * This selector has one other selectors whose meaning it inverts. It
- * actually relies on NoneSelector for its implementation of the
- * isSelected() method, but it adds a check to ensure there is only one
- * other selector contained within.
+ * This is the interface to be used by all selectors.
  *
- * @author Hans Lellelid <hans@xmpl.org> (Phing)
- * @author Bruce Atherton <bruce@callenish.com> (Ant)
+ * @author Hans Lellelid, hans@xmpl.org (Phing)
+ * @author Bruce Atherton, bruce@callenish.com (Ant)
  * @package phing.types.selectors
  */
-class NotSelector extends NoneSelector
+interface FileSelectorInterface
 {
 
     /**
-     * @return string
+     * Method that each selector will implement to create their
+     * selection behaviour. If there is a problem with the setup
+     * of a selector, it can throw a BuildException to indicate
+     * the problem.
+     *
+     * @param File $basedir A File object for the base directory
+     * @param string $filename The name of the file to check
+     * @param File $file A File object for this filename
+     * @return boolean whether the file should be selected or not
+     * @throws BuildException if the selector was not configured correctly
      */
-    public function toString()
-    {
-        $buf = "";
-        if ($this->hasSelectors()) {
-            $buf .= "{notselect: ";
-            $buf .= parent::toString();
-            $buf .= "}";
-        }
-
-        return $buf;
-    }
-
-    /**
-     * Makes sure that there is only one entry, sets an error message if
-     * not.
-     */
-    public function verifySettings()
-    {
-        if ($this->selectorCount() != 1) {
-            $this->setError(
-                "One and only one selector is allowed within the " .
-                "<not> tag"
-            );
-        }
-    }
+    public function isSelected(File $basedir, $filename, File $file);
 
 }

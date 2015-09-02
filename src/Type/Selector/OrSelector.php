@@ -1,5 +1,4 @@
 <?php
-
 /*
  * $Id$
  *
@@ -19,25 +18,21 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type\Selector;
+
 use Phing\Io\File;
 
+
 /**
- * This selector is here just to shake up your thinking a bit. Don't get
- * too caught up in boolean, there are other ways you can evaluate a
- * collection of selectors. This one takes a vote of the selectors it
- * contains, and majority wins. You could also have an "all-but-one"
- * selector, a "weighted-average" selector, and so on. These are left
- * as exercises for the reader (as are the usecases where this would
- * be necessary).
+ * This selector has a collection of other selectors, any of which have to
+ * select a file in order for this selector to select it.
  *
  * @author Hans Lellelid <hans@xmpl.org> (Phing)
  * @author Bruce Atherton <bruce@callenish.com> (Ant)
  * @package phing.types.selectors
  */
-class MajoritySelector extends BaseSelectorContainer
+class OrSelector extends AbstractSelectorContainer
 {
-
-    private $allowtie = true;
 
     /**
      * @return string
@@ -46,7 +41,7 @@ class MajoritySelector extends BaseSelectorContainer
     {
         $buf = "";
         if ($this->hasSelectors()) {
-            $buf .= "{majorityselect: ";
+            $buf .= "{orselect: ";
             $buf .= parent::toString();
             $buf .= "}";
         }
@@ -55,49 +50,32 @@ class MajoritySelector extends BaseSelectorContainer
     }
 
     /**
-     * @param $tiebreaker
-     */
-    public function setAllowtie($tiebreaker)
-    {
-        $this->allowtie = $tiebreaker;
-    }
-
-    /**
-     * Returns true (the file is selected) if most of the other selectors
-     * agree. In case of a tie, go by the allowtie setting. That defaults
-     * to true, meaning in case of a tie, the file is selected.
+     * Returns true (the file is selected) if any of the other selectors
+     * agree that the file should be selected.
      *
      * @param File $basedir the base directory the scan is being done from
-     * @param string $filename is the name of the file to check
-     * @param File $file is a File object for the filename that the selector
+     * @param string $filename the name of the file to check
+     * @param File $file a File object for the filename that the selector
      * can use
-     * @return whether the file should be selected or not
+     * @return boolean Whether the file should be selected or not
      */
     public function isSelected(File $basedir, $filename, File $file)
     {
 
         $this->validate();
 
-        $yesvotes = 0;
-        $novotes = 0;
-
         $selectors = $this->selectorElements();
+
+        // First, check that all elements are correctly configured
+
         for ($i = 0, $size = count($selectors); $i < $size; $i++) {
             $result = $selectors[$i]->isSelected($basedir, $filename, $file);
             if ($result) {
-                $yesvotes = $yesvotes + 1;
-            } else {
-                $novotes = $novotes + 1;
+                return true;
             }
         }
-        if ($yesvotes > $novotes) {
-            return true;
-        } else {
-            if ($novotes > $yesvotes) {
-                return false;
-            }
-        }
-        // At this point, we know we have a tie.
-        return $this->allowtie;
+
+        return false;
     }
+
 }

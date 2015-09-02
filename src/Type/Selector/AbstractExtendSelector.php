@@ -19,6 +19,7 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type\Selector;
 
 
 /**
@@ -31,7 +32,7 @@
  * @author Bruce Atherton, bruce@callenish.com (Ant)
  * @package phing.types.selectors
  */
-abstract class BaseExtendSelector extends BaseSelector implements ExtendFileSelector
+abstract class AbstractExtendSelector extends AbstractSelector implements ExtendFileSelectorInterface
 {
 
     /** The passed in parameter array. */

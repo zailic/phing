@@ -19,6 +19,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type\Selector;
+
 use Phing\Io\File;
 use Phing\Project;
 
@@ -31,7 +33,7 @@ use Phing\Project;
  * @version   $Id$
  * @package   phing.types.selectors
  */
-class TypeSelector extends BaseExtendSelector
+class TypeSelector extends AbstractExtendSelector
 {
 
     private $type;
@@ -101,9 +103,9 @@ class TypeSelector extends BaseExtendSelector
      * The heart of the matter. This is where the selector gets to decide
      * on the inclusion of a file in a particular fileset.
      *
-     * @param  File $basedir  the base directory the scan is being done from
-     * @param  string    $filename is the name of the file to check
-     * @param  File $file     is a File object the selector can use
+     * @param  File $basedir the base directory the scan is being done from
+     * @param  string $filename is the name of the file to check
+     * @param  File $file is a File object the selector can use
      * @return boolean   Whether the file should be selected or not
      */
     public function isSelected(File $basedir, $filename, File $file)

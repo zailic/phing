@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Type\Selector;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Mapper\IdentityMapper;
@@ -33,7 +35,7 @@ use Phing\Type\Mapper;
  *
  * @package phing.types.selectors
  */
-class PresentSelector extends BaseSelector
+class PresentSelector extends AbstractSelector
 {
     private $targetdir = null;
     private $mapperElement = null;
@@ -167,8 +169,10 @@ class PresentSelector extends BaseSelector
         }
         // Sanity check
         if (count($destfiles) !== 1 || $destfiles[0] === null) {
-            throw new BuildException("Invalid destination file results for "
-                . $this->targetdir . " with filename " . $filename);
+            throw new BuildException(
+                "Invalid destination file results for "
+                . $this->targetdir . " with filename " . $filename
+            );
         }
         $destname = $destfiles[0];
         $destfile = new File($this->targetdir, $destname);

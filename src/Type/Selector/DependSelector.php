@@ -19,6 +19,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type\Selector;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Mapper\IdentityMapper;
@@ -36,7 +38,7 @@ use Phing\Type\Mapper;
  * @version   $Id$
  * @package   phing.types.selectors
  */
-class DependSelector extends BaseSelector
+class DependSelector extends AbstractSelector
 {
 
     private $targetdir = null;
@@ -84,8 +86,7 @@ class DependSelector extends BaseSelector
      * The name of the file or directory which is checked for out-of-date
      * files.
      *
-     * @param File|the $targetdir
-     * @internal param the $targetdir directory to scan looking for files.
+     * @param File $targetdir
      */
     public function setTargetdir(File $targetdir)
     {
@@ -99,7 +100,7 @@ class DependSelector extends BaseSelector
      */
     public function setGranularity($granularity)
     {
-        $this->granularity = (int) $granularity;
+        $this->granularity = (int)$granularity;
     }
 
     /**
@@ -161,7 +162,9 @@ class DependSelector extends BaseSelector
         }
         // Sanity check
         if (count($destfiles) !== 1 || $destfiles[0] === null) {
-            throw new BuildException("Invalid destination file results for " . $this->targetdir . " with filename " . $filename);
+            throw new BuildException(
+                "Invalid destination file results for " . $this->targetdir . " with filename " . $filename
+            );
         }
         $destname = $destfiles[0];
         $destfile = new File($this->targetdir, $destname);

@@ -21,34 +21,34 @@
 
 namespace Phing\Type;
 
-use AndSelector;
-use ContainsRegexpSelector;
-use ContainsSelector;
+use Phing\Type\Selector\AndSelector;
+use Phing\Type\Selector\ContainsRegexpSelector;
+use Phing\Type\Selector\ContainsSelector;
 use Phing\Type\DataType;
-use DateSelector;
-use DependSelector;
-use DepthSelector;
+use Phing\Type\Selector\DateSelector;
+use Phing\Type\Selector\DependSelector;
+use Phing\Type\Selector\DepthSelector;
 use Exception;
-use ExtendSelector;
-use FilenameSelector;
-use FileSelector;
+use Phing\Type\Selector\ExtendSelector;
+use Phing\Type\Selector\FilenameSelector;
+use Phing\Type\Selector\FileSelectorInterface;
 use Phing\Type\FileSet;
-use MajoritySelector;
-use NoneSelector;
-use NotSelector;
-use OrSelector;
+use Phing\Type\Selector\MajoritySelector;
+use Phing\Type\Selector\NoneSelector;
+use Phing\Type\Selector\NotSelector;
+use Phing\Type\Selector\OrSelector;
 use Phing\Type\PatternSet;
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\Scanner\DirectoryScanner;
 use Phing\Io\Scanner\SelectorScannerInterface;
 use Phing\Project;
-use PresentSelector;
+use Phing\Type\Selector\PresentSelector;
 use Phing\Type\Reference;
-use SelectorContainer;
-use SelectSelector;
-use SizeSelector;
-use TypeSelector;
+use Phing\Type\Selector\SelectorContainerInterface;
+use Phing\Type\Selector\SelectSelector;
+use Phing\Type\Selector\SizeSelector;
+use Phing\Type\Selector\TypeSelector;
 
 /**
  * The FileSet class provides methods and properties for accessing
@@ -69,7 +69,7 @@ use TypeSelector;
  * @see        ProjectComponent
  * @package    phing.types
  */
-class AbstractFileSet extends DataType implements SelectorContainer
+class AbstractFileSet extends DataType implements SelectorContainerInterface
 {
 
     // These vars are public for cloning purposes
@@ -513,13 +513,13 @@ class AbstractFileSet extends DataType implements SelectorContainer
     /**
      * Add a new selector into this container.
      *
-     * @param FileSelector $selector new selector to add
+     * @param FileSelectorInterface $selector new selector to add
      *
      * @throws \Phing\Exception\BuildException
      *
      * @return void
      */
-    public function appendSelector(FileSelector $selector)
+    public function appendSelector(FileSelectorInterface $selector)
     {
         if ($this->isReference()) {
             throw $this->noChildrenAllowed();

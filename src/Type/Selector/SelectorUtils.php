@@ -19,6 +19,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type\Selector;
+
 use Phing\Io\File;
 use Phing\Util\StringHelper;
 
@@ -157,7 +159,7 @@ class SelectorUtils
         $rePattern = str_replace(array_keys($patternReplacements), array_values($patternReplacements), $rePattern);
         $rePattern = '/^' . $rePattern . '$/' . ($isCaseSensitive ? '' : 'i');
 
-        return (bool) preg_match($rePattern, $str);
+        return (bool)preg_match($rePattern, $str);
     }
 
     /**
@@ -168,7 +170,7 @@ class SelectorUtils
      *
      * @param string $pattern The pattern to match against.
      *                Must not be <code>null</code>.
-     * @param string $str     The string which must be matched against the pattern.
+     * @param string $str The string which must be matched against the pattern.
      *                Must not be <code>null</code>.
      * @param bool $isCaseSensitive Whether or not matching should be performed
      *                        case sensitively.
@@ -183,7 +185,7 @@ class SelectorUtils
         $rePattern = str_replace(array("\*", "\?"), array('.*', '.'), $rePattern);
         $rePattern = '/^' . $rePattern . '$/' . ($isCaseSensitive ? '' : 'i');
 
-        return (bool) preg_match($rePattern, $str);
+        return (bool)preg_match($rePattern, $str);
     }
 
     /**
@@ -194,9 +196,9 @@ class SelectorUtils
      * false if the src file doesn't even exist, since how could the
      * target then be out of date.
      *
-     * @param  File $src         the original file
-     * @param  File $target      the file being compared against
-     * @param  int       $granularity the amount in seconds of slack we will give in
+     * @param  File $src the original file
+     * @param  File $target the file being compared against
+     * @param  int $granularity the amount in seconds of slack we will give in
      *                                determining out of dateness
      * @return bool whether   the target is out of date
      */

@@ -19,9 +19,25 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Type\Selector;
+
+use Phing\Type\Selector\ContainsRegexpSelector;
+use Phing\Type\Selector\ContainsSelector;
+use Phing\Type\Selector\DateSelector;
+use Phing\Type\Selector\DependSelector;
+use Phing\Type\Selector\DepthSelector;
+use Phing\Type\Selector\ExtendSelector;
+use Phing\Type\Selector\FilenameSelector;
+use Phing\Type\Selector\MajoritySelector;
+use Phing\Type\Selector\NoneSelector;
+use Phing\Type\Selector\NotSelector;
+use Phing\Type\Selector\OrSelector;
 use Phing\Exception\BuildException;
 use Phing\Project;
-
+use Phing\Type\Selector\PresentSelector;
+use Phing\Type\Selector\SelectSelector;
+use Phing\Type\Selector\SizeSelector;
+use Phing\Type\Selector\TypeSelector;
 
 /**
  * This is the base class for selectors that can contain other selectors.
@@ -29,7 +45,7 @@ use Phing\Project;
  * @author <a href="mailto:bruce@callenish.com">Bruce Atherton</a> (Ant)
  * @package phing.types.selectors
  */
-abstract class BaseSelectorContainer extends BaseSelector implements SelectorContainer
+abstract class AbstractSelectorContainer extends AbstractSelector implements SelectorContainerInterface
 {
 
     private $selectorsList = array();
@@ -94,13 +110,13 @@ abstract class BaseSelectorContainer extends BaseSelector implements SelectorCon
     /**
      * Add a new selector into this container.
      *
-     * @param FileSelector|the $selector
-     * @internal param the $selector new selector to add
-     * @return the selector that was added
+     * @param FileSelectorInterface $selector
+     * @return FileSelectorInterface
      */
-    public function appendSelector(FileSelector $selector)
+    public function appendSelector(FileSelectorInterface $selector)
     {
         $this->selectorsList[] = $selector;
+        return $selector;
     }
 
     /**
@@ -127,7 +143,7 @@ abstract class BaseSelectorContainer extends BaseSelector implements SelectorCon
             throw new BuildException($errmsg);
         }
         foreach ($this->selectorsList as $o) {
-            if ($o instanceof BaseSelector) {
+            if ($o instanceof AbstractSelector) {
                 $o->validate();
             }
         }

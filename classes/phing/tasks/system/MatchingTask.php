@@ -26,6 +26,22 @@ use Phing\Task;
 use Phing\Type\FileSet;
 use Phing\Type\PatternSet;
 use Phing\Type\PatternSet\PatternSetNameEntry;
+use Phing\Type\Selector\AndSelector;
+use Phing\Type\Selector\ContainsSelector;
+use Phing\Type\Selector\DateSelector;
+use Phing\Type\Selector\DependSelector;
+use Phing\Type\Selector\DepthSelector;
+use Phing\Type\Selector\ExtendSelector;
+use Phing\Type\Selector\FilenameSelector;
+use Phing\Type\Selector\FileSelectorInterface;
+use Phing\Type\Selector\MajoritySelector;
+use Phing\Type\Selector\NoneSelector;
+use Phing\Type\Selector\NotSelector;
+use Phing\Type\Selector\OrSelector;
+use Phing\Type\Selector\PresentSelector;
+use Phing\Type\Selector\SelectorContainerInterface;
+use Phing\Type\Selector\SelectSelector;
+use Phing\Type\Selector\SizeSelector;
 
 
 /**
@@ -44,7 +60,7 @@ use Phing\Type\PatternSet\PatternSetNameEntry;
  * @version   $Id$
  * @package   phing.tasks.system
  */
-abstract class MatchingTask extends Task implements SelectorContainer
+abstract class MatchingTask extends Task implements SelectorContainerInterface
 {
 
     /** @var boolean */
@@ -256,10 +272,10 @@ abstract class MatchingTask extends Task implements SelectorContainer
     /**
      * Add a new selector into this container.
      *
-     * @param  FileSelector $selector the new selector to add
+     * @param  FileSelectorInterface $selector the new selector to add
      * @return void
      */
-    public function appendSelector(FileSelector $selector)
+    public function appendSelector(FileSelectorInterface $selector)
     {
         $this->fileset->appendSelector($selector);
     }

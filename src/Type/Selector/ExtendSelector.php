@@ -20,7 +20,9 @@
  * <http://phing.info>.
  */
 
-use Phing\Exception\BuildException;
+namespace Phing\Type\Selector;
+
+use Exception;
 use Phing\Io\File;
 use Phing\Phing;
 use Phing\Type\Parameter;
@@ -36,7 +38,7 @@ use Phing\Type\Parameter;
  * @author Bruce Atherton <bruce@callenish.com> (Ant)
  * @package phing.types.selectors
  */
-class ExtendSelector extends BaseSelector
+class ExtendSelector extends AbstractSelector
 {
 
     private $classname;
@@ -108,7 +110,7 @@ class ExtendSelector extends BaseSelector
             $this->setError("The classname attribute is required");
         } elseif ($this->dynselector === null) {
             $this->setError("Internal Error: The custom selector was not created");
-        } elseif (!($this->dynselector instanceof ExtendFileSelector) && (count($this->parameters) > 0)) {
+        } elseif (!($this->dynselector instanceof ExtendFileSelectorInterface) && (count($this->parameters) > 0)) {
             $this->setError(
                 "Cannot set parameters on custom selector that does not "
                 . "implement ExtendFileSelector."
@@ -131,7 +133,7 @@ class ExtendSelector extends BaseSelector
 
         $this->validate();
 
-        if (count($this->parameters) > 0 && $this->dynselector instanceof ExtendFileSelector) {
+        if (count($this->parameters) > 0 && $this->dynselector instanceof ExtendFileSelectorInterface) {
             // We know that dynselector must be non-null if no error message
             $this->dynselector->setParameters($this->parameters);
         }

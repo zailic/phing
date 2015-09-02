@@ -22,7 +22,7 @@ namespace Phing\Io\Scanner;
 
 use Phing\Util\StringHelper;
 use Phing\Io\File;
-use SelectorUtils;
+use Phing\Type\Selector\SelectorUtils;
 use specifies;
 use the;
 

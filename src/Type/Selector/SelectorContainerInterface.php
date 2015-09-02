@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Type\Selector;
+
 use Phing\Project;
 
 /**
@@ -26,7 +28,7 @@ use Phing\Project;
  *
  * @package phing.types.selectors
  */
-interface SelectorContainer
+interface SelectorContainerInterface
 {
     /**
      * Indicates whether there are any selectors here.
@@ -54,18 +56,18 @@ interface SelectorContainer
     /**
      * Returns an array for accessing the set of selectors.
      *
-     * @return an enumerator that goes through each of the selectors
+     * @return array an enumerator that goes through each of the selectors
      */
     public function selectorElements();
 
     /**
      * Add a new selector into this container.
      *
-     * @param FileSelector $selector the new selector to add
+     * @param FileSelectorInterface $selector the new selector to add
      *
-     * @return FileSelector the selector that was added
+     * @return FileSelectorInterface the selector that was added
      */
-    public function appendSelector(FileSelector $selector);
+    public function appendSelector(FileSelectorInterface $selector);
 
     /* Methods below all add specific selectors */
 
