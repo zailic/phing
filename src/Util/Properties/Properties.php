@@ -23,8 +23,11 @@ namespace Phing\Util\Properties;
  */
 
 use IteratorAggregate;
+use Phing\Io\BufferedWriter;
 use Phing\Io\File;
 use Phing\Io\IOException;
+use Phing\Io\OutputStream;
+use Phing\Io\OutputStreamWriter;
 
 /**
  * A class for reading and writing property files.
