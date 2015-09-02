@@ -21,6 +21,8 @@
  */
 use Phing\Exception\BuildException;
 use Phing\Io\File;
+use Phing\Io\FileParser\FileParserFactory;
+use Phing\Io\FileParser\FileParserFactoryInterface;
 use Phing\Io\IOException;
 use Phing\Io\StringReader;
 use Phing\Io\Util\FileUtils;
@@ -29,6 +31,7 @@ use Phing\Task;
 use Phing\Type\FileList;
 use Phing\Type\FilterChain;
 use Phing\Type\Reference;
+use Phing\Util\Properties\Properties;
 use Phing\Util\StringHelper;
 use Phing\Util\Properties\PropertySetImpl;
 use Phing\Util\Properties\PropertySet;
@@ -85,6 +88,19 @@ class PropertyTask extends Task
 
     /** Whether to log messages as INFO or VERBOSE  */
     protected $logOutput = true;
+
+    /**
+     * @var FileParserFactoryInterface
+     */
+    private $fileParserFactory;
+
+    /**
+     * @param FileParserFactoryInterface $fileParserFactory
+     */
+    public function __construct(FileParserFactoryInterface $fileParserFactory = null)
+    {
+        $this->fileParserFactory = $fileParserFactory != null ? $fileParserFactory : new FileParserFactory();
+    }
 
     /**
      * Sets a the name of current property component
@@ -489,6 +505,8 @@ class PropertyTask extends Task
      */
     protected function processFile(File $file, PropertySet $properties)
     {
+        $fileParser = $this->fileParserFactory->createParser($file->getFileExtension());
+        $props = new Properties(null, $fileParser);
         $this->log("Loading properties from " . $file->getAbsolutePath(), $this->logOutput ? Project::MSG_INFO : Project::MSG_VERBOSE);
         try { // try to load file
             if ($file->exists()) {
@@ -514,5 +532,4 @@ class PropertyTask extends Task
     {
         throw new BuildException($msg, $this->getLocation());
     }
-
 }

@@ -25,6 +25,8 @@ namespace Phing\Util\Properties;
 use IteratorAggregate;
 use Phing\Io\BufferedWriter;
 use Phing\Io\File;
+use Phing\Io\FileParser\FileParserInterface;
+use Phing\Io\FileParser\IniFileParser;
 use Phing\Io\IOException;
 use Phing\Io\OutputStream;
 use Phing\Io\OutputStreamWriter;
@@ -52,6 +54,11 @@ class Properties implements IteratorAggregate
     private $properties;
 
     /**
+     * @var FileParserInterface
+     */
+    private $fileParser;
+
+    /**
      * @var File
      */
     private $file = null;
@@ -60,10 +67,12 @@ class Properties implements IteratorAggregate
      * Constructor
      *
      * @param array $properties
+     * @param FileParserInterface $fileParser
      */
-    public function __construct($properties = null)
+    public function __construct($properties = null, FileParserInterface $fileParser = null)
     {
         $this->properties = new PropertySetImpl();
+        $this->fileParser = $fileParser == null ? new IniFileParser() : $fileParser;
 
         if (is_array($properties)) {
             foreach ($properties as $key => $value) {
@@ -75,20 +84,30 @@ class Properties implements IteratorAggregate
     /**
      * Load properties from a file.
      *
-     * Does not try to expand ${}-style property references in any way.
-     *
-     * @param File   $file    The property file to read.
-     * @param string $section (Optional) The section to process.
-     *
+     * @param  File $file
      * @return void
      * @throws IOException - if unable to read file.
      */
-    public function load(File $file, $section = null)
+    public function load(File $file)
     {
-        $r = new PropertyFileReader($this->properties);
-        $r->load($file, $section);
+        if ($file->canRead()) {
+            $this->parse($file);
 
-        $this->file = $file;
+            $this->file = $file;
+        } else {
+            throw new IOException("Can not read file " . $file->getPath());
+        }
+    }
+
+    /**
+     * Parses the file given.
+     *
+     * @param  File $file
+     * @return array   Properties loaded from file (no prop replacements done yet).
+     */
+    protected function parse(File $file)
+    {
+        $this->properties = $this->fileParser->parseFile($file);
     }
 
     /**
@@ -218,7 +237,7 @@ class Properties implements IteratorAggregate
      *
      * @param  string $key
      * @param  mixed  $value
-     * @return mixed  Old property value or NULL if none was set.
+     * @return mixed  Old property value or null if none was set.
      */
     public function setProperty($key, $value)
     {

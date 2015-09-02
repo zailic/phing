@@ -25,9 +25,9 @@ use Phing\Project;
 use Phing\Task;
 use Phing\Type\CommandLine;
 use Phing\Type\CommandLine\CommandLineArgument;
+use Phing\Type\DirSet;
 use Phing\Type\FileList;
 use Phing\Type\FileSet;
-
 
 /**
  * Executes a command on the (filtered) file list/set.
@@ -200,6 +200,18 @@ class ApplyTask extends Task
     public function addFileSet(FileSet $fs)
     {
         $this->filesets[] = $fs;
+    }
+
+
+    /**
+     * Nested adder, adds a set of dirs (nested dirset attribute).
+     *
+     * @param DirSet $dirSet
+     * @return void
+     */
+    public function addDirSet(DirSet $dirSet)
+    {
+        $this->filesets[] = $dirSet;
     }
 
 

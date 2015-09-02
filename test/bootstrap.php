@@ -8,7 +8,7 @@ defined('PHING_TEST_BASE') || define('PHING_TEST_BASE', __DIR__);
 defined('PHING_TEST_TMP') || define('PHING_TEST_TMP', __DIR__.'/tmp');
 
 set_include_path(
-    realpath(__DIR__ . '/../classes') . PATH_SEPARATOR . 
+    realpath(__DIR__ . '/../classes') . PATH_SEPARATOR .
     realpath(__DIR__ . '/classes') . PATH_SEPARATOR .
     get_include_path()  // trunk version of phing classes should take precedence
 );

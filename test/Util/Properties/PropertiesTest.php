@@ -45,6 +45,11 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
         $this->props = new Properties();
     }
 
+    public function tearDown()
+    {
+        unset($this->props);
+    }
+
     public function testEmpty()
     {
         $this->assertTrue($this->props->isEmpty());
@@ -116,6 +121,4 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('inherited', $this->props->getProperty('section'));
         $this->assertEquals('from-top', $this->props->getProperty('inherited'));
     }
-
-
 }

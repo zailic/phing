@@ -1,4 +1,5 @@
 <?php
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Phing;
@@ -39,6 +40,9 @@ use Phing\Type\CommandLine\CommandLineArgument;
  */
 class ExecTask extends Task
 {
+    const INVALID = PHP_INT_MAX;
+
+    private $exitValue = self::INVALID;
 
     /**
      * Command to be executed
@@ -64,6 +68,8 @@ class ExecTask extends Task
      * @var File
      */
     protected $dir;
+
+    protected $currdir;
 
     /**
      * Operating system.
@@ -132,7 +138,6 @@ class ExecTask extends Task
      * @var boolean
      */
     protected $checkreturn = false;
-
 
     /**
      *
@@ -335,11 +340,55 @@ class ExecTask extends Task
             );
         }
 
+        $this->setExitValue($return);
+
         if ($return != 0 && $this->checkreturn) {
             throw new BuildException("Task exited with code $return");
         }
     }
 
+    /**
+     * Set the exit value.
+     *
+     * @param int $value exit value of the process.
+     */
+    protected function setExitValue($value)
+    {
+        $this->exitValue = $value;
+    }
+
+    /**
+     * Query the exit value of the process.
+     *
+     * @return int the exit value or self::INVALID if no exit value has
+     *             been received.
+     */
+    public function getExitValue()
+    {
+        return $this->exitValue;
+    }
+
+    /**
+     * Checks whether exitValue signals a failure on the current system.
+     *
+     * @param int $code
+     *
+     * @return bool
+     */
+    public static function isFailureCode($code)
+    {
+        return $code !== 0;
+    }
+
+    /**
+     * Did this execute return in a failure.
+     *
+     * @return boolean true if and only if the exit code is interpreted as a failure
+     */
+    public function isFailure()
+    {
+        return self::isFailureCode($this->getExitValue());
+    }
 
     /**
      * The command to use.

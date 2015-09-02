@@ -50,7 +50,9 @@ class FileOutputStreamTest extends PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        $this->outStream->close();
+        if (is_object($this->outStream)) {
+            $this->outStream->close();
+        }
         FileSystemFactory::getFileSystem()->unlink($this->tmpFile->getAbsolutePath());
     }
 
@@ -102,5 +104,4 @@ class FileOutputStreamTest extends PHPUnit_Framework_TestCase
             // exception is expected
         }
     }
-
 }

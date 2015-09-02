@@ -107,7 +107,7 @@ class GitPullTaskTest extends AbstractBuildFileTest
         $this->assertInLogs('git-pull: fetching from all remotes');
         $this->assertInLogs('git-pull: complete');
 
-        $lastLogLine = array_pop($this->logBuffer);
+/*        $lastLogLine = array_pop($this->logBuffer);
 
         if (strpos($lastLogLine, 'up-to-date') !== false ||
             strpos($lastLogLine, 'up to date') !== false
@@ -115,7 +115,8 @@ class GitPullTaskTest extends AbstractBuildFileTest
             $this->assertTrue(true);
         } else {
             $this->assertTrue(false, 'Last log line: ' . $lastLogLine);
-        }
+        }*/
+        $this->assertInLogs('Already up-to-date.');
     }
 
     public function testNoTagsSet()

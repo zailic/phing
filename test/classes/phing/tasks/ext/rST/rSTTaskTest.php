@@ -38,7 +38,7 @@ class rSTTaskTest extends AbstractBuildFileTest
     protected function assertPreConditions()
     {
         try {
-            $this->testGetToolPathFail();
+            $this->testGetToolPathHtmlFormat();
         } catch (BuildException $be) {
             $this->markTestSkipped($be->getMessage());
         }
@@ -117,6 +117,14 @@ class rSTTaskTest extends AbstractBuildFileTest
         $rt->setToolpath(__FILE__);
     }
 
+    public function testGetToolPathHtmlFormat()
+    {
+        $rt = new rSTTask();
+        $ref = new ReflectionClass($rt);
+        $method = $ref->getMethod('getToolPath');
+        $method->setAccessible(true);
+        $this->assertContains('rst2html', $method->invoke($rt, 'html'));
+    }
 
     public function testSingleFileParameterFile()
     {
