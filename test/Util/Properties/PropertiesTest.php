@@ -31,7 +31,7 @@ use Phing\Util\Properties\Properties;
  * @package phing.system.util
  * @version $Id$
  *
- * @covers \Phing\Util\Properties
+ * @covers \Phing\Util\Properties\Properties
  */
 class PropertiesTest extends \PHPUnit_Framework_TestCase
 {
