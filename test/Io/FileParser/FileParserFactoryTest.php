@@ -60,7 +60,7 @@ class FileParserFactoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       FileParserFactory::createParser
+     * @covers       \Phing\Io\FileParser\FileParserFactory::createParser
      * @dataProvider parserTypeProvider
      */
     public function testCreateParser($parserName, $expectedType)

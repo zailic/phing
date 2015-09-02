@@ -71,7 +71,7 @@ class YamlFileParserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers IniFileParser::parseFile
+     * @covers \Phing\Io\FileParser\IniFileParser::parseFile
      * @expectedException \Phing\Io\IOException
      */
     public function testParseFileFileNotReadable()
@@ -84,7 +84,7 @@ class YamlFileParserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers IniFileParser::parseFile
+     * @covers \Phing\Io\FileParser\IniFileParser::parseFile
      * @expectedException \Phing\Io\IOException
      */
     public function testParseFileFileIncorrectYaml()
@@ -97,7 +97,7 @@ class YamlFileParserTest extends PHPUnit_Framework_TestCase
      * The YamlFileParser has to provide a flattened array which then is
      * compatible to the actual behaviour of properties.
      *
-     * @covers IniFileParser::parseFile
+     * @covers \Phing\Io\FileParser\IniFileParser::parseFile
      */
     public function testParseFileFile()
     {
