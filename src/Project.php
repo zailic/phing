@@ -1,7 +1,7 @@
 <?php
 namespace Phing;
 
-use Condition;
+use Phing\Condition\ConditionInterface;
 use Exception;
 use Phing\Exception\BuildException;
 use Phing\Input\DefaultInputHandler;
@@ -789,7 +789,7 @@ class Project
      * Creates a new condition and returns the reference to it
      *
      * @param  string $conditionType
-     * @return Condition
+     * @return ConditionInterface
      * @throws BuildException
      */
     public function createCondition($conditionType)
@@ -815,7 +815,7 @@ class Project
             }
 
             $o = new $cls();
-            if ($o instanceof Condition) {
+            if ($o instanceof ConditionInterface) {
                 return $o;
             } else {
                 throw new BuildException("Not actually a condition");

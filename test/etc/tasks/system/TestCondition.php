@@ -1,6 +1,8 @@
 <?php
 
-class TestCondition implements Condition
+use Phing\Condition\ConditionInterface;
+
+class TestCondition implements ConditionInterface
 {
     private $foo = null;
     

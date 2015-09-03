@@ -18,6 +18,7 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+use Phing\Condition\AbstractCondition;
 use Phing\Exception\BuildException;
 use Phing\Project;
 
@@ -44,7 +45,7 @@ use Phing\Project;
  * @version   $Id$
  * @package   phing.tasks.system
  */
-class WaitForTask extends ConditionBase
+class WaitForTask extends AbstractCondition
 {
     const ONE_MILLISECOND = 1;
     const ONE_SECOND = 1000;

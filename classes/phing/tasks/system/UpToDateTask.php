@@ -18,6 +18,7 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+use Phing\Condition\ConditionInterface;
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\Scanner\SourceFileScanner;
@@ -40,7 +41,7 @@ use Phing\Type\Mapper;
  * @version   $Id$
  * @package   phing.tasks.system
  */
-class UpToDateTask extends Task implements Condition
+class UpToDateTask extends Task implements ConditionInterface
 {
 
     private $_property;

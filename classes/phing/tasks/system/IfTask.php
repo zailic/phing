@@ -19,6 +19,7 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+use Phing\Condition\AbstractCondition;
 use Phing\Exception\BuildException;
 
 
@@ -106,7 +107,7 @@ use Phing\Exception\BuildException;
  * @author <a href="mailto:stefan.bodewig@freenet.de">Stefan Bodewig</a>
  * @package phing.tasks.system
  */
-class IfTask extends ConditionBase
+class IfTask extends AbstractCondition
 {
 
     private $thenTasks = null;
@@ -194,7 +195,7 @@ class IfTask extends ConditionBase
  *
  * @package phing.tasks.system
  */
-class ElseIfTask extends ConditionBase
+class ElseIfTask extends AbstractCondition
 {
 
     private $thenTasks = null;

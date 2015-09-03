@@ -18,6 +18,7 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
 */
+use Phing\Condition\AbstractCondition;
 use Phing\Exception\BuildException;
 
 
@@ -35,7 +36,7 @@ use Phing\Exception\BuildException;
  * @version   $Id$
  * @package   phing.tasks.system
  */
-class ConditionTask extends ConditionBase
+class ConditionTask extends AbstractCondition
 {
     /** @var string $property */
     private $property;
