@@ -29,7 +29,7 @@ use Phing\Exception\BuildException;
  * @author    Tomáš Fejfar (tomas.fejfar@gmail.com)
  * @package   phing.tasks.system.condition
  */
-class VersionCompareCondition implements ConditionInterface
+class VersionCompare implements ConditionInterface
 {
 
     /**

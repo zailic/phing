@@ -3,18 +3,18 @@
 namespace Phing\Test\Condition;
 
 use PHPUnit_Framework_TestCase;
-use Phing\Condition\VersionCompareCondition;
+use Phing\Condition\VersionCompare;
 
-class VersionCompareConditionTest extends PHPUnit_Framework_TestCase
+class VersionCompareTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var VersionCompareCondition
+     * @var VersionCompare
      */
     protected $_condition;
 
     public function setUp()
     {
-        $this->_condition = new VersionCompareCondition();
+        $this->_condition = new VersionCompare();
     }
 
     public function testDefaultCompareIsFalseForSmallerRevision()

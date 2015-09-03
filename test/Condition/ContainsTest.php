@@ -1,4 +1,5 @@
 <?php
+
 /*
  *  $Id$
  *
@@ -18,47 +19,31 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-namespace Phing\Condition;
+namespace Phing\Test\Condition;
 
-use Phing\Exception\BuildException;
-use Phing\AbstractProjectComponent;
-use Phing\UnknownElement;
+use Phing\Condition\Contains;
+use PHPUnit_Framework_TestCase;
 
 /**
- * Condition that tests whether a given reference exists.
+ * Testcase for the &lt;contains&gt; condition.
  *
- * @author Matthias Pigulla <mp@webfactory.de> (Phing)
+ * @author Hans Lellelid <hans@xmpl.org> (Phing)
+ * @author Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
  * @version $Id$
  * @package phing.tasks.system.condition
  */
-class ReferenceExistsCondition extends AbstractProjectComponent implements ConditionInterface
+class ContainsTest extends PHPUnit_Framework_TestCase
 {
 
-    private $refid;
-
-    /**
-     * @param $id
-     */
-    public function setRef($id)
+    public function testCaseSensitive()
     {
-        $this->refid = (string)$id;
-    }
+        $con = new Contains();
+        $con->setString("abc");
+        $con->setSubstring("A");
+        $this->assertTrue(!$con->evaluate());
 
-    /**
-     * Check whether the reference exists.
-     * @throws BuildException
-     */
-    public function evaluate()
-    {
-        if ($this->refid === null) {
-            throw new BuildException(
-                "No ref attribute specified for reference-exists "
-                . "condition"
-            );
-        }
-        $refs = $this->project->getReferences();
-
-        return !($refs[$this->refid] instanceof UnknownElement) && isset($refs[$this->refid]);
+        $con->setCaseSensitive(false);
+        $this->assertTrue($con->evaluate());
     }
 
 }

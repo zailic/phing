@@ -1,7 +1,5 @@
 <?php
 /*
- *  $Id$
- *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -18,46 +16,25 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-namespace Phing\Condition;
 
-use Phing\Exception\BuildException;
-use Phing\AbstractProjectComponent;
+namespace Phing\Test\Condition;
+
+use PHPUnit_Framework_TestCase;
+use Phing\Condition\Socket;
 
 /**
- * Condition that tests whether a given string evals to true.
+ * Tests for the <socket> condition
  *
- * @author Hans Lellelid <hans@xmpl.org> (Phing)
- * @author Steve Loughran (Ant)
  * @package phing.tasks.system.condition
  */
-class IsTrueCondition extends AbstractProjectComponent implements ConditionInterface
+class SocketTest extends PHPUnit_Framework_TestCase
 {
-
-    /**
-     * what we eval
-     */
-    private $value;
-
-    /**
-     * Set the value to be tested.
-     * @param boolean $value
-     */
-    public function setValue($value)
+    public function testShouldReturnFalseForNonExistingListener()
     {
-        $this->value = $value;
+        $condition = new Socket();
+        $condition->setServer('localhost');
+        $condition->setPort(1337);
+        $this->assertFalse($condition->evaluate());
     }
-
-    /**
-     * return the inverted value;
-     * @throws \Phing\Exception\BuildException if someone forgot to spec a value
-     */
-    public function evaluate()
-    {
-        if ($this->value === null) {
-            throw new BuildException("Nothing to test for falsehood");
-        }
-
-        return $this->value;
-    }
-
 }
+ 

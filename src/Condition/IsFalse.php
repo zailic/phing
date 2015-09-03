@@ -1,5 +1,4 @@
 <?php
-
 /*
  *  $Id$
  *
@@ -19,31 +18,47 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-namespace Phing\Test\Condition;
+namespace Phing\Condition;
 
-use Phing\Condition\ContainsCondition;
-use PHPUnit_Framework_TestCase;
+use Phing\Exception\BuildException;
+use Phing\AbstractProjectComponent;
 
 /**
- * Testcase for the &lt;contains&gt; condition.
+ * Condition that tests whether a given string evals to false.
  *
- * @author Hans Lellelid <hans@xmpl.org> (Phing)
- * @author Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
+ * @author Hans Lellelid (Phing)
+ * @author Steve Loughran (Ant)
  * @version $Id$
  * @package phing.tasks.system.condition
  */
-class ContainsConditionTest extends PHPUnit_Framework_TestCase
+class IsFalse extends AbstractProjectComponent implements ConditionInterface
 {
 
-    public function testCaseSensitive()
-    {
-        $con = new ContainsCondition();
-        $con->setString("abc");
-        $con->setSubstring("A");
-        $this->assertTrue(!$con->evaluate());
+    /**
+     * what we eval
+     */
+    private $value;
 
-        $con->setCaseSensitive(false);
-        $this->assertTrue($con->evaluate());
+    /**
+     * Set the value to be tested.
+     * @param boolean $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * return the inverted value;
+     * @throws \Phing\Exception\BuildException if someone forgot to spec a value
+     */
+    public function evaluate()
+    {
+        if ($this->value === null) {
+            throw new BuildException("Nothing to test for falsehood");
+        }
+
+        return !$this->value;
     }
 
 }

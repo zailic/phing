@@ -1,5 +1,4 @@
 <?php
-
 /*
  *  $Id$
  *
@@ -19,45 +18,47 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-namespace Phing\Test\Condition;
+namespace Phing\Condition;
 
-use Phing\Condition\EqualsCondition;
-use PHPUnit_Framework_TestCase;
+use Phing\Exception\BuildException;
+use Phing\AbstractProjectComponent;
+use Phing\UnknownElement;
 
 /**
- * Testcase for the &lt;equals&gt; condition.
+ * Condition that tests whether a given reference exists.
  *
- * @author Hans Lellelid <hans@xmpl.org> (Phing)
- * @author Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
+ * @author Matthias Pigulla <mp@webfactory.de> (Phing)
  * @version $Id$
  * @package phing.tasks.system.condition
  */
-class EqualsConditionTest extends PHPUnit_Framework_TestCase
+class ReferenceExists extends AbstractProjectComponent implements ConditionInterface
 {
 
-    public function testTrim()
+    private $refid;
+
+    /**
+     * @param $id
+     */
+    public function setRef($id)
     {
-        $eq = new EqualsCondition();
-        $eq->setArg1("a");
-        $eq->setArg2(" a");
-        $this->assertTrue(!$eq->evaluate());
-
-        $eq->setTrim(true);
-        $this->assertTrue($eq->evaluate());
-
-        $eq->setArg2("a\t");
-        $this->assertTrue($eq->evaluate());
+        $this->refid = (string)$id;
     }
 
-    public function testCaseSensitive()
+    /**
+     * Check whether the reference exists.
+     * @throws BuildException
+     */
+    public function evaluate()
     {
-        $eq = new EqualsCondition();
-        $eq->setArg1("a");
-        $eq->setArg2("A");
-        $this->assertTrue(!$eq->evaluate());
+        if ($this->refid === null) {
+            throw new BuildException(
+                "No ref attribute specified for reference-exists "
+                . "condition"
+            );
+        }
+        $refs = $this->project->getReferences();
 
-        $eq->setCasesensitive(false);
-        $this->assertTrue($eq->evaluate());
+        return !($refs[$this->refid] instanceof UnknownElement) && isset($refs[$this->refid]);
     }
 
 }

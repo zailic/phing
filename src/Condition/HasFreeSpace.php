@@ -27,7 +27,7 @@ use Phing\Exception\BuildException;
  * @author Siad Ardroumli <siad.ardroumli@gmail.com>
  * @package phing.tasks.system.condition
  */
-class HasFreeSpaceCondition implements ConditionInterface
+class HasFreeSpace implements ConditionInterface
 {
     /** @var string $partition */
     private $partition;

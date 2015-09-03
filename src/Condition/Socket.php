@@ -1,8 +1,5 @@
 <?php
-
 /*
- *  $Id$
- *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -19,67 +16,68 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+
 namespace Phing\Condition;
 
 use Phing\Exception\BuildException;
 
 /**
- * Is one string part of another string?
+ * <socket> condition container.
  *
- * @author Hans Lellelid <hans@xmpl.org> (Phing)
- * @author Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
- * @version $Id$
+ * Tests for a (tcp) listener on a specified host and port
+ *
+ * @author  Michiel Rook <mrook@php.net>
  * @package phing.tasks.system.condition
  */
-class ContainsCondition implements ConditionInterface
+class Socket implements ConditionInterface
 {
 
-    private $string;
-    private $subString;
-    private $caseSensitive = true;
+    /**
+     * @var string
+     */
+    private $server;
 
     /**
-     * The string to search in.
-     * @param string $a1
+     * @var int
      */
-    public function setString($a1)
+    private $port;
+
+    /**
+     * @param string $server
+     */
+    public function setServer($server)
     {
-        $this->string = $a1;
+        $this->server = $server;
     }
 
     /**
-     * The string to search for.
-     * @param string $a2
+     * @param int $port
      */
-    public function setSubstring($a2)
+    public function setPort($port)
     {
-        $this->subString = $a2;
+        $this->port = $port;
     }
 
     /**
-     * Whether to search ignoring case or not.
-     * @param $b
-     */
-    public function setCaseSensitive($b)
-    {
-        $this->caseSensitive = (boolean)$b;
-    }
-
-    /**
-     * Check whether string contains substring.
+     * @return boolean
      * @throws BuildException
      */
     public function evaluate()
     {
-        if ($this->string === null || $this->subString === null) {
-            throw new BuildException(
-                "both string and substring are required "
-                . "in contains"
-            );
+        if (empty($this->server)) {
+            throw new BuildException("No server specified");
         }
 
-        return $this->caseSensitive
-            ? strpos($this->string, $this->subString) !== false
-            : strpos(strtolower($this->string), strtolower($this->subString)) !== false;
+        if (empty($this->port)) {
+            throw new BuildException("No port specified");
+        }
+
+        $socket = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+
+        if ($socket === false) {
+            throw new BuildException("Unable to create socket: " . socket_last_error($socket));
+        }
+
+        return @socket_connect($socket, $this->server, $this->port);
     }
 }

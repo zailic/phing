@@ -119,11 +119,11 @@ abstract class AbstractCondition extends AbstractProjectComponent
     }
 
     /**
-     * @return EqualsCondition
+     * @return Equals
      */
     public function createEquals()
     {
-        $num = array_push($this->conditions, new EqualsCondition());
+        $num = array_push($this->conditions, new Equals());
 
         return $this->conditions[$num - 1];
     }
@@ -139,31 +139,31 @@ abstract class AbstractCondition extends AbstractProjectComponent
     }
 
     /**
-     * @return IsFalseCondition
+     * @return IsFalse
      */
     public function createIsFalse()
     {
-        $num = array_push($this->conditions, new IsFalseCondition());
+        $num = array_push($this->conditions, new IsFalse());
 
         return $this->conditions[$num - 1];
     }
 
     /**
-     * @return IsTrueCondition
+     * @return IsTrue
      */
     public function createIsTrue()
     {
-        $num = array_push($this->conditions, new IsTrueCondition());
+        $num = array_push($this->conditions, new IsTrue());
 
         return $this->conditions[$num - 1];
     }
 
     /**
-     * @return ContainsCondition
+     * @return Contains
      */
     public function createContains()
     {
-        $num = array_push($this->conditions, new ContainsCondition());
+        $num = array_push($this->conditions, new Contains());
 
         return $this->conditions[$num - 1];
     }
@@ -179,25 +179,25 @@ abstract class AbstractCondition extends AbstractProjectComponent
     }
 
     /**
-     * @return ReferenceExistsCondition
+     * @return ReferenceExists
      */
     public function createReferenceExists()
     {
-        $num = array_push($this->conditions, new ReferenceExistsCondition());
+        $num = array_push($this->conditions, new ReferenceExists());
 
         return $this->conditions[$num - 1];
     }
 
     public function createVersionCompare()
     {
-        $num = array_push($this->conditions, new VersionCompareCondition());
+        $num = array_push($this->conditions, new VersionCompare());
 
         return $this->conditions[$num - 1];
     }
 
     public function createHttp()
     {
-        $num = array_push($this->conditions, new HttpCondition());
+        $num = array_push($this->conditions, new Http());
 
         return $this->conditions[$num - 1];
     }
@@ -211,7 +211,7 @@ abstract class AbstractCondition extends AbstractProjectComponent
 
     public function createHasFreeSpace()
     {
-        $num = array_push($this->conditions, new HasFreeSpaceCondition());
+        $num = array_push($this->conditions, new HasFreeSpace());
 
         return $this->conditions[$num - 1];
     }
@@ -225,7 +225,7 @@ abstract class AbstractCondition extends AbstractProjectComponent
 
     public function createSocket()
     {
-        $num = array_push($this->conditions, new SocketCondition());
+        $num = array_push($this->conditions, new Socket());
 
         return $this->conditions[$num - 1];
     }

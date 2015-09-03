@@ -1,5 +1,8 @@
 <?php
+
 /*
+ *  $Id$
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -16,25 +19,45 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-
 namespace Phing\Test\Condition;
 
+use Phing\Condition\Equals;
 use PHPUnit_Framework_TestCase;
-use Phing\Condition\SocketCondition;
 
 /**
- * Tests for the <socket> condition
+ * Testcase for the &lt;equals&gt; condition.
  *
+ * @author Hans Lellelid <hans@xmpl.org> (Phing)
+ * @author Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
+ * @version $Id$
  * @package phing.tasks.system.condition
  */
-class SocketConditionTest extends PHPUnit_Framework_TestCase
+class EqualsTest extends PHPUnit_Framework_TestCase
 {
-    public function testShouldReturnFalseForNonExistingListener()
+
+    public function testTrim()
     {
-        $condition = new SocketCondition();
-        $condition->setServer('localhost');
-        $condition->setPort(1337);
-        $this->assertFalse($condition->evaluate());
+        $eq = new Equals();
+        $eq->setArg1("a");
+        $eq->setArg2(" a");
+        $this->assertTrue(!$eq->evaluate());
+
+        $eq->setTrim(true);
+        $this->assertTrue($eq->evaluate());
+
+        $eq->setArg2("a\t");
+        $this->assertTrue($eq->evaluate());
     }
+
+    public function testCaseSensitive()
+    {
+        $eq = new Equals();
+        $eq->setArg1("a");
+        $eq->setArg2("A");
+        $this->assertTrue(!$eq->evaluate());
+
+        $eq->setCasesensitive(false);
+        $this->assertTrue($eq->evaluate());
+    }
+
 }
- 

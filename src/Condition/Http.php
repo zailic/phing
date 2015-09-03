@@ -34,7 +34,7 @@ use Phing\AbstractProjectComponent;
  * @author    Siad Ardroumli <siad.ardroumli@gmail.com>
  * @package   phing.tasks.system.condition
  */
-class HttpCondition extends AbstractProjectComponent implements ConditionInterface
+class Http extends AbstractProjectComponent implements ConditionInterface
 {
     private $errorsBeginAt;
     private $url;

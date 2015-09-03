@@ -1,4 +1,5 @@
 <?php
+
 /*
  *  $Id$
  *
@@ -23,50 +24,41 @@ namespace Phing\Condition;
 use Phing\Exception\BuildException;
 
 /**
- * A simple string comparator.  Compares two strings for eqiality in a
- * binary safe manner. Implements the condition interface specification.
+ * Is one string part of another string?
  *
- * @author    Andreas Aderhold <andi@binarycloud.com>
- * @copyright 2001,2002 THYRELL. All rights reserved
- * @version   $Id$
- * @package   phing.tasks.system.condition
+ * @author Hans Lellelid <hans@xmpl.org> (Phing)
+ * @author Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
+ * @version $Id$
+ * @package phing.tasks.system.condition
  */
-class EqualsCondition implements ConditionInterface
+class Contains implements ConditionInterface
 {
 
-    private $arg1;
-    private $arg2;
-    private $trim = false;
+    private $string;
+    private $subString;
     private $caseSensitive = true;
 
     /**
-     * @param $a1
+     * The string to search in.
+     * @param string $a1
      */
-    public function setArg1($a1)
+    public function setString($a1)
     {
-        $this->arg1 = $a1;
+        $this->string = $a1;
     }
 
     /**
-     * @param $a2
+     * The string to search for.
+     * @param string $a2
      */
-    public function setArg2($a2)
+    public function setSubstring($a2)
     {
-        $this->arg2 = $a2;
+        $this->subString = $a2;
     }
 
     /**
-     * Should we want to trim the arguments before comparing them?
-     * @param boolean $b
-     */
-    public function setTrim($b)
-    {
-        $this->trim = (boolean)$b;
-    }
-
-    /**
-     * Should the comparison be case sensitive?
-     * @param boolean $b
+     * Whether to search ignoring case or not.
+     * @param $b
      */
     public function setCaseSensitive($b)
     {
@@ -74,21 +66,20 @@ class EqualsCondition implements ConditionInterface
     }
 
     /**
-     * @return bool
+     * Check whether string contains substring.
      * @throws BuildException
      */
     public function evaluate()
     {
-        if ($this->arg1 === null || $this->arg2 === null) {
-            throw new BuildException("Both arg1 and arg2 are required in equals.");
+        if ($this->string === null || $this->subString === null) {
+            throw new BuildException(
+                "both string and substring are required "
+                . "in contains"
+            );
         }
 
-        if ($this->trim) {
-            $this->arg1 = trim($this->arg1);
-            $this->arg2 = trim($this->arg2);
-        }
-
-        //print("[comparison] Comparing '".$this->arg1."' and '".$this->arg2."'\n");
-        return $this->caseSensitive ? $this->arg1 === $this->arg2 : strtolower($this->arg1) === strtolower($this->arg2);
+        return $this->caseSensitive
+            ? strpos($this->string, $this->subString) !== false
+            : strpos(strtolower($this->string), strtolower($this->subString)) !== false;
     }
 }
