@@ -2,24 +2,22 @@
 namespace Phing;
 
 use Condition;
-use Phing\Type\DataType;
-use Phing\Input\DefaultInputHandler;
 use Exception;
-use Phing\Io\FileSystem\AbstractFileSystem;
-use Phing\Io\FileSystem\FileSystemFactory;
-use Phing\Io\Util\FileUtils;
-use Phing\Input\InputHandlerInterface;
-use Phing\Io\IOException;
 use Phing\Exception\BuildException;
+use Phing\Input\DefaultInputHandler;
+use Phing\Input\InputHandlerInterface;
 use Phing\Io\File;
+use Phing\Io\FileParser\IniFileParser;
+use Phing\Io\FileSystem\FileSystemFactory;
+use Phing\Io\IOException;
+use Phing\Io\Util\FileUtils;
 use Phing\Listener\BuildListenerInterface;
-use Phing\Parser\ProjectConfigurator;
-use Phing\Util\Properties\PropertySet;
-use Phing\Util\Properties\PropertyFileReader;
+use Phing\Type\DataType;
 use Phing\Type\PropertyValue;
-use Phing\Util\StringHelper;
-use Phing\Util\Properties\PropertySetImpl;
 use Phing\Util\Properties\PropertyExpansionHelper;
+use Phing\Util\Properties\PropertySetImpl;
+use Phing\Util\Properties\PropertySetInterface;
+use Phing\Util\StringHelper;
 
 /**
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -74,7 +72,7 @@ class Project
 
     /**
      * Project properties map (usually String to String).
-     * @var PropertySet
+     * @var PropertySetInterface
      */
     private $properties;
 
@@ -182,8 +180,8 @@ class Project
 
         try { // try to load taskdefs
             $props = new PropertySetImpl();
-            $reader = new PropertyFileReader($props);
-            $reader->load(new File((string)$taskdefs));
+            $parser = new IniFileParser();
+            $parser->parseFile(new File((string)$taskdefs), $props);
 
             foreach ($props as $key => $value) {
                 $this->addTaskDefinition($key, $value);
@@ -197,8 +195,8 @@ class Project
 
         try { // try to load typedefs
             $props = new PropertySetImpl();
-            $reader = new PropertyFileReader($props);
-            $reader->load(new File((string)$typedefs));
+            $parser = new IniFileParser();
+            $parser->parseFile(new File((string)$typedefs), $props);
 
             foreach ($props as $key => $value) {
                 $this->addDataTypeDefinition($key, $value);
@@ -394,7 +392,7 @@ class Project
     /**
      * Returns the PropertySet used internally. This allows access to raw properties without ${}-expansion.
      *
-     * @return PropertySet The PropertySet instance used for regular properties.
+     * @return PropertySetInterface The PropertySet instance used for regular properties.
      */
     public function getPropertySet()
     {

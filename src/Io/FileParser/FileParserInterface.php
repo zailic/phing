@@ -23,7 +23,7 @@ namespace Phing\Io\FileParser;
 
 use Phing\Io\File;
 use Phing\Io\IOException;
-use Phing\Util\Properties\PropertySet;
+use Phing\Util\Properties\PropertySetInterface;
 
 /**
  * This interface can be used to implement a fileParser for property files.
@@ -37,9 +37,11 @@ interface FileParserInterface
     /**
      * Builds an array from the given (ini) file and returns it.
      *
-     * @param $file
+     * @param File $file
+     * @param PropertySetInterface $propertySet
+     * @param string $section
      * @return void
      * @throws IOException
      */
-    public function parseFile(File $file, PropertySet $propertySet);
+    public function parseFile(File $file, PropertySetInterface $propertySet, $section = null);
 }

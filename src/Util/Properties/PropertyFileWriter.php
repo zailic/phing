@@ -7,10 +7,10 @@ use Phing\Io\IOException;
 
 class PropertyFileWriter
 {
-    /** @var PropertySet */
+    /** @var PropertySetInterface */
     protected $properties;
 
-    public function __construct(PropertySet $s = null)
+    public function __construct(PropertySetInterface $s = null)
     {
         if (null === $s) {
             $s = new PropertySetImpl();
@@ -22,7 +22,7 @@ class PropertyFileWriter
     /**
      * Returns the PropertySet used.
      *
-     * @return PropertySet
+     * @return PropertySetInterface
      */
     public function getPropertySet()
     {

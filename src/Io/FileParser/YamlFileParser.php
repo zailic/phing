@@ -23,7 +23,7 @@ namespace Phing\Io\FileParser;
 use Exception;
 use Phing\Io\File;
 use Phing\Io\IOException;
-use Phing\Util\Properties\PropertySet;
+use Phing\Util\Properties\PropertySetInterface;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -37,7 +37,7 @@ class YamlFileParser implements FileParserInterface
     /**
      * {@inheritDoc}
      */
-    public function parseFile(File $file, PropertySet $propertySet)
+    public function parseFile(File $file, PropertySetInterface $propertySet, $section = null)
     {
         if (!$file->canRead()) {
             throw new IOException("Unable to read file: " . $file);

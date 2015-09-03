@@ -32,10 +32,9 @@ use Phing\Type\FileList;
 use Phing\Type\FilterChain;
 use Phing\Type\Reference;
 use Phing\Util\Properties\Properties;
-use Phing\Util\StringHelper;
 use Phing\Util\Properties\PropertySetImpl;
-use Phing\Util\Properties\PropertySet;
-use Phing\Util\Properties\PropertyFileReader;
+use Phing\Util\Properties\PropertySetInterface;
+use Phing\Util\StringHelper;
 
 /*
   TODO:
@@ -439,7 +438,7 @@ class PropertyTask extends Task
      * @param $props
      * @throws \Phing\Exception\BuildException
      */
-    protected function addProperties(PropertySet $props)
+    protected function addProperties(PropertySetInterface $props)
     {
         foreach ($props as $key => $value) {
             if ($this->prefix) {
@@ -499,18 +498,17 @@ class PropertyTask extends Task
      * Try to load properties from a given file into a given PropertySet.
      *
      * @param File        $file       The file to read.
-     * @param PropertySet $properties The PropertySet to add properties to.
+     * @param PropertySetInterface $properties The PropertySet to add properties to.
      *
      * @throws BuildException When the file cannot be read.
      */
-    protected function processFile(File $file, PropertySet $properties)
+    protected function processFile(File $file, PropertySetInterface $properties)
     {
         $fileParser = $this->fileParserFactory->createParser($file->getFileExtension());
-        $props = new Properties(null, $fileParser);
         $this->log("Loading properties from " . $file->getAbsolutePath(), $this->logOutput ? Project::MSG_INFO : Project::MSG_VERBOSE);
         try { // try to load file
             if ($file->exists()) {
-                $this->fetchPropertiesFromFile($file, $properties);
+                $fileParser->parseFile($file, $properties, $this->section);
             } else {
                 $this->log(
                     "Unable to find property file: " . $file->getAbsolutePath() . "... skipped",
@@ -520,12 +518,6 @@ class PropertyTask extends Task
         } catch (IOException $ioe) {
             throw new BuildException("Could not load properties from file.", $ioe);
         }
-    }
-
-    protected function fetchPropertiesFromFile(File $file, PropertySet $properties)
-    {
-        $reader = new PropertyFileReader($properties);
-        $reader->load($file, $this->section);
     }
 
     protected function fail($msg)

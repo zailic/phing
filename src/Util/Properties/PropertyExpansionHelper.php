@@ -33,9 +33,9 @@ class PropertyExpansionHelper
     /**
      * Constructor.
      *
-     * @param PropertySet $propertySet The PropertySet that will be used for all expansions.
+     * @param PropertySetInterface $propertySet The PropertySet that will be used for all expansions.
      */
-    public function __construct(PropertySet $propertySet)
+    public function __construct(PropertySetInterface $propertySet)
     {
         $this->properties = $propertySet;
     }

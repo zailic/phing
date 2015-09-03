@@ -1,32 +1,29 @@
 <?php
-namespace Phing\Test\Util\Properties;
+namespace Phing\Test\Io\FileParser;
 
 use Phing\Io\File;
-use Phing\Util\Properties\PropertyFileReader;
-use Phing\Util\Properties\PropertySet;
+use Phing\Io\FileParser\IniFileParser;
+use Phing\Util\Properties\PropertySetInterface;
 use Phing\Util\Properties\PropertySetImpl;
 
-/**
- * @covers Phing\Util\Properties\PropertyFileReader
- */
-class PropertyFileReaderTest extends \PHPUnit_Framework_TestCase {
+class IniFileParserTest extends \PHPUnit_Framework_TestCase {
 
-    /** @var PropertySet */
+    /** @var PropertySetInterface */
     protected $props;
     
-    /** @var PropertyFileReader */
-    protected $reader;
+    /** @var IniFileParser */
+    protected $parser;
 
     protected function setUp()
     {
         $this->props = new PropertySetImpl();
-        $this->reader = new PropertyFileReader($this->props);
+        $this->parser = new IniFileParser();
     }
     
     public function testReadingFileStripsComments()
     {
         $file = new File(PHING_TEST_BASE . "/etc/system/util/test.properties");
-        $this->reader->load($file);
+        $this->parser->parseFile($file, $this->props);
 
         $this->assertEquals('Testline1', $this->props['testline1']); // http://www.phing.info/trac/ticket/585
         $this->assertEquals('Testline2', $this->props['testline2']); // http://www.phing.info/trac/ticket/585
@@ -40,7 +37,7 @@ class PropertyFileReaderTest extends \PHPUnit_Framework_TestCase {
     public function testReadingArrayProperties()
     {
         $file = new File(PHING_TEST_BASE . "/etc/system/util/array.properties");
-        $this->reader->load($file);
+        $this->parser->parseFile($file, $this->props);
 
         $this->assertEquals(array('first', 'second', 'test' => 'third'), $this->props['array']);
         $this->assertEquals(array('one' => 'uno', 'two' => 'dos'), $this->props['keyed']);
@@ -49,7 +46,7 @@ class PropertyFileReaderTest extends \PHPUnit_Framework_TestCase {
     public function testDoesNotAttemptPropertyExpansion()
     {
         $file = new File(PHING_TEST_BASE . "/etc/system/util/expansion.properties");
-        $this->reader->load($file);
+        $this->parser->parseFile($file, $this->props);
 
         $this->assertEquals('${a}bar', $this->props['b']);
     }
@@ -57,7 +54,7 @@ class PropertyFileReaderTest extends \PHPUnit_Framework_TestCase {
     public function testReadingGlobalSection()
     {
         $file = new File(PHING_TEST_BASE . "/etc/system/util/sections.properties");
-        $this->reader->load($file);
+        $this->parser->parseFile($file, $this->props);
 
         $this->assertEquals('global', $this->props['global']);
         $this->assertEquals('global', $this->props['section']);
@@ -67,7 +64,7 @@ class PropertyFileReaderTest extends \PHPUnit_Framework_TestCase {
     public function testReadingSimpleSection()
     {
         $file = new File(PHING_TEST_BASE . "/etc/system/util/sections.properties");
-        $this->reader->load($file, 'top');
+        $this->parser->parseFile($file, $this->props, 'top');
 
         $this->assertEquals('global', $this->props['global']);
         $this->assertEquals('top', $this->props['section']);
@@ -77,7 +74,7 @@ class PropertyFileReaderTest extends \PHPUnit_Framework_TestCase {
     public function testReadingInheritedSection()
     {
         $file = new File(PHING_TEST_BASE . "/etc/system/util/sections.properties");
-        $this->reader->load($file, 'inherited');
+        $this->parser->parseFile($file, $this->props, 'inherited');
 
         $this->assertEquals('global', $this->props['global']);
         $this->assertEquals('inherited', $this->props['section']);
@@ -87,7 +84,7 @@ class PropertyFileReaderTest extends \PHPUnit_Framework_TestCase {
     public function testReadingBooleans()
     {
         $file = new File(PHING_TEST_BASE . "/etc/system/util/booleans.properties");
-        $this->reader->load($file);
+        $this->parser->parseFile($file, $this->props);
 
         $this->assertTrue($this->props['true']);
         $this->assertFalse($this->props['false']);
@@ -95,12 +92,12 @@ class PropertyFileReaderTest extends \PHPUnit_Framework_TestCase {
 
 
     /**
-     * @expectedException Phing\Io\IOException
+     * @expectedException \Phing\Io\IOException
      */
     public function testLoadNonexistentFileThrowsException()
     {
         $file = new File(PHING_TEST_BASE . "/etc/system/util/nonexistent.properties");
-        $this->reader->load($file);
+        $this->parser->parseFile($file, $this->props);
     }
 
 } 

@@ -50,7 +50,7 @@ use Phing\Io\OutputStreamWriter;
  */
 class Properties implements IteratorAggregate
 {
-    /** @var PropertySet */
+    /** @var PropertySetInterface */
     private $properties;
 
     /**
@@ -88,10 +88,10 @@ class Properties implements IteratorAggregate
      * @return void
      * @throws IOException - if unable to read file.
      */
-    public function load(File $file)
+    public function load(File $file, $section = null)
     {
         if ($file->canRead()) {
-            $this->parse($file);
+            $this->parse($file, $section);
 
             $this->file = $file;
         } else {
@@ -105,9 +105,9 @@ class Properties implements IteratorAggregate
      * @param  File $file
      * @return array   Properties loaded from file (no prop replacements done yet).
      */
-    protected function parse(File $file)
+    protected function parse(File $file, $section = null)
     {
-        $this->fileParser->parseFile($file, $this->properties);
+        $this->fileParser->parseFile($file, $this->properties, $section);
     }
 
     /**
@@ -192,7 +192,7 @@ class Properties implements IteratorAggregate
     /**
      * Returns the PropertySet used internally.
      *
-     * @return PropertySet
+     * @return PropertySetInterface
      */
     public function getPropertySet()
     {

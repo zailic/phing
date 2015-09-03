@@ -20,8 +20,8 @@ namespace Phing\Util\Properties;
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-
-interface PropertySet extends \ArrayAccess, \IteratorAggregate {
+interface PropertySetInterface extends \ArrayAccess, \IteratorAggregate
+{
 	public function isEmpty();
 	public function keys();
 
@@ -29,9 +29,9 @@ interface PropertySet extends \ArrayAccess, \IteratorAggregate {
      * Finds all properties that start with a given prefix, strips it
      * and returns a new PropertySet instance.
      *
-     * @param $prefix The prefix to find. A "." will be appended if not already present.
+     * @param string $prefix The prefix to find. A "." will be appended if not already present.
      *
-     * @return PropertySet A PropertySet that contains the matching properties, with the prefix removed.
+     * @return PropertySetInterface A PropertySet that contains the matching properties, with the prefix removed.
      */
     public function prefix($prefix);
 } 

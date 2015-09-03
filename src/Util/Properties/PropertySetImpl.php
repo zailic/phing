@@ -27,7 +27,7 @@ namespace Phing\Util\Properties;
  *
  * @author Matthias Pigulla <mp@webfactory.de>
  */
-class PropertySetImpl implements PropertySet
+class PropertySetImpl implements PropertySetInterface
 {
     protected $p = array();
 

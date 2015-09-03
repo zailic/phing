@@ -111,7 +111,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
     public function testReadingInheritedSection()
     {
         /*
-            In-depth testing of section loading happens in PropertyFileReaderTest. This
+            In-depth testing of section loading happens in IniFileParserTest. This
             just makes sure we're taking care of the section parameter at all.
         */
         $file = new File(PHING_TEST_BASE . "/etc/system/util/sections.properties");

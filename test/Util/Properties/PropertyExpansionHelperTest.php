@@ -2,7 +2,7 @@
 namespace Phing\Test\Util\Properties;
 
 use Phing\Util\Properties\PropertyExpansionHelper;
-use Phing\Util\Properties\PropertySet;
+use Phing\Util\Properties\PropertySetInterface;
 use Phing\Util\Properties\PropertySetImpl;
 
 /**
@@ -10,7 +10,7 @@ use Phing\Util\Properties\PropertySetImpl;
  */
 class PropertyExpansionHelperTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PropertySet */
+    /** @var PropertySetInterface */
     protected $properties;
 
     /** @var PropertyExpansionHelper */

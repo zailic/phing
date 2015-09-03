@@ -22,7 +22,7 @@ namespace Phing\Io\FileParser;
 
 use Phing\Io\File;
 use Phing\Io\IOException;
-use Phing\Util\Properties\PropertySet;
+use Phing\Util\Properties\PropertySetInterface;
 
 /**
  * Implements an IniFileParser. The logic is coming from th Properties.php, but I don't know who's the author.
@@ -38,7 +38,7 @@ class IniFileParser implements FileParserInterface
     /**
      * {@inheritDoc}
      */
-    public function parseFile(File $file, PropertySet $propertySet)
+    public function parseFile(File $file, PropertySetInterface $propertySet, $section = null)
     {
         if (($lines = @file($file)) === false) {
             throw new IOException("Unable to parse contents of $file");
@@ -53,20 +53,52 @@ class IniFileParser implements FileParserInterface
             }
         }
 
-        foreach ($lines as $line) {
-            // strip comments and leading/trailing spaces
-            $line = trim(preg_replace("/\s+[;#]\s.+$/", "", $line));
+        $currentSection = '';
+        $sect = array($currentSection => array(), $section => array());
+        $depends = array();
 
-            if (empty($line) || $line[0] == ';' || $line[0] == '#') {
+        foreach ($lines as $l) {
+
+            $l = trim(preg_replace("/(?:^|\s+)[;#].*$/", "", $l));
+
+            if (!$l) {
                 continue;
             }
 
-            $pos = strpos($line, '=');
-            $property = trim(substr($line, 0, $pos));
-            $value = trim(substr($line, $pos + 1));
-            $propertySet[$property] = $this->inVal($value);
+            if (preg_match('/^\[(\w+)(?:\s*:\s*(\w+))?\]$/', $l, $matches)) {
+                $currentSection = $matches[1];
+                $sect[$currentSection] = array();
+                if (isset($matches[2])) {
+                    $depends[$currentSection] = $matches[2];
+                }
+                continue;
+            }
 
-        } // for each line
+            $pos = strpos($l, '=');
+            $name = trim(substr($l, 0, $pos));
+            $value = $this->inVal(trim(substr($l, $pos + 1)));
+
+            /*
+             * Take care: Property file may contain identical keys like
+             * a[] = first
+             * a[] = second
+             */
+            $sect[$currentSection][] = array($name, $value);
+        }
+
+        $dependencyOrder = array();
+        while ($section) {
+            array_unshift($dependencyOrder, $section);
+            $section = isset($depends[$section]) ? $depends[$section] : '';
+        }
+        array_unshift($dependencyOrder, '');
+
+        foreach ($dependencyOrder as $section) {
+            foreach ($sect[$section] as $def) {
+                list ($name, $value) = $def;
+                $propertySet[$name] = $value;
+            }
+        }
     }
 
     /**

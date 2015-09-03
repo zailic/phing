@@ -25,7 +25,7 @@ use Phing\Io\IOException;
 use Phing\Project;
 use Phing\Util\StringHelper;
 use Phing\Util\Properties\PropertySetImpl;
-use Phing\Util\Properties\PropertySet;
+use Phing\Util\Properties\PropertySetInterface;
 
 /**
  * Task for setting properties from an XML file in buildfiles.
@@ -136,9 +136,9 @@ class XmlPropertyTask extends PropertyTask
      * @param File $file The file to parse
      *
      * @throws IOException
-     * @return PropertySet
+     * @return PropertySetInterface
      */
-    protected function fetchPropertiesFromFile(File $file, PropertySet $properties)
+    protected function fetchPropertiesFromFile(File $file, PropertySetInterface $properties)
     {
         if (($xml = simplexml_load_file($file)) === false) {
             throw new IOException("Unable to parse XML file $file");
@@ -163,7 +163,7 @@ class XmlPropertyTask extends PropertyTask
      *
      * @return void
      */
-    protected function addNode($node, $prefix, PropertySet $prop)
+    protected function addNode($node, $prefix, PropertySetInterface $prop)
     {
         $pre = $prefix . $node->getName();
         $index = null;

@@ -23,6 +23,7 @@ namespace Phing\Test\Io\FileParser;
 use Phing\Io\File;
 use Phing\Io\FileParser\FileParserInterface;
 use Phing\Io\FileParser\YamlFileParser;
+use Phing\Util\Properties\PropertySetImpl;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -80,7 +81,7 @@ class YamlFileParserTest extends PHPUnit_Framework_TestCase
         touch($tmpFile);
         $file = new File($tmpFile);
         unlink($tmpFile);
-        $this->objectToTest->parseFile($file);
+        $this->objectToTest->parseFile($file, new PropertySetImpl());
     }
 
     /**
@@ -90,7 +91,7 @@ class YamlFileParserTest extends PHPUnit_Framework_TestCase
     public function testParseFileFileIncorrectYaml()
     {
         $file = new File($this->incorrectYamlFileStub);
-        $this->objectToTest->parseFile($file);
+        $this->objectToTest->parseFile($file, new PropertySetImpl());
     }
 
     /**
@@ -102,7 +103,8 @@ class YamlFileParserTest extends PHPUnit_Framework_TestCase
     public function testParseFileFile()
     {
         $file = new File($this->yamlFileStub);
-        $properties = $this->objectToTest->parseFile($file);
+        $properties = new PropertySetImpl();
+        $this->objectToTest->parseFile($file, $properties);
 
         $this->assertEquals('testvalue', $properties['testarea']);
         $this->assertEquals(1, $properties['testarea1.testkey1']);
