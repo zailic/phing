@@ -107,7 +107,7 @@ class Properties implements IteratorAggregate
      */
     protected function parse(File $file)
     {
-        $this->properties = $this->fileParser->parseFile($file);
+        $this->fileParser->parseFile($file, $this->properties);
     }
 
     /**

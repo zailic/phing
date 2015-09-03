@@ -23,6 +23,7 @@ namespace Phing\Io\FileParser;
 use Exception;
 use Phing\Io\File;
 use Phing\Io\IOException;
+use Phing\Util\Properties\PropertySet;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -36,7 +37,7 @@ class YamlFileParser implements FileParserInterface
     /**
      * {@inheritDoc}
      */
-    public function parseFile(File $file)
+    public function parseFile(File $file, PropertySet $propertySet)
     {
         if (!$file->canRead()) {
             throw new IOException("Unable to read file: " . $file);
@@ -44,7 +45,7 @@ class YamlFileParser implements FileParserInterface
 
         try {
             $parser = new Parser();
-            $properties = $parser->parse(file_get_contents($file->getAbsolutePath()));
+            $yamlProperties = $parser->parse(file_get_contents($file->getAbsolutePath()));
         } catch (Exception $e) {
             if (is_a($e, '\Symfony\Component\Yaml\Exception\ParseException')) {
                 throw new IOException("Unable to parse contents of " . $file . ": " . $e->getMessage());
@@ -52,14 +53,14 @@ class YamlFileParser implements FileParserInterface
             throw $e;
         }
 
-        $flattenedProperties = $this->flattenArray($properties);
+        $flattenedProperties = $this->flattenArray($yamlProperties);
         foreach ($flattenedProperties as $key => $flattenedProperty) {
             if (is_array($flattenedProperty)) {
                 $flattenedProperties[$key] = implode(',', $flattenedProperty);
             }
-        }
 
-        return $flattenedProperties;
+            $propertySet[$key] = $flattenedProperties[$key];
+        }
     }
 
     /**

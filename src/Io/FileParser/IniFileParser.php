@@ -22,6 +22,7 @@ namespace Phing\Io\FileParser;
 
 use Phing\Io\File;
 use Phing\Io\IOException;
+use Phing\Util\Properties\PropertySet;
 
 /**
  * Implements an IniFileParser. The logic is coming from th Properties.php, but I don't know who's the author.
@@ -37,7 +38,7 @@ class IniFileParser implements FileParserInterface
     /**
      * {@inheritDoc}
      */
-    public function parseFile(File $file)
+    public function parseFile(File $file, PropertySet $propertySet)
     {
         if (($lines = @file($file)) === false) {
             throw new IOException("Unable to parse contents of $file");
@@ -52,7 +53,6 @@ class IniFileParser implements FileParserInterface
             }
         }
 
-        $properties = array();
         foreach ($lines as $line) {
             // strip comments and leading/trailing spaces
             $line = trim(preg_replace("/\s+[;#]\s.+$/", "", $line));
@@ -64,11 +64,9 @@ class IniFileParser implements FileParserInterface
             $pos = strpos($line, '=');
             $property = trim(substr($line, 0, $pos));
             $value = trim(substr($line, $pos + 1));
-            $properties[$property] = $this->inVal($value);
+            $propertySet[$property] = $this->inVal($value);
 
         } // for each line
-
-        return $properties;
     }
 
     /**
