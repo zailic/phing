@@ -88,7 +88,7 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
      * for simple cases like checking the value, but does not guarantee
      * that a particular line occurs at all.
      *
-     * @param $target Optional name of a target that is to be executed before scanning the log.
+     * @param string $target Optional name of a target that is to be executed before scanning the log.
      */
     protected function scanAssertionsInLogs($target = null)
     {
@@ -103,8 +103,8 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
     /**
      *  run a target, expect for any build exception
      *
-     * @param  target target to run
-     * @param  cause  information string to reader of report
+     * @param  string $target target to run
+     * @param  string $cause  information string to reader of report
      */
     protected function expectBuildException($target, $cause)
     {
@@ -144,8 +144,8 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
     /**
      *  execute the target, verify output matches expectations
      *
-     * @param  target  target to execute
-     * @param  output  output to look for
+     * @param  string $target  target to execute
+     * @param  string $output  output to look for
      */
 
     protected function expectOutput($target, $output)
@@ -158,9 +158,9 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
     /**
      *  execute the target, verify output matches expectations
      *  and that we got the named error at the end
-     * @param  target  target to execute
-     * @param  output  output to look for
-     * @param  error   Description of Parameter
+     * @param  string $target  target to execute
+     * @param  string $output  output to look for
+     * @param  string $error   Description of Parameter
      */
 
     protected function expectOutputAndError($target, $output, $error)
@@ -215,8 +215,8 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
     /**
      *  set up to run the named project
      *
-     * @param  filename name of project file to run
-     * @throws \Phing\Exception\BuildException
+     * @param  string $filename name of project file to run
+     * @throws BuildException
      */
     protected function configureProject($filename)
     {
@@ -270,9 +270,9 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
     /**
      *  run a target, wait for a build exception
      *
-     * @param  target target to run
-     * @param  cause  information string to reader of report
-     * @param  msg    the message value of the build exception we are waiting for
+     * @param  string $target target to run
+     * @param  string $cause  information string to reader of report
+     * @param  string $msg    the message value of the build exception we are waiting for
      * set to null for any build exception to be valid
      */
     protected function expectSpecificBuildException($target, $cause, $msg)
@@ -299,10 +299,10 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
      *  run a target, expect an exception string
      *  containing the substring we look for (case sensitive match)
      *
-     * @param  target target to run
-     * @param  cause  information string to reader of report
-     * @param  msg    the message value of the build exception we are waiting for
-     * @param  contains  substring of the build exception to look for
+     * @param  string $target target to run
+     * @param  string $cause  information string to reader of report
+     * @param  string $msg    the message value of the build exception we are waiting for
+     * @param  string $contains  substring of the build exception to look for
      */
     protected function expectBuildExceptionContaining($target, $cause, $contains)
     {
@@ -326,11 +326,10 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
     /**
      * call a target, verify property is as expected
      *
-     * @param target build file target
-     * @param property property name
-     * @param value expected value
+     * @param string $target build file target
+     * @param string $property property name
+     * @param string $value expected value
      */
-
     protected function expectPropertySet($target, $property, $value = "true")
     {
         $this->executeTarget($target);
@@ -339,8 +338,8 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
 
     /**
      * assert that a property equals a value; comparison is case sensitive.
-     * @param property property name
-     * @param value expected value
+     * @param string $property property name
+     * @param string $value expected value
      */
     protected function assertPropertyEquals($property, $value)
     {
@@ -350,7 +349,7 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
 
     /**
      * assert that a property equals &quot;true&quot;
-     * @param property property name
+     * @param string $property property name
      */
     protected function assertPropertySet($property)
     {
@@ -359,7 +358,7 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
 
     /**
      * assert that a property is null
-     * @param property property name
+     * @param string $property property name
      */
     protected function assertPropertyUnset($property)
     {
