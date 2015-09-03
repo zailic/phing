@@ -1,7 +1,6 @@
 <?php
-
 /*
- * $Id$
+ *  $Id$
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -19,43 +18,43 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\System;
+
 use Phing\Exception\BuildException;
-use Phing\Io\File;
-use Phing\Io\IOException;
-use Phing\Project;
 use Phing\Task;
 use Phing\Type\Path;
 use Phing\Type\Reference;
-use Phing\Util\Properties\Properties;
 
 
 /**
- * Register a task for use within a buildfile.
+ * Register a datatype for use within a buildfile.
  *
- * This is for registering your own tasks -- or any non-core Task -- for use within a buildfile.
+ * This is for registering your own datatypes for use within a buildfile.
+ *
  * If you find that you are using a particular class frequently, you may want to edit the
- * phing/tasks/defaults.properties file so that it is included by default. You may also
+ * phing/types/defaults.properties file so that it is included by default.  You may also
  * want to submit it (if LGPL or compatible license) to be included in Phing distribution.
  *
  * <pre>
- *   <taskdef name="mytag" classname="path.to.MyHandlingClass"/>
+ *   <typedef name="mytype" classname="path.to.MyHandlingClass"/>
  *   .
- *   .
- *   <mytag param1="val1" param2="val2"/>
+ *   <sometask ...>
+ *     <mytype param1="val1" param2="val2"/>
+ *   </sometask>
  * </pre>
  *
  * TODO:
- *    -- possibly refactor since this is almost the same as TypeDefTask
+ *    -- possibly refactor since this is almost the same as TaskDefTask
  *      (right now these are just too simple to really justify creating an abstract class)
  *
  * @author    Hans Lellelid <hans@xmpl.org>
  * @version   $Id$
  * @package   phing.tasks.system
  */
-class TaskdefTask extends Task
+class Typedef extends Task
 {
 
-    /** Tag name for task that will be used in XML */
+    /** Tag name for datatype that will be used in XML */
     private $name;
 
     /**
@@ -72,16 +71,8 @@ class TaskdefTask extends Task
      */
     private $classpath;
 
-    /**
-     * Refid to already defined classpath
-     */
+    /** Refid to already defined classpath */
     private $classpathId;
-
-    /**
-     * Name of file to load multiple definitions from.
-     * @var string
-     */
-    private $typeFile;
 
     /**
      * Set the classpath to be used when searching for component being defined
@@ -121,6 +112,15 @@ class TaskdefTask extends Task
         $this->createClasspath()->setRefid($r);
     }
 
+    /** Main entry point */
+    public function main()
+    {
+        if ($this->name === null || $this->classname === null) {
+            throw new BuildException("You must specify name and class attributes for <typedef>.");
+        }
+        $this->project->addDataTypeDefinition($this->name, $this->classname, $this->classpath);
+    }
+
     /**
      * Sets the name that will be used in XML buildfile.
      * @param string $name
@@ -137,44 +137,5 @@ class TaskdefTask extends Task
     public function setClassname($class)
     {
         $this->classname = $class;
-    }
-
-    /**
-     * Sets the file of definitionas to use to use.
-     * @param string $file
-     */
-    public function setFile($file)
-    {
-        $this->typeFile = $file;
-    }
-
-    /** Main entry point */
-    public function main()
-    {
-        if ($this->typeFile === null &&
-            ($this->name === null || $this->classname === null)
-        ) {
-            throw new BuildException("You must specify name and class attributes for <taskdef>.");
-        }
-        if ($this->typeFile == null) {
-            $this->log("Task " . $this->name . " will be handled by class " . $this->classname, Project::MSG_VERBOSE);
-            $this->project->addTaskDefinition($this->name, $this->classname, $this->classpath);
-        } else {
-            try { // try to load taskdefs given in file
-                $props = new Properties();
-                $in = new File((string) $this->typeFile);
-
-                if ($in === null) {
-                    throw new BuildException("Can't load task list {$this->typeFile}");
-                }
-                $props->load($in);
-
-                foreach ($props as $key => $value) {
-                    $this->project->addTaskDefinition($key, $value, $this->classpath);
-                }
-            } catch (IOException $ioe) {
-                throw new BuildException("Can't load task list {$this->typeFile}");
-            }
-        }
     }
 }

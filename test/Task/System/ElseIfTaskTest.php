@@ -1,5 +1,7 @@
 <?php
 
+namespace Phing\Test\Task\System;
+
 use Phing\Test\AbstractBuildFileTest;
 
 

@@ -18,6 +18,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\System;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\FileSystem\AbstractFileSystem;
@@ -46,7 +48,7 @@ use Phing\Type\FileSet;
  * @version $Id$
  * @package phing.tasks.system
  */
-class ImportTask extends Task
+class Import extends Task
 {
 
     /**
@@ -96,7 +98,7 @@ class ImportTask extends Task
     public function createFileSet()
     {
         $num = array_push($this->filesets, new FileSet());
-        return $this->filesets[$num-1];
+        return $this->filesets[$num - 1];
     }
 
     /**

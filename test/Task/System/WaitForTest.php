@@ -19,6 +19,8 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Task\System;
+
 use Phing\Test\AbstractBuildFileTest;
 
 
@@ -29,7 +31,7 @@ use Phing\Test\AbstractBuildFileTest;
  * @version $Id$
  * @package phing.tasks.system
  */
-class WaitForTaskTest extends AbstractBuildFileTest
+class WaitForTest extends AbstractBuildFileTest
 {
 
     public function setUp()

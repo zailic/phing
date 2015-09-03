@@ -18,6 +18,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\System;
+
 use Phing\Condition\AbstractCondition;
 use Phing\Exception\BuildException;
 use Phing\Project;
@@ -45,7 +47,7 @@ use Phing\Project;
  * @version   $Id$
  * @package   phing.tasks.system
  */
-class WaitForTask extends AbstractCondition
+class WaitFor extends AbstractCondition
 {
     const ONE_MILLISECOND = 1;
     const ONE_SECOND = 1000;
@@ -71,7 +73,7 @@ class WaitForTask extends AbstractCondition
      */
     public function setMaxWait($maxWait)
     {
-        $this->maxWait = (int) $maxWait;
+        $this->maxWait = (int)$maxWait;
     }
 
     /**
@@ -89,7 +91,7 @@ class WaitForTask extends AbstractCondition
      */
     public function setCheckEvery($checkEvery)
     {
-        $this->checkEvery = (int) $checkEvery;
+        $this->checkEvery = (int)$checkEvery;
     }
 
     /**
@@ -121,40 +123,33 @@ class WaitForTask extends AbstractCondition
     protected function _convertUnit($unit)
     {
         switch ($unit) {
-            case "week":
-            {
+            case "week": {
                 return self::ONE_WEEK;
             }
 
-            case "day":
-            {
+            case "day": {
                 return self::ONE_DAY;
             }
 
-            case "hour":
-            {
+            case "hour": {
                 return self::ONE_HOUR;
             }
 
-            case "minute":
-            {
+            case "minute": {
                 return self::ONE_MINUTE;
             }
 
-            case "second":
-            {
+            case "second": {
                 return self::ONE_SECOND;
             }
 
-            case "millisecond":
-            {
+            case "millisecond": {
                 return self::ONE_MILLISECOND;
             }
 
-            default:
-                {
+            default: {
                 throw new BuildException("Illegal unit '$unit'");
-                }
+            }
         }
     }
 

@@ -20,8 +20,10 @@
  * <http://phing.info>.
  */
 
-use Phing\Exception\BuildException;
-use Phing\Io\File;
+namespace Phing\Test\Task\System;
+
+use Phing;
+use Phing\Task\System\Property;
 use Phing\Test\AbstractBuildFileTest;
 
 /**
@@ -30,7 +32,7 @@ use Phing\Test\AbstractBuildFileTest;
  * @package phing.tasks.system
  * @covers \PropertyTask
  */
-class PropertyTaskTest extends AbstractBuildFileTest
+class PropertyTest extends AbstractBuildFileTest
 {
 
     public function setUp()
@@ -118,7 +120,7 @@ class PropertyTaskTest extends AbstractBuildFileTest
      */
     public function testPrefixWithNameFails()
     {
-        $task = new PropertyTask();
+        $task = new Property();
         $task->setName('foo');
         $task->setPrefix('bar');
         $task->main();
@@ -129,7 +131,7 @@ class PropertyTaskTest extends AbstractBuildFileTest
      */
     public function testPrefixWithEnvFails()
     {
-        $task = new PropertyTask();
+        $task = new Property();
         $task->setEnvironment('env');
         $task->setPrefix('bar');
         $task->main();
@@ -140,7 +142,7 @@ class PropertyTaskTest extends AbstractBuildFileTest
      */
     public function testUsingNameOnlyFails()
     {
-        $task = new PropertyTask();
+        $task = new Property();
         $task->setName("foo");
         $task->main();
     }
@@ -150,7 +152,7 @@ class PropertyTaskTest extends AbstractBuildFileTest
      */
     public function testUsingNoNameFileEnvironmentOrFilelistFails()
     {
-        $task = new PropertyTask();
+        $task = new Property();
         $task->main();
     }
 
@@ -159,7 +161,7 @@ class PropertyTaskTest extends AbstractBuildFileTest
      */
     public function testUsingSectionWithNameFails()
     {
-        $task = new PropertyTask();
+        $task = new Property();
         $task->setName("foo");
         $task->setSection("bar");
         $task->main();

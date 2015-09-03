@@ -19,22 +19,23 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Task\System;
+
 use Phing\Exception\ConfigurationException;
 use Phing\Test\AbstractBuildFileTest;
+use PHPUnit_Framework_Error;
 
 
 /**
- * @author Hans Lellelid <hans@xmpl.org> (Phing)
- * @author Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
  * @version $Id$
  * @package phing.tasks.system
  */
-class TypedefTaskTest extends AbstractBuildFileTest
+class TaskdefTest extends AbstractBuildFileTest
 {
 
     public function setUp()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/typedef.xml");
+        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/taskdef.xml");
     }
 
     public function testEmpty()
@@ -58,31 +59,39 @@ class TypedefTaskTest extends AbstractBuildFileTest
     public function testClassNotFound()
     {
         try {
-            $this->executeTarget("classNotFound");
-            $this->fail(
-                "Should throw ConfigurationException because: " .
-                "classname specified doesn't exist"
-            );
-        } catch (ConfigurationException $ignored) {
+            $this->expectBuildException("classNotFound", "classname specified doesn't exist");
+        } catch (ConfigurationException $e) {
+            //ignored
         }
     }
 
     public function testGlobal()
     {
-        $this->expectLog("testGlobal", "Adding reference: global -> TypedefTestType");
+        $this->expectLog("testGlobal", "simpletask: testGlobal echo");
         $refs = $this->project->getReferences();
         $ref = $refs["global"];
         $this->assertNotNull("ref is not null", $ref);
-        $this->assertEquals("TypedefTestType", get_class($ref));
+        $this->assertEquals("TaskdefTestSimpleTask", get_class($ref));
     }
 
     public function testLocal()
     {
-        $this->expectLog("testLocal", "Adding reference: local -> TypedefTestType");
+        $this->expectLog("testLocal", "Task local will be handled by class example.tasks.TaskdefTestSimpleTask");
         $refs = $this->project->getReferences();
         $ref = $refs["local"];
         $this->assertNotNull("ref is not null", $ref);
-        $this->assertEquals("TypedefTestType", get_class($ref));
+        $this->assertEquals("TaskdefTestSimpleTask", get_class($ref));
     }
 
+    public function tesFile()
+    {
+        $this->expectLog("testFile", "simpletask: testTdfile echo");
+        $refs = $this->project->getReferences();
+        $ref = $refs["tdfile"];
+        $this->assertNotNull("ref is not null", $ref);
+        $this->assertEquals("TaskdefTestSimpleTask", get_class($ref));
+        $ref = $refs["tdfile2"];
+        $this->assertNotNull("ref is not null", $ref);
+        $this->assertEquals("TaskdefTestSimpleTask", get_class($ref));
+    }
 }

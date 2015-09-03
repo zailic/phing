@@ -28,6 +28,7 @@ use Phing\Phing;
 use Phing\Project;
 use Phing\AbstractProjectComponent;
 use Phing\Task;
+use Phing\Task\System\Property;
 use Phing\Type\FileSet;
 use Phing\Type\Reference;
 
@@ -605,7 +606,7 @@ class PhingTask extends Task
      */
     public function createProperty()
     {
-        $p = new PropertyTask();
+        $p = new Property();
         $p->setFallback($this->newProject);
         $p->setUserProperty(true);
         $this->properties[] = $p;

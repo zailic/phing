@@ -23,6 +23,7 @@ use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\IOException;
 use Phing\Project;
+use Phing\Task\System\Property;
 use Phing\Util\StringHelper;
 use Phing\Util\Properties\PropertySetImpl;
 use Phing\Util\Properties\PropertySetInterface;
@@ -36,7 +37,7 @@ use Phing\Util\Properties\PropertySetInterface;
  * @since     2.4.0
  * @link      http://ant.apache.org/manual/CoreTasks/xmlproperty.html
  */
-class XmlPropertyTask extends PropertyTask
+class XmlPropertyTask extends Property
 {
 
     private $_keepRoot = true;

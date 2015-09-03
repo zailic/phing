@@ -20,6 +20,8 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Task\System;
+
 use Phing\Io\File;
 use Phing\Test\AbstractBuildFileTest;
 
@@ -28,7 +30,7 @@ use Phing\Test\AbstractBuildFileTest;
  * @author Bryan Davis <bpd@keynetics.com>
  * @package phing.tasks.system
  */
-class ImportTaskTest extends AbstractBuildFileTest
+class ImportTest extends AbstractBuildFileTest
 {
 
     public function setUp()

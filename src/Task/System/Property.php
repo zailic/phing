@@ -19,6 +19,9 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\System;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\FileParser\FileParserFactory;
@@ -31,7 +34,6 @@ use Phing\Task;
 use Phing\Type\FileList;
 use Phing\Type\FilterChain;
 use Phing\Type\Reference;
-use Phing\Util\Properties\Properties;
 use Phing\Util\Properties\PropertySetImpl;
 use Phing\Util\Properties\PropertySetInterface;
 use Phing\Util\StringHelper;
@@ -51,7 +53,7 @@ use Phing\Util\StringHelper;
  * @version   $Id$
  * @package   phing.tasks.system
  */
-class PropertyTask extends Task
+class Property extends Task
 {
 
     /** name of the property */
@@ -60,6 +62,9 @@ class PropertyTask extends Task
     /** value of the property */
     protected $value;
 
+    /**
+     * @var Reference
+     */
     protected $reference;
 
     protected $env; // Environment
@@ -107,7 +112,7 @@ class PropertyTask extends Task
      */
     public function setName($name)
     {
-        $this->name = (string) $name;
+        $this->name = (string)$name;
     }
 
     /** Get property component name. */
@@ -118,11 +123,11 @@ class PropertyTask extends Task
 
     /**
      * Sets a the value of current property component.
-     * @param    mixed      Value of name, all scalars allowed
+     * @param    mixed $value     Value of name, all scalars allowed
      */
     public function setValue($value)
     {
-        $this->value = (string) $value;
+        $this->value = (string)$value;
     }
 
     /**
@@ -235,12 +240,11 @@ class PropertyTask extends Task
      * Note also that properties are case sensitive, even if the
      * environment variables on your operating system are not, e.g. it
      * will be ${env.Path} not ${env.PATH} on Windows 2000.
-     * @param prefix $env
-     * @internal param prefix $env
+     * @param string $env prefix
      */
     public function setEnvironment($env)
     {
-        $this->env = (string) $env;
+        $this->env = (string)$env;
     }
 
     public function getEnvironment()
@@ -257,7 +261,7 @@ class PropertyTask extends Task
      */
     public function setUserProperty($v)
     {
-        $this->userProperty = (boolean) $v;
+        $this->userProperty = (boolean)$v;
     }
 
     /**
@@ -273,7 +277,7 @@ class PropertyTask extends Task
      */
     public function setOverride($v)
     {
-        $this->override = (boolean) $v;
+        $this->override = (boolean)$v;
     }
 
     /**
@@ -289,7 +293,7 @@ class PropertyTask extends Task
      */
     public function toString()
     {
-        return (string) $this->value;
+        return (string)$this->value;
     }
 
     /**
@@ -334,7 +338,7 @@ class PropertyTask extends Task
      */
     public function setLogoutput($logOutput)
     {
-        $this->logOutput = (bool) $logOutput;
+        $this->logOutput = (bool)$logOutput;
     }
 
     /**
@@ -450,7 +454,7 @@ class PropertyTask extends Task
 
     /**
      * add a name value pair to the project property set
-     * @param string $name  name of property
+     * @param string $name name of property
      * @param string $value value to set
      */
     protected function addProperty($name, $value)
@@ -486,8 +490,9 @@ class PropertyTask extends Task
         if ($this->filelists) {
             foreach ($this->filelists as $fileList) {
                 $fromDir = $fileList->getDir($this->project);
-                foreach ($fileList->getFiles($this->project) as $srcFile)
+                foreach ($fileList->getFiles($this->project) as $srcFile) {
                     $this->processFile(new File("$fromDir/$srcFile"), $properties);
+                }
             }
         }
 
@@ -497,7 +502,7 @@ class PropertyTask extends Task
     /**
      * Try to load properties from a given file into a given PropertySet.
      *
-     * @param File        $file       The file to read.
+     * @param File $file The file to read.
      * @param PropertySetInterface $properties The PropertySet to add properties to.
      *
      * @throws BuildException When the file cannot be read.
@@ -505,7 +510,10 @@ class PropertyTask extends Task
     protected function processFile(File $file, PropertySetInterface $properties)
     {
         $fileParser = $this->fileParserFactory->createParser($file->getFileExtension());
-        $this->log("Loading properties from " . $file->getAbsolutePath(), $this->logOutput ? Project::MSG_INFO : Project::MSG_VERBOSE);
+        $this->log(
+            "Loading properties from " . $file->getAbsolutePath(),
+            $this->logOutput ? Project::MSG_INFO : Project::MSG_VERBOSE
+        );
         try { // try to load file
             if ($file->exists()) {
                 $fileParser->parseFile($file, $properties, $this->section);
