@@ -1,5 +1,9 @@
 <?php
 
+namespace Phing\Util;
+
+use Exception;
+
 /**
  * Capsule is a simple "template" engine that essentially provides an isolated context
  * for PHP scripts.
@@ -111,7 +115,7 @@ class Capsule
      * Low overhead (no output buffering) method to simply dump template
      * to buffer.
      *
-     * @param  string    $__template
+     * @param  string $__template
      * @return void
      * @throws Exception - if template cannot be found
      */
@@ -152,9 +156,9 @@ class Capsule
      * Fetches the results of a template parse and either returns
      * the string or writes results to a specified output file.
      *
-     * @param  string    $template   The template filename (relative to templatePath or absolute).
-     * @param  string    $outputFile If specified, contents of template will also be written to this file.
-     * @param  boolean   $append     Should output be appended to source file?
+     * @param  string $template The template filename (relative to templatePath or absolute).
+     * @param  string $outputFile If specified, contents of template will also be written to this file.
+     * @param  boolean $append Should output be appended to source file?
      * @return string    The "parsed" template output.
      * @throws Exception - if template not found.
      */
@@ -194,7 +198,7 @@ class Capsule
     /**
      * This returns a "best guess" path for the given file.
      *
-     * @param  string $file     File name or possibly absolute path.
+     * @param  string $file File name or possibly absolute path.
      * @param  string $basepath The basepath that should be prepended if $file is not absolute.
      * @return string "Best guess" path for this file.
      */
@@ -236,7 +240,7 @@ class Capsule
      *
      * Resulting template will have access to $myvar and $myvar2.
      *
-     * @param  array   $vars
+     * @param  array $vars
      * @param  boolean $recursiveMerge Should matching keys be recursively merged?
      * @return void
      */
@@ -255,7 +259,7 @@ class Capsule
      * Resulting template will have access to ${$name$} variable.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function put($name, $value)
     {
@@ -272,7 +276,7 @@ class Capsule
      */
     public function putRef($name, &$value)
     {
-        $this->vars[$name] = & $value;
+        $this->vars[$name] = &$value;
     }
 
     /**
@@ -280,7 +284,7 @@ class Capsule
      * This is primarily to force copying (cloning) of objects, rather
      * than the default behavior which is to assign them by reference.
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function putCopy($name, $value)
     {

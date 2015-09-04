@@ -1,6 +1,8 @@
 <?php
 use Phing\Exception\BuildException;
 use Phing\Task\System\Sequential;
+use Phing\Util\Parallel\Worker;
+use Phing\Util\Parallel\Manager;
 
 /**
  * $Id$
@@ -58,21 +60,11 @@ class ParallelTask extends Sequential
 
     public function main()
     {
-        @include_once 'phing/contrib/DocBlox/Parallel/Manager.php';
-        @include_once 'phing/contrib/DocBlox/Parallel/Worker.php';
-        @include_once 'phing/contrib/DocBlox/Parallel/WorkerPipe.php';
-        if (!class_exists('DocBlox_Parallel_Worker')) {
-            throw new BuildException(
-                'ParallelTask depends on DocBlox being installed and on include_path.',
-                $this->getLocation()
-            );
-        }
-
-        $mgr = new DocBlox_Parallel_Manager();
+        $mgr = new Manager();
         $mgr->setProcessLimit($this->threadCount);
 
         foreach ($this->nestedTasks as $task) {
-            $worker = new DocBlox_Parallel_Worker(
+            $worker = new Worker(
                 array($task, 'perform'),
                 array($task)
             );
@@ -82,7 +74,7 @@ class ParallelTask extends Sequential
 
         $mgr->execute();
 
-        /** @var DocBlox_Parallel_Worker $nestedTask */
+        /** @var Worker $nestedTask */
         foreach ($mgr as $nestedTask) {
             if ($nestedTask->getError() === "") {
                 continue;

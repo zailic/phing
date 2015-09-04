@@ -12,6 +12,11 @@
  * @link      http://docblox-project.org
  */
 
+namespace Phing\Util\Parallel;
+
+use Exception;
+use InvalidArgumentException;
+
 /**
  * Class that represents the execution of a single task within a parallelized
  * frame.
@@ -22,7 +27,7 @@
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     http://docblox-project.org
  */
-class DocBlox_Parallel_Worker
+class Worker
 {
     /** @var callback the task to execute for this worker */
     protected $task = null;
@@ -43,8 +48,8 @@ class DocBlox_Parallel_Worker
      * Creates the worker and sets the task to execute optionally including
      * the arguments that need to be passed to the task.
      *
-     * @param callback $task      The task to invoke upon execution.
-     * @param mixed[]  $arguments The arguments to provide to the task.
+     * @param callback $task The task to invoke upon execution.
+     * @param mixed[] $arguments The arguments to provide to the task.
      */
     public function __construct($task, array $arguments = array())
     {

@@ -12,6 +12,12 @@
  * @link      http://docblox-project.org
  */
 
+namespace Phing\Util\Parallel;
+
+use ArrayObject;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  * Manager class for Parallel processes.
  *
@@ -24,7 +30,7 @@
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     http://docblox-project.org
  */
-class DocBlox_Parallel_Manager extends ArrayObject
+class Manager extends ArrayObject
 {
     /** @var int The maximum number of processes to run simultaneously */
     protected $process_limit = 2;
@@ -36,8 +42,8 @@ class DocBlox_Parallel_Manager extends ArrayObject
      * Tries to autodetect the optimal number of process by counting the number
      * of processors.
      *
-     * @param array  $input          Input for the array object.
-     * @param int    $flags          flags for the array object.
+     * @param array $input Input for the array object.
+     * @param int $flags flags for the array object.
      * @param string $iterator_class Iterator class for this array object.
      */
     public function __construct(
@@ -73,8 +79,8 @@ class DocBlox_Parallel_Manager extends ArrayObject
      *        ->addWorker(new DocBlox_Parallel_Worker($cb2))
      *        ->execute();
      *
-     * @param int                     $index  The key for this worker.
-     * @param DocBlox_Parallel_Worker $newval The worker to add onto the queue.
+     * @param int $index The key for this worker.
+     * @param Worker $newval The worker to add onto the queue.
      *
      * @see DocBlox_Parallel_Manager::execute()
      *
@@ -87,7 +93,7 @@ class DocBlox_Parallel_Manager extends ArrayObject
      */
     public function offsetSet($index, $newval)
     {
-        if (!$newval instanceof DocBlox_Parallel_Worker) {
+        if (!$newval instanceof Worker) {
             throw new InvalidArgumentException(
                 'Provided element must be of type DocBlox_Parallel_Worker'
             );
@@ -105,11 +111,11 @@ class DocBlox_Parallel_Manager extends ArrayObject
      * Convenience method to make the addition of workers explicit and allow a
      * fluent interface.
      *
-     * @param DocBlox_Parallel_Worker $worker The worker to add onto the queue.
+     * @param Worker $worker The worker to add onto the queue.
      *
      * @return self
      */
-    public function addWorker(DocBlox_Parallel_Worker $worker)
+    public function addWorker(Worker $worker)
     {
         $this[] = $worker;
 
@@ -175,7 +181,7 @@ class DocBlox_Parallel_Manager extends ArrayObject
         /** @var int[] $processes */
         $processes = $this->startExecution();
 
-        /** @var DocBlox_Parallel_Worker $worker */
+        /** @var Worker $worker */
         foreach ($this as $worker) {
 
             // if requirements are not met, execute workers in series.
@@ -232,7 +238,7 @@ class DocBlox_Parallel_Manager extends ArrayObject
             pcntl_waitpid(array_shift($processes), $status);
         }
 
-        /** @var DocBlox_Parallel_Worker $worker */
+        /** @var Worker $worker */
         foreach ($this as $worker) {
             $worker->pipe->push();
         }
@@ -257,18 +263,18 @@ class DocBlox_Parallel_Manager extends ArrayObject
      * If there are more workers than may be ran simultaneously then this method
      * will wait until a slot becomes available and then starts the next worker.
      *
-     * @param DocBlox_Parallel_Worker $worker     The worker to process.
-     * @param int[]                   &$processes The list of running processes.
+     * @param Worker $worker The worker to process.
+     * @param int[] &$processes The list of running processes.
      *
      * @throws RuntimeException if we are unable to fork.
      *
      * @return void
      */
     protected function forkAndRun(
-        DocBlox_Parallel_Worker $worker,
+        Worker $worker,
         array &$processes
     ) {
-        $worker->pipe = new DocBlox_Parallel_WorkerPipe($worker);
+        $worker->pipe = new WorkerPipe($worker);
 
         // fork the process and register the PID
         $pid = pcntl_fork();
@@ -302,6 +308,6 @@ class DocBlox_Parallel_Manager extends ArrayObject
      */
     protected function checkRequirements()
     {
-        return (bool) (extension_loaded('pcntl'));
+        return (bool)(extension_loaded('pcntl'));
     }
 }

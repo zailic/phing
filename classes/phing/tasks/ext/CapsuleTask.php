@@ -5,6 +5,7 @@ use Phing\Io\FileReader;
 use Phing\Io\IOException;
 use Phing\Project;
 use Phing\Task;
+use Phing\Util\Capsule;
 use Phing\Util\Properties\Properties;
 use Phing\Util\StringHelper;
 

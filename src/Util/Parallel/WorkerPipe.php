@@ -11,6 +11,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://docblox-project.org
  */
+namespace Phing\Util\Parallel;
 
 /**
  * Class that represents a named pipe for a Worker.
@@ -24,9 +25,9 @@
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     http://docblox-project.org
  */
-class DocBlox_Parallel_WorkerPipe
+class WorkerPipe
 {
-    /** @var DocBlox_Parallel_Worker worker class that is associated */
+    /** @var Worker worker class that is associated */
     protected $worker;
 
     /** @var string Path to the pipe */
@@ -35,9 +36,9 @@ class DocBlox_Parallel_WorkerPipe
     /**
      * Initializes the named pipe.
      *
-     * @param DocBlox_Parallel_Worker $worker Associated worker.
+     * @param Worker $worker Associated worker.
      */
-    public function __construct(DocBlox_Parallel_Worker $worker)
+    public function __construct(Worker $worker)
     {
         $this->worker = $worker;
 
@@ -111,7 +112,7 @@ class DocBlox_Parallel_WorkerPipe
     {
         $pipe = @fopen($this->path, 'r+');
 
-        if (! $pipe) {
+        if (!$pipe) {
             $arguments = $this->worker->getArguments();
             return array(
                 '',
