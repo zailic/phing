@@ -30,7 +30,7 @@ use Phing\Test\AbstractBuildFileTest;
  * @author  Hans Lellelid (Phing)
  * @author  Conor MacNeill (Ant)
  * @package phing.tasks.system
- * @covers \PropertyTask
+ * @covers \Phing\Task\System\Property
  */
 class PropertyTest extends AbstractBuildFileTest
 {
