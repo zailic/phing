@@ -21,7 +21,7 @@
  */
 
 use Phing\Io\File;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 
 /**

@@ -24,6 +24,7 @@ namespace Phing\Test;
 
 use Phing\Task\System\EchoTask;
 use Phing\Target;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 
 /**

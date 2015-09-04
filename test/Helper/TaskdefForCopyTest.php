@@ -2,7 +2,7 @@
 
 namespace Phing\Test\Helper;
 
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * @package phing.mappers

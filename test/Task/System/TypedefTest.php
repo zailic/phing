@@ -22,7 +22,7 @@
 namespace Phing\Test\Task\System;
 
 use Phing\Exception\ConfigurationException;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 use PHPUnit_Framework_Error;
 
 

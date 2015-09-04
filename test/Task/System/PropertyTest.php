@@ -24,7 +24,7 @@ namespace Phing\Test\Task\System;
 
 use Phing;
 use Phing\Task\System\Property;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * @author  Hans Lellelid (Phing)

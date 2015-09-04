@@ -2,7 +2,7 @@
 
 namespace Phing\Test\Condition;
 
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * Tests the XorCondition

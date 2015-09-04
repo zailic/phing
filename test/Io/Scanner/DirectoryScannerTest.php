@@ -3,7 +3,7 @@ namespace Phing\Test\Io\Scanner;
 
 use Phing\Io\FileSystem\FileSystemFactory;
 use Phing\Io\Scanner\DirectoryScanner;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  *  $Id$

@@ -1,7 +1,7 @@
 <?php
 
 use Phing\Project;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 class NotifySendTaskTest extends AbstractBuildFileTest
 {

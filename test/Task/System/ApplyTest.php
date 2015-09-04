@@ -25,7 +25,7 @@ use Phing\Io\File;
 use Phing\Target;
 use Phing\Task;
 use Phing\Task\System\Apply;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 use Phing\UnknownElement;
 use ReflectionProperty;
 

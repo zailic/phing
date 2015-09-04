@@ -1,6 +1,6 @@
 <?php
 
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 class IniFileTaskTest extends AbstractBuildFileTest
 {

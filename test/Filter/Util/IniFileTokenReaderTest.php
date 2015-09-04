@@ -21,7 +21,7 @@
 
 namespace Phing\Test\Filter\Util;
 
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * Tests the IniFileTokenReader class

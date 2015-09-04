@@ -19,7 +19,7 @@
  * <http://phing.info>.
  */
 
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 
 /**

@@ -23,7 +23,7 @@
 namespace Phing\Test\Filter;
 
 use Phing\Io\Util\FileUtils;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * @author <a href="mailto:stefan.bodewig@epost.de">Stefan Bodewig</a>

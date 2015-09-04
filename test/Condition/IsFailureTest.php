@@ -19,7 +19,7 @@
 
 namespace Phing\Test\Condition;
 
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * Testcase for the IsFailure condition.

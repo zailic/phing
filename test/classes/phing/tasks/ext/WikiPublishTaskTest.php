@@ -20,7 +20,7 @@
  */
 
 use Phing\Exception\BuildException;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * WikiPublish task test

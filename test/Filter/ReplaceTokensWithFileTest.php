@@ -22,7 +22,7 @@
 
 namespace Phing\Test\Filter;
 
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 
 /**

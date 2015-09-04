@@ -2,7 +2,7 @@
 namespace Phing\Test\Type;
 
 use Phing\Project;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 use Phing\Type\PearPackageFileSet;
 
 /**

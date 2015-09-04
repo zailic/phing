@@ -1,6 +1,6 @@
 <?php
 use Phing\Exception\BuildException;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * Copyright (c) 2012-2013, Laurent Laville <pear@laurent-laville.org>

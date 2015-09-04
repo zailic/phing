@@ -20,7 +20,7 @@
  * <http://phing.info>.
  */
 
-namespace Phing\Test;
+namespace Phing\Test\Helper;
 
 use Phing\BuildEvent;
 use Phing\Listener\BuildListenerInterface;

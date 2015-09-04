@@ -1,6 +1,6 @@
 <?php
 
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 class Ticket320RegressionTest extends AbstractBuildFileTest
 {

@@ -22,7 +22,7 @@
 namespace Phing\Test\Filter;
 
 use Phing\Io\Util\FileUtils;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * @author  Siad Ardroumli <siad.ardroumli@gmail.com>

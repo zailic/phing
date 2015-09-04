@@ -17,7 +17,7 @@
  * <http://phing.info>.
  */
 
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 require_once dirname(__FILE__) . '/../GitTasks/GitTestsHelper.php';
 

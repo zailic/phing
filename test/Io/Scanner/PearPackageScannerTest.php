@@ -2,7 +2,7 @@
 namespace Phing\Test\Io\Scanner;
 
 use Phing\Io\Scanner\PearPackageScanner;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 use ReflectionClass;
 use ReflectionObject;
 

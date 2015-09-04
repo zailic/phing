@@ -20,7 +20,7 @@
 
 namespace Phing\Test\Task\System;
 
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * Testcase for the PhingVersion task/condition.

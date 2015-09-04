@@ -1,6 +1,6 @@
 <?php
 use Phing\Exception\BuildException;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * Unit test for reStructuredText rendering task.

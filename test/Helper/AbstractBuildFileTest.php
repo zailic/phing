@@ -1,14 +1,12 @@
 <?php
 
-namespace Phing\Test;
+namespace Phing\Test\Helper;
 
-use PHPUnit_Framework_TestCase;
-use Phing\Project;
-use Phing\Io\File;
-use AssertionFailureException;
-use Phing\Type\Description;
 use Phing\Exception\BuildException;
+use Phing\Io\File;
 use Phing\Parser\ProjectConfigurator;
+use Phing\Project;
+use PHPUnit_Framework_TestCase;
 
 /**
  * A BuildFileTest is a TestCase which executes targets from a Phing buildfile
@@ -260,7 +258,7 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
 
     /**
      * get the directory of the project
-     * @return the base dir of the project
+     * @return File the base dir of the project
      */
     protected function getProjectDir()
     {
@@ -367,8 +365,8 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
 
     /**
      * call a target, verify property is null
-     * @param target build file target
-     * @param property property name
+     * @param string $target build file target
+     * @param string $property property name
      */
     protected function expectPropertyUnset($target, $property)
     {
@@ -379,8 +377,8 @@ abstract class AbstractBuildFileTest extends PHPUnit_Framework_TestCase
      * Retrieve a resource from the caller classloader to avoid
      * assuming a vm working directory. The resource path must be
      * relative to the package name or absolute from the root path.
-     * @param resource the resource to retrieve its url.
-     * @throws AssertionFailureException if resource is not found.
+     * @param resource $resource the resource to retrieve its url.
+     * @throws BuildException if resource is not found.
      */
     protected function getResource($resource)
     {

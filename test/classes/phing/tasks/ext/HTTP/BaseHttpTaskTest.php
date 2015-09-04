@@ -21,7 +21,7 @@
 
 use Phing\Exception\BuildException;
 use Phing\Target;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 use Phing\UnknownElement;
 
 require_once 'HTTP/Request2.php';

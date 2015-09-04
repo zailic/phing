@@ -21,7 +21,7 @@
 namespace Phing\Test\Task\System;
 
 use Phing\Project;
-use Phing\Test\AbstractBuildFileTest;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * Unit test for ForeachTask.
