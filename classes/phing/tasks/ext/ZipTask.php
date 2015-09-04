@@ -24,6 +24,7 @@ use Phing\Io\IOException;
 use Phing\Io\Scanner\SourceFileScanner;
 use Phing\Mapper\MergeMapper;
 use Phing\Project;
+use Phing\Task\System\AbstractMatching;
 use Phing\Type\FileSet;
 
 
@@ -35,7 +36,7 @@ use Phing\Type\FileSet;
  * @package   phing.tasks.ext
  * @since     2.1.0
  */
-class ZipTask extends MatchingTask
+class ZipTask extends AbstractMatching
 {
 
     /**

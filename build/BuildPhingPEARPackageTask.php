@@ -19,6 +19,7 @@
  * <http://phing.info>.
  */
 
+use Phing\Test\Task\System\MatchingTask;
 use Phing\Type\FileSet;
 
 require_once 'phing/tasks/system/MatchingTask.php';

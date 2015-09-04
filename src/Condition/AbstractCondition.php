@@ -20,7 +20,7 @@
  */
 namespace Phing\Condition;
 
-use AvailableTask;
+use Phing\Task\System\Available;
 use IteratorAggregate;
 use Phing\AbstractProjectComponent;
 use Phing\Parser\CustomChildCreatorInterface;
@@ -70,10 +70,10 @@ abstract class AbstractCondition extends AbstractProjectComponent
     }
 
     /**
-     * @param AvailableTask $a
+     * @param Available $a
      * @return void
      */
-    public function addAvailable(AvailableTask $a)
+    public function addAvailable(Available $a)
     {
         $this->conditions[] = $a;
     }

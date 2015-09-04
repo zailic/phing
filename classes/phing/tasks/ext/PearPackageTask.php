@@ -21,6 +21,7 @@
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Project;
+use Phing\Task\System\AbstractMatching;
 use Phing\Type\FileSet;
 
 
@@ -78,7 +79,7 @@ use Phing\Type\FileSet;
  * @package  phing.tasks.ext
  * @version  $Id$
  */
-class PearPackageTask extends MatchingTask
+class PearPackageTask extends AbstractMatching
 {
 
     /** */

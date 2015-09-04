@@ -1,5 +1,6 @@
 <?php
 use Phing\Exception\BuildException;
+use Phing\Task\System\Sequential;
 
 /**
  * $Id$
@@ -34,7 +35,7 @@ use Phing\Exception\BuildException;
  * @see https://github.com/phpdocumentor/Parallel
  * @since 2.4.10
  */
-class ParallelTask extends SequentialTask
+class ParallelTask extends Sequential
 {
     /**
      * Maximum number of threads / processes

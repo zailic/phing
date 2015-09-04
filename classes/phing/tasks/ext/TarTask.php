@@ -5,6 +5,7 @@ use Phing\Io\IOException;
 use Phing\Io\Scanner\SourceFileScanner;
 use Phing\Mapper\MergeMapper;
 use Phing\Project;
+use Phing\Task\System\AbstractMatching;
 use Phing\Type\FileSet;
 
 /**
@@ -36,7 +37,7 @@ use Phing\Type\FileSet;
  *
  * @package   phing.tasks.ext
  */
-class TarTask extends MatchingTask
+class TarTask extends AbstractMatching
 {
 
     const TAR_NAMELEN = 100;

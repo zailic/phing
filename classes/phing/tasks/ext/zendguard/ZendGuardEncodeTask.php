@@ -23,6 +23,7 @@ use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\IOException;
 use Phing\Project;
+use Phing\Task\System\AbstractMatching;
 use Phing\Type\FileSet;
 
 
@@ -34,7 +35,7 @@ use Phing\Type\FileSet;
  * @package   phing.tasks.ext.zendguard
  * @since     2.4.3
  */
-class ZendGuardEncodeTask extends MatchingTask
+class ZendGuardEncodeTask extends AbstractMatching
 {
     protected $filesets = array();
     protected $encodeCommand;

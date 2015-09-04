@@ -9,7 +9,7 @@ namespace Phing\Task\System;
 
 use Phing\Condition\AbstractCondition;
 use Phing\Exception\BuildException;
-use SequentialTask;
+use Phing\Task\System\Sequential;
 
 /**
  * "Inner" class for IfTask.
@@ -23,10 +23,10 @@ class ElseIfTask extends AbstractCondition
     private $thenTasks = null;
 
     /**
-     * @param SequentialTask $t
+     * @param Sequential $t
      * @throws BuildException
      */
-    public function addThen(SequentialTask $t)
+    public function addThen(Sequential $t)
     {
         if ($this->thenTasks != null) {
             throw new BuildException("You must not nest more than one <then> into <elseif>");

@@ -21,6 +21,7 @@
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Project;
+use Phing\Task\System\AbstractMatching;
 use Phing\Type\FileSet;
 use Phing\Type\IterableFileSet;
 
@@ -32,8 +33,7 @@ use Phing\Type\IterableFileSet;
  * @author Alexey Shockov <alexey@shockov.com>
  * @since 2.4.0
  */
-class PharPackageTask
-    extends MatchingTask
+class PharPackageTask extends AbstractMatching
 {
     /**
      * @var File

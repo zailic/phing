@@ -19,7 +19,7 @@
 
 namespace Phing\Condition;
 
-use ExecTask;
+use Phing\Task\System\Exec;
 
 /**
  * Condition to test a return-code for failure.
@@ -56,6 +56,6 @@ class IsFailure implements ConditionInterface
      */
     public function evaluate()
     {
-        return ExecTask::isFailureCode($this->code);
+        return Exec::isFailureCode($this->code);
     }
 }

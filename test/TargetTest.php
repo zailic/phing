@@ -22,7 +22,7 @@
 
 namespace Phing\Test;
 
-use EchoTask;
+use Phing\Task\System\EchoTask;
 use Phing\Target;
 
 

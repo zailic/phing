@@ -19,6 +19,7 @@
  * <http://phing.info>.
  */
 use Phing\Exception\BuildException;
+use Phing\Task\System\Fail;
 use Phing\Type\Reference;
 
 
@@ -31,7 +32,7 @@ use Phing\Type\Reference;
  * @version   $Id$
  * @package   phing.tasks.system
  */
-class ThrowTask extends FailTask
+class ThrowTask extends Fail
 {
     /**
      * @var Reference

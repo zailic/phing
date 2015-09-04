@@ -24,7 +24,7 @@ namespace Phing\Task\System;
 use ElseIfTask;
 use Phing\Condition\AbstractCondition;
 use Phing\Exception\BuildException;
-use SequentialTask;
+use Phing\Task\System\Sequential;
 
 
 /**
@@ -132,10 +132,10 @@ class IfTask extends AbstractCondition
      * be run if the condition holds true.
      *
      * <p>Not required.</p>
-     * @param SequentialTask $t
+     * @param Sequential $t
      * @throws \Phing\Exception\BuildException
      */
-    public function addThen(SequentialTask $t)
+    public function addThen(Sequential $t)
     {
         if ($this->thenTasks != null) {
             throw new BuildException("You must not nest more than one <then> into <if>");
@@ -148,10 +148,10 @@ class IfTask extends AbstractCondition
      * be run if the condition doesn't hold true.
      *
      * <p>Not required.</p>
-     * @param SequentialTask $e
+     * @param Sequential $e
      * @throws \Phing\Exception\BuildException
      */
-    public function addElse(SequentialTask $e)
+    public function addElse(Sequential $e)
     {
         if ($this->elseTasks != null) {
             throw new BuildException("You must not nest more than one <else> into <if>");
