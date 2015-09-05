@@ -37,7 +37,7 @@ class PropertyTest extends AbstractBuildFileTest
 
     public function setUp()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/property.xml");
+        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/system/PropertyTest.xml");
     }
 
 
@@ -165,6 +165,11 @@ class PropertyTest extends AbstractBuildFileTest
         $task->setName("foo");
         $task->setSection("bar");
         $task->main();
+    }
+
+    public function testPropertiesAreLateExpanded()
+    {
+        $this->scanAssertionsInLogs("late-expansion");
     }
 
 }

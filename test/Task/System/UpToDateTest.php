@@ -1,5 +1,4 @@
 <?php
-
 /*
  *  $Id$
  *
@@ -20,26 +19,40 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Task\System;
+
 use Phing\Test\Helper\AbstractBuildFileTest;
 
 
 /**
- * Regression test for ticket http://www.phing.info/trac/ticket/1041
- * - Properties within then/else blocks are not expanded
- *
- * @package phing.regression
+ * @author Victor Farazdagi <simple.square@gmail.com>
+ * @version $Id$
+ * @package phing.tasks.ext
  */
-class PropertiesInIfTaskTest extends AbstractBuildFileTest
+class UpToDateTest extends AbstractBuildFileTest
 {
 
     public function setUp()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/regression/1041/build.xml");
+        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/system/UpToDate/UpToDateTest.xml");
     }
 
-    public function testCopyTask()
+    /**
+     * @group ticket-559
+     */
+    public function testUpToDateTaskAssignsPropertyValue()
     {
-        $this->executeTarget("test");
-        $this->assertInLogs('test == test');
+        $this->executeTarget("test-no-property-set");
+        $this->assertInLogs('assert updated == updated');
     }
+
+    /**
+     * @group ticket-559
+     */
+    public function testUpToDateTaskUpdatesExistingPropertyValue()
+    {
+        $this->executeTarget("test-property-overwritten");
+        $this->assertInLogs('assert updated == updated');
+    }
+
 }

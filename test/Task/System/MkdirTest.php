@@ -20,29 +20,33 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Task\System;
+
 use Phing\Io\File;
 use Phing\Test\Helper\AbstractBuildFileTest;
 
-
-/**
- * Regression test for ticket http://www.phing.info/trac/ticket/252
- * - foreach on a fileset
- *
- * @package phing.regression
- */
-class Ticket252RegressionTest extends AbstractBuildFileTest
+class MkdirTest extends AbstractBuildFileTest
 {
 
     public function setUp()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/regression/252/build.xml");
+        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/system/MkdirTest.xml");
     }
 
-    public function testCustomTask()
+    /**
+     * Regression test for ticket http://www.phing.info/trac/ticket/745
+     * - MkdirTask mode param mistake
+     */
+    public function testCorrectModeSet()
     {
-        $f = new File(PHING_TEST_BASE . "/etc/regression/252/build.xml");
-        $this->executeTarget("main");
-        $this->assertInLogs("Found file a.");
-        $this->assertInLogs("Found file b.");
+        $this->executeTarget("test");
+
+        $dir = new File(PHING_TEST_BASE . "/etc/tasks/system/testdir");
+
+        $mode = $dir->getMode() & 511;
+
+        $this->assertEquals($mode, 511);
+
+        $dir->delete(true);
     }
 }

@@ -36,7 +36,7 @@
   		override former ones. Only the final set of properties is copied to the project.
   	-->
   	<property>
-		<filelist dir="../system/util" files="filelist-1.properties, filelist-2.properties" />
+		<filelist dir="../../system/util" files="filelist-1.properties, filelist-2.properties" />
   	</property>
     <echo>assert second == ${test}</echo>
     <echo>assert first,second == ${array}</echo>
@@ -49,7 +49,7 @@
   </target>
   
   <target name="property-arrays">
-	<property file="../system/util/array.properties" />
+	<property file="../../system/util/array.properties" />
 
 	<echo>assert first == ${array[0]}</echo>
 	<echo>assert second == ${array[1]}</echo>
@@ -68,20 +68,20 @@
   </target>
   
   <target name="property-file-sections-1">
-  	<property file="../system/util/sections.properties" />
+  	<property file="../../system/util/sections.properties" />
   	<echo>assert global == ${global}</echo>
     <echo>assert global == ${section}</echo>
   </target>
 
   <target name="property-file-sections-2">
-  	<property file="../system/util/sections.properties" section="top" />
+  	<property file="../../system/util/sections.properties" section="top" />
   	<!-- The "global" section is always available -->
   	<echo>assert global == ${global}</echo>
   	<echo>assert top == ${section}</echo>
   </target>
 
   <target name="property-file-sections-3">
-  	<property file="../system/util/sections.properties" section="inherited" />
+  	<property file="../../system/util/sections.properties" section="inherited" />
   	<echo>assert global == ${global}</echo>
   	<echo>assert inherited == ${section}</echo>
   </target>
@@ -93,14 +93,22 @@
 
   <target name="test-read-filelist-with-prefix">
     <property prefix="prefix">
-      <filelist dir="../system/util" files="filelist-1.properties, filelist-2.properties" />
+      <filelist dir="../../system/util" files="filelist-1.properties, filelist-2.properties" />
     </property>
     <echo>assert second == ${prefix.test}</echo>
   </target>
 
   <target name="test-read-file-with-prefix">
-    <property file="../system/util/test.properties" prefix="prefix"/>
+    <property file="../../system/util/test.properties" prefix="prefix"/>
     <echo>assert Testline1 == ${prefix.testline1}</echo>
   </target>
 
+  <target name="late-expansion">
+    <!--  check late expansion/forward references -->
+    <property name="test2" value="${test}2" />
+    <property name="test">foo</property>
+    <echo>assert foo2 == ${test2}</echo>
+    <property name="test" override="true">bar</property>
+    <echo>assert bar2 == ${test2}</echo>
+  </target>
 </project>

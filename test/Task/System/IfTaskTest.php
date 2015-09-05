@@ -110,4 +110,15 @@ class IfTaskTest extends AbstractBuildFileTest
         $this->expectBuildExceptionContaining($target, $cause, $msg);
 
     }
+
+    /**
+     * Regression test for ticket http://www.phing.info/trac/ticket/1041
+     * - Properties within then/else blocks are not expanded
+     */
+    public function testWrongPropertyOutput()
+    {
+        $this->executeTarget(__FUNCTION__);
+        $this->assertInLogs('test == test');
+    }
+
 }

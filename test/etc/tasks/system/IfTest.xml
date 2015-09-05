@@ -87,4 +87,15 @@
             </then>
         </if>
     </target>
+
+    <target name="testWrongPropertyOutput" description="Tests Wrong Property Output in If task">
+        <property name="some.property" value="foo"/>
+        <if>
+            <equals arg1="${some.property}" arg2="foo"/>
+            <then>
+                <property name="output" value="test"/>
+                <echo msg="test == ${output}"></echo>
+            </then>
+        </if>
+    </target>
 </project>

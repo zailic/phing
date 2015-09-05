@@ -20,34 +20,26 @@
  * <http://phing.info>.
  */
 
-use Phing\Io\File;
+namespace Phing\Test\Task\System;
+
 use Phing\Test\Helper\AbstractBuildFileTest;
 
 
-/**
- * Regression test for ticket http://www.phing.info/trac/ticket/745
- * - MkdirTask mode param mistake
- *
- * @package phing.regression
- */
-class MkdirTaskModeTest extends AbstractBuildFileTest
+class AdhocTaskdefTest extends AbstractBuildFileTest
 {
 
     public function setUp()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/regression/745/build.xml");
+        $this->configureProject(PHING_TEST_BASE . "/etc/regression/610/build.xml");
     }
 
-    public function testCorrectModeSet()
+    /**
+     * Regression test for ticket http://www.phing.info/trac/ticket/610
+     * - AdhocTaskdefTask fails when creating a task that extends from an existing task
+     */
+    public function testPhingCallTask()
     {
-        $this->executeTarget("test");
-
-        $dir = new File(PHING_TEST_BASE . "/etc/regression/745/testdir");
-
-        $mode = $dir->getMode() & 511;
-
-        $this->assertEquals($mode, 511);
-
-        $dir->delete(true);
+        $this->executeTarget("main");
+        $this->assertInLogs("doThisTask success!");
     }
 }

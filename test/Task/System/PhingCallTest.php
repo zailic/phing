@@ -20,26 +20,27 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Task\System;
+
 use Phing\Test\Helper\AbstractBuildFileTest;
 
-
-/**
- * Regression test for ticket http://www.phing.info/trac/ticket/610
- * - AdhocTaskdefTask fails when creating a task that extends from an existing task
- *
- * @package phing.regression
- */
-class AdhocTaskdefTaskTest extends AbstractBuildFileTest
+class PhingCallTest extends AbstractBuildFileTest
 {
 
     public function setUp()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/regression/610/build.xml");
+        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/system/PhingCallTest.xml");
     }
 
-    public function testPhingCallTask()
+    /**
+     * Regression test for ticket http://www.phing.info/trac/ticket/299
+     * - PhingCall crashes if an AdhocTask is defined
+     */
+    public function testPhingCallAdhocTask()
     {
+        ob_start();
         $this->executeTarget("main");
-        $this->assertInLogs("doThisTask success!");
+        ob_end_clean();
+        $this->assertInLogs("foo: success!");
     }
 }

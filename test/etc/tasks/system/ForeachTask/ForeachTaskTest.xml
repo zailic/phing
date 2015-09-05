@@ -19,7 +19,7 @@
 
     <target name="testLogMessageWithFileset">
         <foreach param="filename" absparam="absfilename" target="main">
-            <fileset dir=".">
+            <fileset dir="../">
                 <exclude name="**" />
             </fileset>
         </foreach>
@@ -32,5 +32,19 @@
     <target name="testLogMessageWithListUniqueEntry">
         <foreach list="fr" param="lang" target="main" />
     </target>
+
+    <target name="subtask">
+        <echo>Found file ${filename}.</echo>
+    </target>
+
+    <target name="testCustomTask">
+        <foreach param="filename" target="subtask">
+            <fileset dir=".">
+                <include name="a"/>
+                <include name="b"/>
+            </fileset>
+        </foreach>
+    </target>
+
 
 </project>

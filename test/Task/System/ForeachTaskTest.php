@@ -39,7 +39,7 @@ class ForeachTaskTest extends AbstractBuildFileTest
     public function setUp()
     {
         // Tests definitions
-        $this->configureProject(PHING_TEST_BASE . '/etc/tasks/system/ForeachTaskTest.xml');
+        $this->configureProject(PHING_TEST_BASE . '/etc/tasks/system/ForeachTask/ForeachTaskTest.xml');
     }
 
     /**
@@ -108,4 +108,10 @@ class ForeachTaskTest extends AbstractBuildFileTest
         $this->assertInLogs('Processed 1 entry in list', Project::MSG_VERBOSE);
     }
 
+    public function testCustomTask()
+    {
+        $this->executeTarget(__FUNCTION__);
+        $this->assertInLogs("Found file a.");
+        $this->assertInLogs("Found file b.");
+    }
 }
