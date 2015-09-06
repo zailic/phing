@@ -15,17 +15,20 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+namespace Phing\Task\Ext\Liquibase;
+
+use Phing\Task\Ext\Liquibase\AbstractLiquibaseTask;
 
 
 /**
- * Task to update the database to latest version of the changelog file.
+ * Task to create a changelog file.
  *
  * @author Stephan Hochdoerfer <S.Hochdoerfer@bitExpert.de>
  * @version $Id$
  * @since 2.4.10
  * @package phing.tasks.ext.liquibase
  */
-class LiquibaseUpdateTask extends AbstractLiquibaseTask
+class ChangeLog extends AbstractLiquibaseTask
 {
     /**
      * @see Task::main()
@@ -33,6 +36,6 @@ class LiquibaseUpdateTask extends AbstractLiquibaseTask
     public function main()
     {
         $this->checkParams();
-        $this->execute('update');
+        $this->execute('generateChangeLog');
     }
 }

@@ -1,5 +1,9 @@
 <?php
+namespace Phing\Task\Ext\Liquibase;
+
 use Phing\Exception\BuildException;
+use Phing\Task\Ext\Liquibase\AbstractLiquibaseTask;
+use the;
 
 /**
  * Copyright (c) 2007-2011 bitExpert AG
@@ -27,7 +31,7 @@ use Phing\Exception\BuildException;
  * @since 2.4.10
  * @package phing.tasks.ext.liquibase
  */
-class LiquibaseDbDocTask extends AbstractLiquibaseTask
+class DbDoc extends AbstractLiquibaseTask
 {
     protected $outputDir;
 

@@ -18,7 +18,10 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Liquibase;
+
 use Phing\Exception\BuildException;
+use Phing\Task\Ext\Liquibase\AbstractLiquibaseTask;
 
 
 /**
@@ -32,7 +35,7 @@ use Phing\Exception\BuildException;
  * @version $Id$
  * @package phing.tasks.ext.liquibase
  */
-class LiquibaseTask extends AbstractLiquibaseTask
+class Liquibase extends AbstractLiquibaseTask
 {
 
     /**
@@ -45,7 +48,7 @@ class LiquibaseTask extends AbstractLiquibaseTask
      */
     public function setCommand($command)
     {
-        $this->command = (string) $command;
+        $this->command = (string)$command;
     }
 
     protected function checkParams()

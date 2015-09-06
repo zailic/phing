@@ -1,5 +1,9 @@
 <?php
+namespace Phing\Task\Ext\Liquibase;
+
 use Phing\Exception\BuildException;
+use Phing\Task\Ext\Liquibase\AbstractLiquibaseTask;
+use the;
 
 /**
  * Copyright (c) 2007-2011 bitExpert AG
@@ -19,28 +23,25 @@ use Phing\Exception\BuildException;
 
 
 /**
- * Task to tag the current database state. In case you tag the database multiple
- * times without applying a new changelog before, the tags will overwrite each
- * other!
+ * Rollbacks the database changes.
  *
  * @author Stephan Hochdoerfer <S.Hochdoerfer@bitExpert.de>
  * @version $Id$
  * @since 2.4.10
  * @package phing.tasks.ext.liquibase
  */
-class LiquibaseTagTask extends AbstractLiquibaseTask
+class Rollback extends AbstractLiquibaseTask
 {
-    protected $tag;
+    protected $rollbackTag;
 
     /**
-     * Sets the name of tag which is used to mark the database state for
-     * possible future rollback.
+     * Sets the name of the tag to roll back to.
      *
-     * @param string the name to tag the database with
+     * @param string the name to roll back to
      */
-    public function setTag($tag)
+    public function setRollbackTag($rollbackTag)
     {
-        $this->tag = $tag;
+        $this->rollbackTag = $rollbackTag;
     }
 
     /**
@@ -50,11 +51,11 @@ class LiquibaseTagTask extends AbstractLiquibaseTask
     {
         parent::checkParams();
 
-        if (null === $this->tag) {
+        if (null === $this->rollbackTag) {
             throw new BuildException(
                 sprintf(
-                    'Please specify the tag!',
-                    $this->tag
+                    'Please specify the tag to rollback to!',
+                    $this->rollbackTag
                 )
             );
         }
@@ -66,6 +67,6 @@ class LiquibaseTagTask extends AbstractLiquibaseTask
     public function main()
     {
         $this->checkParams();
-        $this->execute('tag', escapeshellarg($this->tag));
+        $this->execute('rollback', escapeshellarg($this->rollbackTag));
     }
 }

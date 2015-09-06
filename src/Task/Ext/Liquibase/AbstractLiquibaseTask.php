@@ -1,8 +1,8 @@
 <?php
+namespace Phing\Task\Ext\Liquibase;
+
 use Phing\Exception\BuildException;
-use Phing\Project;
 use Phing\Task;
-use Phing\Type\DataType;
 use Phing\Util\StringHelper;
 
 /**
@@ -185,11 +185,11 @@ abstract class AbstractLiquibaseTask extends Task
     /**
      * Creates a nested <property> tag.
      *
-     * @return LiquibaseProperty Argument object
+     * @return \Phing\Task\Ext\Liquibase\Property Argument object
      */
     public function createProperty()
     {
-        $prop = new LiquibaseProperty();
+        $prop = new Task\Ext\Liquibase\Property();
         $this->properties[] = $prop;
 
         return $prop;
@@ -198,11 +198,11 @@ abstract class AbstractLiquibaseTask extends Task
     /**
      * Creates a nested <parameter> tag.
      *
-     * @return LiquibaseParameter Argument object
+     * @return \Phing\Task\Ext\Liquibase\Parameter Argument object
      */
     public function createParameter()
     {
-        $param = new LiquibaseParameter();
+        $param = new Task\Ext\Liquibase\Parameter();
         $this->parameters[] = $param;
 
         return $param;
@@ -306,131 +306,5 @@ abstract class AbstractLiquibaseTask extends Task
         }
 
         return;
-    }
-}
-
-/**
- * @author Stephan Hochdoerfer <S.Hochdoerfer@bitExpert.de>
- * @version $Id$
- * @since 2.4.10
- * @package phing.tasks.ext.liquibase
- */
-class LiquibaseParameter extends DataType
-{
-    private $name;
-    private $value;
-
-    /**
-     * @param $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @param $value
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-    }
-
-    /**
-     * @param Project $p
-     * @return string
-     * @throws \Phing\Exception\BuildException
-     */
-    public function getCommandline(Project $p)
-    {
-        if ($this->isReference()) {
-            return $this->getRef($p)->getCommandline($p);
-        }
-
-        return sprintf("--%s=%s", $this->name, escapeshellarg($this->value));
-    }
-
-    /**
-     * @param Project $p
-     * @return mixed
-     * @throws BuildException
-     */
-    public function getRef(Project $p)
-    {
-        if (!$this->checked) {
-            $stk = array();
-            array_push($stk, $this);
-            $this->dieOnCircularReference($stk, $p);
-        }
-
-        $o = $this->ref->getReferencedObject($p);
-        if (!($o instanceof LiquibaseParameter)) {
-            throw new BuildException($this->ref->getRefId() . " doesn't denote a LiquibaseParameter");
-        } else {
-            return $o;
-        }
-    }
-
-}
-
-/**
- * @author Stephan Hochdoerfer <S.Hochdoerfer@bitExpert.de>
- * @version $Id$
- * @since 2.4.10
- * @package phing.tasks.ext.liquibase
- */
-class LiquibaseProperty extends DataType
-{
-    private $name;
-    private $value;
-
-    /**
-     * @param $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @param $value
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-    }
-
-    /**
-     * @param Project $p
-     * @return string
-     * @throws BuildException
-     */
-    public function getCommandline(Project $p)
-    {
-        if ($this->isReference()) {
-            return $this->getRef($p)->getCommandline($p);
-        }
-
-        return sprintf("-D%s=%s", $this->name, escapeshellarg($this->value));
-    }
-
-    /**
-     * @param Project $p
-     * @return mixed
-     * @throws BuildException
-     */
-    public function getRef(Project $p)
-    {
-        if (!$this->checked) {
-            $stk = array();
-            array_push($stk, $this);
-            $this->dieOnCircularReference($stk, $p);
-        }
-        $o = $this->ref->getReferencedObject($p);
-        if (!($o instanceof LiquibaseProperty)) {
-            throw new BuildException($this->ref->getRefId() . " doesn't denote a LiquibaseProperty");
-        } else {
-            return $o;
-        }
     }
 }
