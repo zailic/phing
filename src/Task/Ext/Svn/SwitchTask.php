@@ -1,7 +1,12 @@
 <?php
+namespace Phing\Task\Ext\Svn;
+
 use Phing\Exception\BuildException;
+use Phing\Task\Ext\Svn\AbstractSvnTask;
 
 /**
+ * $Id$
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -21,32 +26,23 @@ use Phing\Exception\BuildException;
 
 
 /**
- * Copies a repository from the repository url to another
+ * Switches a repository at a given local directory to a different location
  *
+ * @author Dom Udall <dom.udall@clock.co.uk>
  * @version $Id$
  * @package phing.tasks.ext.svn
- * @since 2.3.0
+ * @since 2.4.3
  */
-class SvnCopyTask extends SvnBaseTask
+class SwitchTask extends AbstractSvnTask
 {
-    private $message = "";
-
     /**
-     * Sets the message
-     * @param $message
+     * Which Revision to Export
+     *
+     * @todo check if version_control_svn supports constants
+     *
+     * @var string
      */
-    public function setMessage($message)
-    {
-        $this->message = $message;
-    }
-
-    /**
-     * Gets the message
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
+    private $revision = 'HEAD';
 
     /**
      * The main entry point
@@ -55,16 +51,34 @@ class SvnCopyTask extends SvnBaseTask
      */
     public function main()
     {
-        $this->setup('copy');
+        $this->setup('switch');
 
-        $this->log("Copying SVN repository from '" . $this->getRepositoryUrl() . "' to '" . $this->getToDir() . "'");
+        $this->log(
+            "Switching SVN repository at '" . $this->getToDir() . "' to '" . $this->getRepositoryUrl() . "' "
+            . ($this->getRevision() == 'HEAD' ? '' : " (revision: {$this->getRevision()})")
+        );
 
-        $options = array();
+        // revision
+        $switches = array(
+            'r' => $this->getRevision(),
+        );
 
-        if (strlen($this->getMessage()) > 0) {
-            $options['message'] = $this->getMessage();
-        }
+        $this->run(array($this->getToDir()), $switches);
+    }
 
-        $this->run(array($this->getToDir()), $options);
+    /**
+     * @param $revision
+     */
+    public function setRevision($revision)
+    {
+        $this->revision = $revision;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRevision()
+    {
+        return $this->revision;
     }
 }

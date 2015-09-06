@@ -1,9 +1,10 @@
 <?php
+namespace Phing\Task\Ext\Svn;
+
 use Phing\Exception\BuildException;
+use Phing\Task\Ext\Svn\AbstractSvnTask;
 
 /**
- * $Id$
- *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -23,23 +24,32 @@ use Phing\Exception\BuildException;
 
 
 /**
- * Updates a repository in local directory
+ * Copies a repository from the repository url to another
  *
- * @author Andrew Eddie <andrew.eddie@jamboworks.com>
  * @version $Id$
  * @package phing.tasks.ext.svn
  * @since 2.3.0
  */
-class SvnUpdateTask extends SvnBaseTask
+class Copy extends AbstractSvnTask
 {
+    private $message = "";
+
     /**
-     * Which Revision to Export
-     *
-     * @todo check if version_control_svn supports constants
-     *
-     * @var string
+     * Sets the message
+     * @param $message
      */
-    private $revision = 'HEAD';
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * Gets the message
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
 
     /**
      * The main entry point
@@ -48,26 +58,16 @@ class SvnUpdateTask extends SvnBaseTask
      */
     public function main()
     {
-        $this->setup('update');
+        $this->setup('copy');
 
-        $this->log(
-            "Updating SVN repository at '" . $this->getToDir(
-            ) . "'" . ($this->revision == 'HEAD' ? '' : " (revision: {$this->revision})")
-        );
+        $this->log("Copying SVN repository from '" . $this->getRepositoryUrl() . "' to '" . $this->getToDir() . "'");
 
-        // revision
-        $switches = array(
-            'r' => $this->revision,
-        );
+        $options = array();
 
-        $this->run(array($this->getToDir()), $switches);
-    }
+        if (strlen($this->getMessage()) > 0) {
+            $options['message'] = $this->getMessage();
+        }
 
-    /**
-     * @param $revision
-     */
-    public function setRevision($revision)
-    {
-        $this->revision = $revision;
+        $this->run(array($this->getToDir()), $options);
     }
 }

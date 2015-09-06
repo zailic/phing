@@ -17,7 +17,10 @@
  * <http://phing.info>.
  */
 
-require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
+namespace Phing\Test\Task\Ext\Svn;
+
+use Phing\Test\Helper\AbstractBuildFileTest;
+use Phing\Test\Helper\GitTestsHelper;
 
 /**
  * @group svn
@@ -25,18 +28,36 @@ require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
  * @author Michiel Rook <mrook@php.net>
  * @package phing.tasks.ext
  */
-class SvnUpdateTaskTest extends AbstractSvnTaskTest
+class SwitchTaskTest extends AbstractBuildFileTest
 {
     protected function setUp()
     {
-        $this->initialize('SvnUpdateTest.xml', false);
+        if (is_readable(PHING_TEST_BASE . '/tmp/svn')) {
+            // make sure we purge previously created directory
+            // if left-overs from previous run are found
+            GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/svn');
+        }
+        // set temp directory used by test cases
+        mkdir(PHING_TEST_BASE . '/tmp/svn');
+
+        $this->configureProject(
+            PHING_TEST_BASE
+            . '/etc/tasks/ext/svn/SvnSwitchTest.xml'
+        );
     }
 
-    public function testUpdateSimple()
+    public function tearDown()
+    {
+        GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/svn');
+    }
+
+    public function testSwitchSimple()
     {
         $repository = PHING_TEST_BASE . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'svn';
-        $this->executeTarget('updateSimple');
+        $this->executeTarget('switchSimple');
         $this->assertInLogs("Checking out SVN repository to '" . $repository . "'");
-        $this->assertInLogs("Updating SVN repository at '$repository'");
+        $this->assertInLogs(
+            "Switching SVN repository at '$repository' to 'https://github.com/phingofficial/phing/tags/2.4.12/etc'"
+        );
     }
 }

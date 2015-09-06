@@ -17,8 +17,7 @@
  * <http://phing.info>.
  */
 
-use Phing\Test\Helper\AbstractBuildFileTest;
-use Phing\Test\Helper\GitTestsHelper;
+namespace Phing\Test\Task\Ext\Svn;
 
 /**
  * @group svn
@@ -26,36 +25,24 @@ use Phing\Test\Helper\GitTestsHelper;
  * @author Michiel Rook <mrook@php.net>
  * @package phing.tasks.ext
  */
-class SvnSwitchTaskTest extends AbstractBuildFileTest
+class InfoTest extends AbstractSvnTest
 {
     protected function setUp()
     {
-        if (is_readable(PHING_TEST_BASE . '/tmp/svn')) {
-            // make sure we purge previously created directory
-            // if left-overs from previous run are found
-            GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/svn');
-        }
-        // set temp directory used by test cases
-        mkdir(PHING_TEST_BASE . '/tmp/svn');
-
-        $this->configureProject(
-            PHING_TEST_BASE
-            . '/etc/tasks/ext/svn/SvnSwitchTest.xml'
-        );
+        $this->initialize('SvnInfoTest.xml');
     }
 
-    public function tearDown()
+    public function testGetUrl()
     {
-        GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/svn');
+        $repository = PHING_TEST_BASE . '/tmp/svn';
+        $this->executeTarget('getUrl');
+        $this->assertPropertyEquals('svn.url', $this->project->getProperty('repo.url'));
     }
 
-    public function testSwitchSimple()
+    public function testGetAuthor()
     {
-        $repository = PHING_TEST_BASE . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'svn';
-        $this->executeTarget('switchSimple');
-        $this->assertInLogs("Checking out SVN repository to '" . $repository . "'");
-        $this->assertInLogs(
-            "Switching SVN repository at '$repository' to 'https://github.com/phingofficial/phing/tags/2.4.12/etc'"
-        );
+        $repository = PHING_TEST_BASE . '/tmp/svn';
+        $this->executeTarget('getAuthor');
+        $this->assertPropertyEquals('svn.author', 'michiel.rook');
     }
 }

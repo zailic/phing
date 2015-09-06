@@ -17,7 +17,7 @@
  * <http://phing.info>.
  */
 
-require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
+namespace Phing\Test\Task\Ext\Svn;
 
 /**
  * @group svn
@@ -25,26 +25,20 @@ require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
  * @author Michiel Rook <mrook@php.net>
  * @package phing.tasks.ext
  */
-class SvnCheckoutTaskTest extends AbstractSvnTaskTest
+class LogTest extends AbstractSvnTest
 {
     protected function setUp()
     {
-        $this->initialize('SvnCheckoutTest.xml');
+        $this->initialize('SvnLogTest.xml');
     }
 
-    public function testCheckoutSimple()
+    public function testGetLog()
     {
-        $repository = PHING_TEST_BASE . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'svn';
-        $this->executeTarget('checkoutSimple');
-        $this->assertInLogs("Checking out SVN repository to '" . $repository . "'");
-    }
-
-    public function testNoRepositorySpecified()
-    {
-        $this->expectBuildExceptionContaining(
-            'noRepository',
-            'Repository is required',
-            'Error parsing arguments'
+        $repository = PHING_TEST_BASE . '/tmp/svn';
+        $this->executeTarget('getLog');
+        $this->assertPropertyEquals(
+            'svn.log',
+            "1560 | michiel.rook  | 2012-04-06T18:33:25.000000Z  | Update changelog for maintenance release\n"
         );
     }
 }

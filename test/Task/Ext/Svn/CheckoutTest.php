@@ -17,9 +17,7 @@
  * <http://phing.info>.
  */
 
-use Phing\Test\Helper\GitTestsHelper;
-
-require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
+namespace Phing\Test\Task\Ext\Svn;
 
 /**
  * @group svn
@@ -27,18 +25,26 @@ require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
  * @author Michiel Rook <mrook@php.net>
  * @package phing.tasks.ext
  */
-class SvnLastRevisionTaskTest extends AbstractSvnTaskTest
+class CheckoutTest extends AbstractSvnTest
 {
     protected function setUp()
     {
-        $this->initialize('SvnLastRevisionTest.xml');
-        GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/svn');
+        $this->initialize('SvnCheckoutTest.xml');
     }
 
-    public function testGetLastRevision()
+    public function testCheckoutSimple()
     {
-        $repository = PHING_TEST_BASE . '/tmp/svn';
-        $this->executeTarget('getLastRevision');
-        $this->assertPropertyEquals('svn.lastrevision', '1560');
+        $repository = PHING_TEST_BASE . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'svn';
+        $this->executeTarget('checkoutSimple');
+        $this->assertInLogs("Checking out SVN repository to '" . $repository . "'");
+    }
+
+    public function testNoRepositorySpecified()
+    {
+        $this->expectBuildExceptionContaining(
+            'noRepository',
+            'Repository is required',
+            'Error parsing arguments'
+        );
     }
 }

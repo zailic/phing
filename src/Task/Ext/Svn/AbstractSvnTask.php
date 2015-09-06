@@ -1,6 +1,12 @@
 <?php
+namespace Phing\Task\Ext\Svn;
+
+use Exception;
+use PEAR_ErrorStack;
 use Phing\Exception\BuildException;
 use Phing\Task;
+use The;
+use VersionControl_SVN;
 
 /**
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -32,7 +38,7 @@ use Phing\Task;
  * @see VersionControl_SVN
  * @since 2.2.0
  */
-abstract class SvnBaseTask extends Task
+abstract class AbstractSvnTask extends Task
 {
     /**
      * @var string

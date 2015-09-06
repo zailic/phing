@@ -1,5 +1,8 @@
 <?php
+namespace Phing\Task\Ext\Svn;
+
 use Phing\Exception\BuildException;
+use Phing\Task\Ext\Svn\AbstractSvnTask;
 
 /**
  * $Id$
@@ -23,14 +26,16 @@ use Phing\Exception\BuildException;
 
 
 /**
- * Switches a repository at a given local directory to a different location
+ * Exports/checks out a repository to a local directory
+ * with authentication
  *
- * @author Dom Udall <dom.udall@clock.co.uk>
+ * @author Michiel Rook <mrook@php.net>
+ * @author Andrew Eddie <andrew.eddie@jamboworks.com>
  * @version $Id$
  * @package phing.tasks.ext.svn
- * @since 2.4.3
+ * @since 2.2.0
  */
-class SvnSwitchTask extends SvnBaseTask
+class Export extends AbstractSvnTask
 {
     /**
      * Which Revision to Export
@@ -48,17 +53,15 @@ class SvnSwitchTask extends SvnBaseTask
      */
     public function main()
     {
-        $this->setup('switch');
+        $this->setup('export');
 
-        $this->log(
-            "Switching SVN repository at '" . $this->getToDir() . "' to '" . $this->getRepositoryUrl() . "' "
-            . ($this->getRevision() == 'HEAD' ? '' : " (revision: {$this->getRevision()})")
-        );
+        $this->log("Exporting SVN repository to '" . $this->getToDir() . "'");
 
-        // revision
-        $switches = array(
-            'r' => $this->getRevision(),
-        );
+        $switches = array();
+
+        if (!empty($this->revision)) {
+            $switches['r'] = $this->revision;
+        }
 
         $this->run(array($this->getToDir()), $switches);
     }
@@ -69,13 +72,5 @@ class SvnSwitchTask extends SvnBaseTask
     public function setRevision($revision)
     {
         $this->revision = $revision;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRevision()
-    {
-        return $this->revision;
     }
 }

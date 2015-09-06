@@ -17,9 +17,7 @@
  * <http://phing.info>.
  */
 
-use Phing\Test\Helper\GitTestsHelper;
-
-require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
+namespace Phing\Test\Task\Ext\Svn;
 
 /**
  * @group svn
@@ -27,27 +25,18 @@ require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
  * @author Michiel Rook <mrook@php.net>
  * @package phing.tasks.ext
  */
-class SvnListTaskTest extends AbstractSvnTaskTest
+class UpdateTest extends AbstractSvnTest
 {
     protected function setUp()
     {
-        $this->initialize('SvnListTest.xml');
-        GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/svn');
+        $this->initialize('SvnUpdateTest.xml', false);
     }
 
-    public function testGetList()
+    public function testUpdateSimple()
     {
-        $repository = PHING_TEST_BASE . '/tmp/svn';
-        $this->executeTarget('getList');
-        $this->assertPropertyEquals(
-            'svn.list',
-            "1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | VERSION.TXT
-1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | coverage-frames.xsl
-1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | log.xsl
-1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | phing-grammar.rng
-1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | phpunit-frames.xsl
-1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | phpunit-noframes.xsl
-1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | str.replace.function.xsl"
-        );
+        $repository = PHING_TEST_BASE . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'svn';
+        $this->executeTarget('updateSimple');
+        $this->assertInLogs("Checking out SVN repository to '" . $repository . "'");
+        $this->assertInLogs("Updating SVN repository at '$repository'");
     }
 }

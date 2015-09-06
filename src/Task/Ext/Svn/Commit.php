@@ -1,5 +1,8 @@
 <?php
+namespace Phing\Task\Ext\Svn;
+
 use Phing\Exception\BuildException;
+use Phing\Task\Ext\Svn\AbstractSvnTask;
 
 /**
  * $Id$
@@ -30,7 +33,7 @@ use Phing\Exception\BuildException;
  * @package phing.tasks.ext.svn
  * @since 2.4.0
  */
-class SvnCommitTask extends SvnBaseTask
+class Commit extends AbstractSvnTask
 {
     /**
      * Commit message
@@ -91,7 +94,8 @@ class SvnCommitTask extends SvnBaseTask
         $this->setup('commit');
 
         $this->log(
-            "Committing SVN working copy at '" . $this->getWorkingCopy() . "' with message '" . $this->GetMessage() . "'"
+            "Committing SVN working copy at '" . $this->getWorkingCopy() . "' with message '" . $this->GetMessage(
+            ) . "'"
         );
 
         $output = $this->run(array(), array('message' => $this->GetMessage()));

@@ -19,6 +19,8 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Task\Ext\Svn;
+
 use Phing\Test\Helper\AbstractBuildFileTest;
 use Phing\Test\Helper\GitTestsHelper;
 
@@ -27,7 +29,7 @@ use Phing\Test\Helper\GitTestsHelper;
  * @version $Id$
  * @package phing.tasks.ext
  */
-abstract class AbstractSvnTaskTest extends AbstractBuildFileTest
+abstract class AbstractSvnTest extends AbstractBuildFileTest
 {
     protected $backupGlobals = false;
 

@@ -17,32 +17,34 @@
  * <http://phing.info>.
  */
 
-require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
+namespace Phing\Test\Task\Ext\Svn;
 
 /**
  * @group svn
  *
  * @author Michiel Rook <mrook@php.net>
- * @package phing.tasks.ext
+ * @package phing.tasks.ext.svn
  */
-class SvnInfoTaskTest extends AbstractSvnTaskTest
+class ExportTest extends AbstractSvnTest
 {
     protected function setUp()
     {
-        $this->initialize('SvnInfoTest.xml');
+        $this->initialize('SvnExportTest.xml', false);
     }
 
-    public function testGetUrl()
+    public function testExportSimple()
     {
-        $repository = PHING_TEST_BASE . '/tmp/svn';
-        $this->executeTarget('getUrl');
-        $this->assertPropertyEquals('svn.url', $this->project->getProperty('repo.url'));
+        $repository = PHING_TEST_BASE . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'svn';
+        $this->executeTarget('exportSimple');
+        $this->assertInLogs("Exporting SVN repository to '" . $repository . "'");
     }
 
-    public function testGetAuthor()
+    public function testNoRepositorySpecified()
     {
-        $repository = PHING_TEST_BASE . '/tmp/svn';
-        $this->executeTarget('getAuthor');
-        $this->assertPropertyEquals('svn.author', 'michiel.rook');
+        $this->expectBuildExceptionContaining(
+            'noRepository',
+            'Repository is required',
+            'is not a working copy'
+        );
     }
 }

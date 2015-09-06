@@ -1,7 +1,12 @@
 <?php
+namespace Phing\Task\Ext\Svn;
+
 use Phing\Exception\BuildException;
+use Phing\Task\Ext\Svn\AbstractSvnTask;
 
 /**
+ * $Id$
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -21,25 +26,22 @@ use Phing\Exception\BuildException;
 
 
 /**
- * Parses the output of 'svn info --xml' and
+ * Stores the number of the last revision of a workingcopy in a property
  *
  * @author Michiel Rook <mrook@php.net>
- *
+ * @version $Id$
  * @package phing.tasks.ext.svn
- *
  * @see VersionControl_SVN
- * @since 2.4.9
+ * @since 2.1.0
  */
-class SvnInfoTask extends SvnBaseTask
+class LastRevision extends AbstractSvnTask
 {
-    private $propertyName = "svn.info";
-
-    private $element = 'url';
-    private $subElement = null;
+    private $propertyName = "svn.lastrevision";
+    private $lastChanged = false;
 
     /**
      * Sets the name of the property to use
-     * @param $propertyName
+     * @param string $propertyName
      */
     public function setPropertyName($propertyName)
     {
@@ -48,6 +50,7 @@ class SvnInfoTask extends SvnBaseTask
 
     /**
      * Returns the name of the property to use
+     * @return string
      */
     public function getPropertyName()
     {
@@ -55,71 +58,45 @@ class SvnInfoTask extends SvnBaseTask
     }
 
     /**
-     * Sets the name of the xml element to use.
+     * Sets whether to force compatibility with older SVN versions (< 1.2)
      *
-     * @param string $element
-     *
-     * @return void
+     * Retained for legacy reasons
+     * @deprecated
+     * @param $force
      */
-    public function setElement($element)
+    public function setForceCompatible($force)
     {
-        $this->element = $element;
     }
 
     /**
-     * Returns the name of the xml element to use.
-     *
-     * @return string
+     * Sets whether to retrieve the last changed revision
+     * @param $lastChanged
      */
-    public function getElement()
+    public function setLastChanged($lastChanged)
     {
-        return $this->element;
+        $this->lastChanged = (bool)$lastChanged;
     }
 
     /**
-     * Sets the name of the xml sub element to use.
+     * The main entry point
      *
-     * @param $subElement
-     *
-     * @return void
-     */
-    public function setSubElement($subElement)
-    {
-        $this->subElement = $subElement;
-    }
-
-    /**
-     * Returns the name of the xml sub element to use.
-     *
-     * @return string
-     */
-    public function getSubElement()
-    {
-        return $this->subElement;
-    }
-
-    /**
-     * The main entry point.
-     *
-     * @return void
-     *
-     * @throws \Phing\Exception\BuildException
+     * @throws BuildException
      */
     public function main()
     {
         $this->setup('info');
 
         if ($this->oldVersion) {
-            $output = $this->run(array('--xml', '--incremental'));
+            $output = $this->run(array('--xml'));
 
             if (!($xmlObj = @simplexml_load_string($output))) {
                 throw new BuildException("Failed to parse the output of 'svn info --xml'.");
             }
 
-            $object = $xmlObj->{$this->element};
-
-            if (!empty($this->subElement)) {
-                $object = $object->{$this->subElement};
+            if ($this->lastChanged) {
+                $found = (int)$xmlObj->entry->commit['revision'];
+            } else {
+                $found = (int)$xmlObj->entry['revision'];
             }
         } else {
             $output = $this->run();
@@ -128,13 +105,13 @@ class SvnInfoTask extends SvnBaseTask
                 throw new BuildException("Failed to parse the output of 'svn info'.");
             }
 
-            $object = $output['entry'][0][$this->element];
-
-            if (!empty($this->subElement)) {
-                $object = $object[$this->subElement];
+            if ($this->lastChanged) {
+                $found = $output['entry'][0]['commit']['revision'];
+            } else {
+                $found = $output['entry'][0]['revision'];
             }
         }
 
-        $this->project->setProperty($this->getPropertyName(), (string) $object);
+        $this->project->setProperty($this->getPropertyName(), $found);
     }
 }

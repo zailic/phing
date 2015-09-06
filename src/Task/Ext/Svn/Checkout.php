@@ -1,5 +1,8 @@
 <?php
+namespace Phing\Task\Ext\Svn;
+
 use Phing\Exception\BuildException;
+use Phing\Task\Ext\Svn\AbstractSvnTask;
 
 /**
  * $Id$
@@ -23,16 +26,14 @@ use Phing\Exception\BuildException;
 
 
 /**
- * Exports/checks out a repository to a local directory
- * with authentication
+ * Checks out a repository to a local directory
  *
- * @author Michiel Rook <mrook@php.net>
  * @author Andrew Eddie <andrew.eddie@jamboworks.com>
  * @version $Id$
  * @package phing.tasks.ext.svn
- * @since 2.2.0
+ * @since 2.3.0
  */
-class SvnExportTask extends SvnBaseTask
+class Checkout extends AbstractSvnTask
 {
     /**
      * Which Revision to Export
@@ -50,15 +51,17 @@ class SvnExportTask extends SvnBaseTask
      */
     public function main()
     {
-        $this->setup('export');
+        $this->setup('checkout');
 
-        $this->log("Exporting SVN repository to '" . $this->getToDir() . "'");
+        $this->log(
+            "Checking out SVN repository to '" . $this->getToDir(
+            ) . "'" . ($this->revision == 'HEAD' ? '' : " (revision: {$this->revision})")
+        );
 
-        $switches = array();
-
-        if (!empty($this->revision)) {
-            $switches['r'] = $this->revision;
-        }
+        // revision
+        $switches = array(
+            'r' => $this->revision,
+        );
 
         $this->run(array($this->getToDir()), $switches);
     }

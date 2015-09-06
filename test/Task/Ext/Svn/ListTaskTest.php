@@ -17,7 +17,9 @@
  * <http://phing.info>.
  */
 
-require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
+namespace Phing\Test\Task\Ext\Svn;
+
+use Phing\Test\Helper\GitTestsHelper;
 
 /**
  * @group svn
@@ -25,20 +27,27 @@ require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
  * @author Michiel Rook <mrook@php.net>
  * @package phing.tasks.ext
  */
-class SvnLogTaskTest extends AbstractSvnTaskTest
+class ListTaskTest extends AbstractSvnTest
 {
     protected function setUp()
     {
-        $this->initialize('SvnLogTest.xml');
+        $this->initialize('SvnListTest.xml');
+        GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/svn');
     }
 
-    public function testGetLog()
+    public function testGetList()
     {
         $repository = PHING_TEST_BASE . '/tmp/svn';
-        $this->executeTarget('getLog');
+        $this->executeTarget('getList');
         $this->assertPropertyEquals(
-            'svn.log',
-            "1560 | michiel.rook  | 2012-04-06T18:33:25.000000Z  | Update changelog for maintenance release\n"
+            'svn.list',
+            "1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | VERSION.TXT
+1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | coverage-frames.xsl
+1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | log.xsl
+1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | phing-grammar.rng
+1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | phpunit-frames.xsl
+1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | phpunit-noframes.xsl
+1560 | michiel.rook | 2012-04-06T18:33:25.000000Z | str.replace.function.xsl"
         );
     }
 }

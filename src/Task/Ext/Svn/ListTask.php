@@ -1,5 +1,8 @@
 <?php
+namespace Phing\Task\Ext\Svn;
+
 use Phing\Exception\BuildException;
+use Phing\Task\Ext\Svn\AbstractSvnTask;
 
 /**
  * $Id$
@@ -33,7 +36,7 @@ use Phing\Exception\BuildException;
  * @see VersionControl_SVN
  * @since 2.1.0
  */
-class SvnListTask extends SvnBaseTask
+class ListTask extends AbstractSvnTask
 {
     private $propertyName = "svn.list";
     private $limit = null;
@@ -71,7 +74,7 @@ class SvnListTask extends SvnBaseTask
      */
     public function setLimit($limit)
     {
-        $this->limit = (int) $limit;
+        $this->limit = (int)$limit;
     }
 
     /**
@@ -80,7 +83,7 @@ class SvnListTask extends SvnBaseTask
      */
     public function setOrderDescending($orderDescending)
     {
-        $this->orderDescending = (bool) $orderDescending;
+        $this->orderDescending = (bool)$orderDescending;
     }
 
     /**
@@ -106,11 +109,11 @@ class SvnListTask extends SvnBaseTask
             foreach ($objects as $object) {
                 $entries[] = array(
                     'commit' => array(
-                        'revision' => (string) $object->commit['revision'],
-                        'author' => (string) $object->commit->author,
-                        'date' => (string) $object->commit->date
+                        'revision' => (string)$object->commit['revision'],
+                        'author' => (string)$object->commit->author,
+                        'date' => (string)$object->commit->date
                     ),
-                    'name' => (string) $object->name
+                    'name' => (string)$object->name
                 );
             }
         } else {

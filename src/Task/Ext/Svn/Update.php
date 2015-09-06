@@ -1,5 +1,8 @@
 <?php
+namespace Phing\Task\Ext\Svn;
+
 use Phing\Exception\BuildException;
+use Phing\Task\Ext\Svn\AbstractSvnTask;
 
 /**
  * $Id$
@@ -23,14 +26,14 @@ use Phing\Exception\BuildException;
 
 
 /**
- * Checks out a repository to a local directory
+ * Updates a repository in local directory
  *
  * @author Andrew Eddie <andrew.eddie@jamboworks.com>
  * @version $Id$
  * @package phing.tasks.ext.svn
  * @since 2.3.0
  */
-class SvnCheckoutTask extends SvnBaseTask
+class Update extends AbstractSvnTask
 {
     /**
      * Which Revision to Export
@@ -48,10 +51,10 @@ class SvnCheckoutTask extends SvnBaseTask
      */
     public function main()
     {
-        $this->setup('checkout');
+        $this->setup('update');
 
         $this->log(
-            "Checking out SVN repository to '" . $this->getToDir(
+            "Updating SVN repository at '" . $this->getToDir(
             ) . "'" . ($this->revision == 'HEAD' ? '' : " (revision: {$this->revision})")
         );
 

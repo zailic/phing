@@ -17,34 +17,28 @@
  * <http://phing.info>.
  */
 
-require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
+namespace Phing\Test\Task\Ext\Svn;
+
+use Phing\Test\Helper\GitTestsHelper;
 
 /**
  * @group svn
  *
  * @author Michiel Rook <mrook@php.net>
- * @package phing.tasks.ext.svn
+ * @package phing.tasks.ext
  */
-class SvnExportTaskTest extends AbstractSvnTaskTest
+class LastRevisionTest extends AbstractSvnTest
 {
     protected function setUp()
     {
-        $this->initialize('SvnExportTest.xml', false);
+        $this->initialize('SvnLastRevisionTest.xml');
+        GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/svn');
     }
 
-    public function testExportSimple()
+    public function testGetLastRevision()
     {
-        $repository = PHING_TEST_BASE . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'svn';
-        $this->executeTarget('exportSimple');
-        $this->assertInLogs("Exporting SVN repository to '" . $repository . "'");
-    }
-
-    public function testNoRepositorySpecified()
-    {
-        $this->expectBuildExceptionContaining(
-            'noRepository',
-            'Repository is required',
-            'is not a working copy'
-        );
+        $repository = PHING_TEST_BASE . '/tmp/svn';
+        $this->executeTarget('getLastRevision');
+        $this->assertPropertyEquals('svn.lastrevision', '1560');
     }
 }
