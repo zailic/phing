@@ -19,6 +19,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\System;
+
 use Phing\Exception\BuildException;
 use Phing\Io\FileSystem\FileSystemFactory;
 use Phing\Project;
@@ -52,7 +54,7 @@ use Phing\Type\FileSet;
  * @version $ID$
  * @package phing.tasks.ext
  */
-class SymlinkTask extends Task
+class Symlink extends Task
 {
     /**
      * What we're symlinking from

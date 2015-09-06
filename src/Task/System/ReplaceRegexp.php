@@ -1,6 +1,9 @@
 <?php
+namespace Phing\Task\System;
+
+use Exception;
 use Phing\Exception\BuildException;
-use Phing\Filter\ReplaceRegexp;
+use Phing\Filter\ReplaceRegexp as ReplaceRegexpFilter;
 use Phing\Io\File;
 use Phing\Io\FileReader;
 use Phing\Io\FileWriter;
@@ -48,7 +51,7 @@ use Phing\Type\RegularExpression;
  *
  * @link      http://ant.apache.org/manual/OptionalTasks/replaceregexp.html
  */
-class ReplaceRegexpTask extends Task
+class ReplaceRegexp extends Task
 {
     /** Single file to process. */
     private $file;
@@ -207,7 +210,7 @@ class ReplaceRegexpTask extends Task
 
         $filter = new FilterChain($this->project);
 
-        $r = new ReplaceRegexp();
+        $r = new ReplaceRegexpFilter();
         $r->setRegexps(array($this->_regexp));
 
         $filter->addReplaceRegexp($r);

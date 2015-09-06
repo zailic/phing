@@ -18,6 +18,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\System;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Task;
@@ -35,7 +37,7 @@ use Phing\Task;
  * @version     $Id$ $Rev $Id$ $Author$
  * @package     phing.tasks.ext
  */
-class VersionTask extends Task
+class Version extends Task
 {
     /**
      * Property for Releasetype
@@ -181,10 +183,12 @@ class VersionTask extends Task
         );
 
         if (!in_array($this->releasetype, $releaseTypes)) {
-            throw new BuildException(sprintf(
-                'Unknown Releasetype %s..Must be one of Major, Minor or Bugfix',
-                $this->releasetype
-            ), $this->location);
+            throw new BuildException(
+                sprintf(
+                    'Unknown Releasetype %s..Must be one of Major, Minor or Bugfix',
+                    $this->releasetype
+                ), $this->location
+            );
         }
     }
 

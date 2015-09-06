@@ -18,6 +18,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\System;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Task;
@@ -32,7 +34,7 @@ use Phing\Task;
  * @version     $Id$
  * @package     phing.tasks.ext
  */
-class FileHashTask extends Task
+class FileHash extends Task
 {
     /**
      * Property for File
@@ -105,10 +107,10 @@ class FileHashTask extends Task
         if ($this->algorithm !== '' && in_array($this->algorithm, hash_algos())) {
             $this->log("Calculating $this->algorithm hash from: " . $this->file);
             $hashValue = hash_file($this->algorithm, $this->file);
-        } elseif ((int) $this->hashtype === 0) {
+        } elseif ((int)$this->hashtype === 0) {
             $this->log("Calculating MD5 hash from: " . $this->file);
             $hashValue = md5_file($this->file, false);
-        } elseif ((int) $this->hashtype === 1) {
+        } elseif ((int)$this->hashtype === 1) {
             $this->log("Calculating SHA1 hash from: " . $this->file);
             $hashValue = sha1_file($this->file, false);
         } else {
@@ -125,7 +127,8 @@ class FileHashTask extends Task
                     sprintf(
                         '[FileHash] Unknown hashtype specified %d. Must be either 0 (=MD5) or 1 (=SHA1)',
                         $this->hashtype
-                    ));
+                    )
+                );
             }
         }
 

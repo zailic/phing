@@ -19,6 +19,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\System;
+
 use Phing\Exception\BuildException;
 use Phing\Task;
 
@@ -31,7 +33,7 @@ use Phing\Task;
  * @version   $Id$
  * @package   phing.tasks.ext
  */
-class ExportPropertiesTask extends Task
+class ExportProperties extends Task
 {
     /**
      * Array of project properties

@@ -1,4 +1,5 @@
 <?php
+
 /*
  *  $Id$
  *
@@ -18,56 +19,36 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-use Phing\Exception\BuildException;
-use Phing\Task\System\Fail;
-use Phing\Type\Reference;
+
+namespace Phing\Test\Task\System;
+
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 
 /**
- * Exits the active build, giving an additional message
- * if available.
- *
- * @author    Hans Lellelid <hans@xmpl.org> (Phing)
- * @author    Nico Seessle <nico@seessle.de> (Ant)
- * @version   $Id$
- * @package   phing.tasks.system
+ * @author Michiel Rook <mrook@php.net>
+ * @package phing.tasks.ext
  */
-class ThrowTask extends Fail
+class FileHashTest extends AbstractBuildFileTest
 {
-    /**
-     * @var Reference
-     */
-    private $reference = null;
 
-    /**
-     * @throws BuildException
-     */
-    public function main()
+    public function setUp()
     {
-        $reffed = $this->reference !== null ? $this->reference->getReferencedObject($this->getProject()) : null;
-
-        if ($reffed !== null && $reffed instanceof BuildException) {
-            throw $reffed;
-        }
-
-        parent::main();
+        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/system/FileHashTest.xml");
     }
 
-    /**
-     * @param Reference $ref
-     *
-     * @return void
-     */
-    public function setRefid(Reference $ref)
+    public function testMD5()
     {
-        $this->reference = $ref;
+        $this->expectLog("testMD5", "c9dcdf095de0ef3d2e3f71cb4dc7ee11");
     }
 
-    /**
-     * @return Reference
-     */
-    public function getRefid()
+    public function testSHA1()
     {
-        return $this->reference;
+        $this->expectLog("testSHA1", "dadd0aafb79d9fb8299a928efb23c112874bbda3");
+    }
+
+    public function testCRC32()
+    {
+        $this->expectLog("testCRC32", "d34c2e86");
     }
 }

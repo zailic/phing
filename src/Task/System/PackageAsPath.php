@@ -19,34 +19,50 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\System;
 
-use Phing\Test\Helper\AbstractBuildFileTest;
+use Phing\Task;
 
 
 /**
- * @author Michiel Rook <mrook@php.net>
- * @package phing.tasks.ext
+ * Convert dot-notation packages to relative paths.
+ *
+ * @author    Hans Lellelid <hans@xmpl.org>
+ * @version   $Id$
+ * @package   phing.tasks.ext
  */
-class FileHashTaskTest extends AbstractBuildFileTest
+class PackageAsPath extends Task
 {
 
-    public function setUp()
+    /** The package to convert. */
+    protected $pckg;
+
+    /** The property to store the conversion in. */
+    protected $name;
+
+    /**
+     * Executes the package to patch converstion and stores it
+     * in the user property <code>name</code>.
+     */
+    public function main()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/ext/filehash.xml");
+        $this->project->setUserProperty($this->name, strtr($this->pckg, '.', '/'));
     }
 
-    public function testMD5()
+    /**
+     * @param string $pckg the package to convert
+     */
+    public function setPackage($pckg)
     {
-        $this->expectLog("testMD5", "c9dcdf095de0ef3d2e3f71cb4dc7ee11");
+        $this->pckg = $pckg;
     }
 
-    public function testSHA1()
+    /**
+     * @param string $name the property to store the path in
+     */
+    public function setName($name)
     {
-        $this->expectLog("testSHA1", "dadd0aafb79d9fb8299a928efb23c112874bbda3");
+        $this->name = $name;
     }
 
-    public function testCRC32()
-    {
-        $this->expectLog("testCRC32", "d34c2e86");
-    }
 }

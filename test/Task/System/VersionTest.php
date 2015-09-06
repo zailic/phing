@@ -1,4 +1,5 @@
 <?php
+
 /*
  *  $Id$
  *
@@ -19,38 +20,35 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Task\System;
+
 use Phing\Test\Helper\AbstractBuildFileTest;
 
 
 /**
- * Tests the Manifest Task
- *
- * @author  Michiel Rook <mrook@php.net>
- * @version $Id$
- * @package phing.tasks.system
+ * @author Michiel Rook <mrook@php.net>
+ * @package phing.tasks.ext
  */
-class ManifestTaskTest extends AbstractBuildFileTest
+class VersionTest extends AbstractBuildFileTest
 {
+
     public function setUp()
     {
-        $this->configureProject(
-            PHING_TEST_BASE
-            . "/etc/tasks/ext/ManifestTaskTest.xml"
-        );
-        $this->executeTarget("setup");
+        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/system/VersionTest.xml");
     }
 
-    public function tearDown()
+    public function testBugfix()
     {
-        $this->executeTarget("clean");
+        $this->expectLog("testBugfix", "1.0.1");
     }
 
-    public function testGenerateManifest()
+    public function testMinor()
     {
-        $this->executeTarget(__FUNCTION__);
-        $hash = md5("salty" . "File1");
-        $manifestFile = realpath(PHING_TEST_BASE . "/etc/tasks/ext/tmp/manifest");
-        $this->assertInLogs("Writing to " . $manifestFile);
-        $this->assertEquals("file1\t" . $hash . "\n", file_get_contents($manifestFile));
+        $this->expectLog("testMinor", "1.1.0");
+    }
+
+    public function testMajor()
+    {
+        $this->expectLog("testMajor", "2.0.0");
     }
 }

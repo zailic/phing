@@ -1,5 +1,4 @@
 <?php
-
 /*
  *  $Id$
  *
@@ -19,48 +18,41 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-use Phing\Task;
+
+namespace Phing\Test\Task\System;
+
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 
 /**
- * Convert dot-notation packages to relative paths.
+ * Tests the Manifest Task
  *
- * @author    Hans Lellelid <hans@xmpl.org>
- * @version   $Id$
- * @package   phing.tasks.ext
+ * @author  Michiel Rook <mrook@php.net>
+ * @version $Id$
+ * @package phing.tasks.system
  */
-class PackageAsPathTask extends Task
+class ManifestTest extends AbstractBuildFileTest
 {
-
-    /** The package to convert. */
-    protected $pckg;
-
-    /** The property to store the conversion in. */
-    protected $name;
-
-    /**
-     * Executes the package to patch converstion and stores it
-     * in the user property <code>name</code>.
-     */
-    public function main()
+    public function setUp()
     {
-        $this->project->setUserProperty($this->name, strtr($this->pckg, '.', '/'));
+        $this->configureProject(
+            PHING_TEST_BASE
+            . "/etc/tasks/system/ManifestTest.xml"
+        );
+        $this->executeTarget("setup");
     }
 
-    /**
-     * @param string $pckg the package to convert
-     */
-    public function setPackage($pckg)
+    public function tearDown()
     {
-        $this->pckg = $pckg;
+        $this->executeTarget("clean");
     }
 
-    /**
-     * @param string $name the property to store the path in
-     */
-    public function setName($name)
+    public function testGenerateManifest()
     {
-        $this->name = $name;
+        $this->executeTarget(__FUNCTION__);
+        $hash = md5("salty" . "File1");
+        $manifestFile = realpath(PHING_TEST_BASE . "/etc/tasks/system/tmp/manifest");
+        $this->assertInLogs("Writing to " . $manifestFile);
+        $this->assertEquals("file1\t" . $hash . "\n", file_get_contents($manifestFile));
     }
-
 }

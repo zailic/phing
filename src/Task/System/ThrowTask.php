@@ -1,5 +1,4 @@
 <?php
-
 /*
  *  $Id$
  *
@@ -19,34 +18,58 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\System;
 
-use Phing\Test\Helper\AbstractBuildFileTest;
+use Phing\Exception\BuildException;
+use Phing\Task\System\Fail;
+use Phing\Type\Reference;
 
 
 /**
- * @author Michiel Rook <mrook@php.net>
- * @package phing.tasks.ext
+ * Exits the active build, giving an additional message
+ * if available.
+ *
+ * @author    Hans Lellelid <hans@xmpl.org> (Phing)
+ * @author    Nico Seessle <nico@seessle.de> (Ant)
+ * @version   $Id$
+ * @package   phing.tasks.system
  */
-class VersionTaskTest extends AbstractBuildFileTest
+class ThrowTask extends Fail
 {
+    /**
+     * @var Reference
+     */
+    private $reference = null;
 
-    public function setUp()
+    /**
+     * @throws BuildException
+     */
+    public function main()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/ext/version.xml");
+        $reffed = $this->reference !== null ? $this->reference->getReferencedObject($this->getProject()) : null;
+
+        if ($reffed !== null && $reffed instanceof BuildException) {
+            throw $reffed;
+        }
+
+        parent::main();
     }
 
-    public function testBugfix()
+    /**
+     * @param Reference $ref
+     *
+     * @return void
+     */
+    public function setRefid(Reference $ref)
     {
-        $this->expectLog("testBugfix", "1.0.1");
+        $this->reference = $ref;
     }
 
-    public function testMinor()
+    /**
+     * @return Reference
+     */
+    public function getRefid()
     {
-        $this->expectLog("testMinor", "1.1.0");
-    }
-
-    public function testMajor()
-    {
-        $this->expectLog("testMajor", "2.0.0");
+        return $this->reference;
     }
 }

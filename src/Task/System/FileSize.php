@@ -18,6 +18,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\System;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Task;
@@ -32,7 +34,7 @@ use Phing\Task;
  * @version     $Id$
  * @package     phing.tasks.ext
  */
-class FileSizeTask extends Task
+class FileSize extends Task
 {
     /**
      * Property for File
@@ -103,10 +105,12 @@ class FileSizeTask extends Task
         }
 
         if (!is_readable($this->file)) {
-            throw new BuildException(sprintf(
-                '[FileSize] Input file does not exist or is not readable: %s',
-                $this->file
-            ));
+            throw new BuildException(
+                sprintf(
+                    '[FileSize] Input file does not exist or is not readable: %s',
+                    $this->file
+                )
+            );
         }
 
     }

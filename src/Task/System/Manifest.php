@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Task\System;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Project;
@@ -55,7 +57,7 @@ use Phing\Type\FileSet;
  *
  * @since 2.3.1
  */
-class ManifestTask extends Task
+class Manifest extends Task
 {
     public $taskname = 'manifest';
 
@@ -76,13 +78,14 @@ class ManifestTask extends Task
 
     /**
      * The target file passed in the buildfile.
+     * @var File
      */
-    private $destFile = null;
+    private $file;
 
     /**
      * Holds filesets
      *
-     * @var array An Array of objects
+     * @var FileSet[] An Array of objects
      */
     private $filesets = array();
 
@@ -273,7 +276,7 @@ class ManifestTask extends Task
      * @link  http://www.php.net/mhash
      * @link  http://www.php.net/hash
      *
-     * @param  string $msg  The string that should be hashed
+     * @param  string $msg The string that should be hashed
      * @param  string $algo Algorithm
      *
      * @return mixed  String on success, false if $algo is not available

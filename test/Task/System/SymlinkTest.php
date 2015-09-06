@@ -19,6 +19,8 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Task\System;
+
 use Phing\Test\Helper\AbstractBuildFileTest;
 
 
@@ -30,13 +32,13 @@ use Phing\Test\Helper\AbstractBuildFileTest;
  * @package phing.tasks.system
  * @requires OS Linux
  */
-class SymlinkTaskTest extends AbstractBuildFileTest
+class SymlinkTest extends AbstractBuildFileTest
 {
     public function setUp()
     {
         $this->configureProject(
             PHING_TEST_BASE
-            . "/etc/tasks/ext/SymlinkTaskTest.xml"
+            . "/etc/tasks/system/SymlinkTest.xml"
         );
         $this->executeTarget("setup");
     }
@@ -49,28 +51,40 @@ class SymlinkTaskTest extends AbstractBuildFileTest
     public function testSymlinkExists()
     {
         $this->executeTarget(__FUNCTION__);
-        $this->assertEquals(PHING_TEST_BASE . "/etc/tasks/ext/tmp/fake1", readlink(PHING_TEST_BASE . "/etc/tasks/ext/tmp/l"));
+        $this->assertEquals(
+            PHING_TEST_BASE . "/etc/tasks/system/tmp/fake1",
+            readlink(PHING_TEST_BASE . "/etc/tasks/system/tmp/l")
+        );
         $this->assertInLogs("Link exists: ");
     }
 
     public function testOverwritingSymlink()
     {
         $this->executeTarget(__FUNCTION__);
-        $this->assertEquals(PHING_TEST_BASE . "/etc/tasks/ext/tmp/fake2", readlink(PHING_TEST_BASE . "/etc/tasks/ext/tmp/l"));
+        $this->assertEquals(
+            PHING_TEST_BASE . "/etc/tasks/system/tmp/fake2",
+            readlink(PHING_TEST_BASE . "/etc/tasks/system/tmp/l")
+        );
         $this->assertInLogs("Link removed: ");
     }
 
     public function testOverwritingDirectory()
     {
         $this->executeTarget(__FUNCTION__);
-        $this->assertEquals(PHING_TEST_BASE . "/etc/tasks/ext/tmp/fake1", readlink(PHING_TEST_BASE . "/etc/tasks/ext/tmp/l"));
+        $this->assertEquals(
+            PHING_TEST_BASE . "/etc/tasks/system/tmp/fake1",
+            readlink(PHING_TEST_BASE . "/etc/tasks/system/tmp/l")
+        );
         $this->assertInLogs("Directory removed: ");
     }
 
     public function testNotOverwritingSymlink()
     {
         $this->executeTarget(__FUNCTION__);
-        $this->assertEquals(PHING_TEST_BASE . "/etc/tasks/ext/tmp/fake1", readlink(PHING_TEST_BASE . "/etc/tasks/ext/tmp/l"));
+        $this->assertEquals(
+            PHING_TEST_BASE . "/etc/tasks/system/tmp/fake1",
+            readlink(PHING_TEST_BASE . "/etc/tasks/system/tmp/l")
+        );
         $this->assertInLogs("Not overwriting existing link");
     }
 
@@ -78,6 +92,9 @@ class SymlinkTaskTest extends AbstractBuildFileTest
     {
         $this->executeTarget(__FUNCTION__);
         $this->assertInLogs("Link removed: ");
-        $this->assertEquals(PHING_TEST_BASE . "/etc/tasks/ext/tmp/fake2", readlink(PHING_TEST_BASE . "/etc/tasks/ext/tmp/l"));
+        $this->assertEquals(
+            PHING_TEST_BASE . "/etc/tasks/system/tmp/fake2",
+            readlink(PHING_TEST_BASE . "/etc/tasks/system/tmp/l")
+        );
     }
 }
