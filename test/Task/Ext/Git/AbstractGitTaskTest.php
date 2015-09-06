@@ -19,16 +19,17 @@
  * <http://phing.info>.
  */
 
-use Phing\Test\Helper\AbstractBuildFileTest;
+namespace Phing\Test\Task\Ext\Git;
 
-require_once '../classes/phing/tasks/ext/git/GitBaseTask.php';
+use Phing\Task\Ext\Git\AbstractGitTask;
+use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
  * @author Victor Farazdagi <simple.square@gmail.com>
  * @version $Id$
  * @package phing.tasks.ext
  */
-class GitBaseTest extends AbstractBuildFileTest
+class AbstractGitTaskTest extends AbstractBuildFileTest
 {
 
     protected $mock;
@@ -45,12 +46,12 @@ class GitBaseTest extends AbstractBuildFileTest
             PHING_TEST_BASE
             . "/etc/tasks/ext/git/GitBaseTest.xml"
         );
-        $this->mock = $this->getMockForAbstractClass('GitBaseTask');
+        $this->mock = $this->getMockForAbstractClass(AbstractGitTask::class);
     }
 
     public function testInitialization()
     {
-        $this->assertInstanceOf('GitBaseTask', $this->mock);
+        $this->assertInstanceOf(AbstractGitTask::class, $this->mock);
     }
 
     /**

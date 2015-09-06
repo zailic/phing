@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Test\Helper;
+
 class GitTestsHelper
 {
     public static function rmdir($dir)
@@ -24,8 +26,8 @@ class GitTestsHelper
     /**
      * Get relative date
      *
-     * @param int    $timestamp Timestamp to us as pin-point
-     * @param string $type      Whether 'fulldate' or 'time'
+     * @param int $timestamp Timestamp to us as pin-point
+     * @param string $type Whether 'fulldate' or 'time'
      */
     public static function getRelativeDate($timestamp, $type = 'fulldate')
     {

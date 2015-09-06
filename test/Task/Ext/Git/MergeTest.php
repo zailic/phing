@@ -19,17 +19,17 @@
  * <http://phing.info>.
  */
 
-use Phing\Test\Helper\AbstractBuildFileTest;
+namespace Phing\Test\Task\Ext\Git;
 
-require_once '../classes/phing/tasks/ext/git/GitPushTask.php';
-require_once dirname(__FILE__) . '/GitTestsHelper.php';
+use Phing\Test\Helper\AbstractBuildFileTest;
+use Phing\Test\Helper\GitTestsHelper;
 
 /**
  * @author Victor Farazdagi <simple.square@gmail.com>
  * @version $Id$
  * @package phing.tasks.ext
  */
-class GitPushTaskTest extends AbstractBuildFileTest
+class MergeTest extends AbstractBuildFileTest
 {
 
     public function setUp()
@@ -50,55 +50,46 @@ class GitPushTaskTest extends AbstractBuildFileTest
 
         $this->configureProject(
             PHING_TEST_BASE
-            . '/etc/tasks/ext/git/GitPushTaskTest.xml'
+            . '/etc/tasks/ext/git/GitMergeTaskTest.xml'
         );
     }
 
     public function tearDown()
     {
         GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/git');
-        GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/repo');
     }
 
     public function testAllParamsSet()
     {
         $repository = PHING_TEST_BASE . '/tmp/git';
         $this->executeTarget('allParamsSet');
-        $this->assertInLogs('git-push: pushing to origin master:foobranch');
-        $this->assertInLogs('git-push: complete');
+        $this->assertInLogs('git-merge: replaying "merge-test-1 merge-test-2" commits');
+        $this->assertInLogs('git-merge output: Already up-to-date.');
     }
 
-    public function testAllReposSet()
+    public function testNoCommitSet()
     {
         $repository = PHING_TEST_BASE . '/tmp/git';
-        $this->executeTarget('allReposSet');
-        $this->assertInLogs('git-push: push to all refs');
-        $this->assertInLogs('git-push: complete');
+        $this->executeTarget('noCommitSet');
+        $this->assertInLogs('git-merge: replaying "6dbaf4508e75dcd426b5b974a67c462c70d46e1f" commits');
+        $this->assertInLogs('git-merge output: Already up-to-date.');
     }
 
-    public function testTagsSet()
+    public function testRemoteSet()
     {
         $repository = PHING_TEST_BASE . '/tmp/git';
-        $this->executeTarget('tagsSet');
-        $this->assertInLogs('git-push: pushing to origin master:foobranch');
-        $this->assertInLogs('git-push: complete');
+        $this->executeTarget('remoteSet');
+        $this->assertInLogs('git-merge: replaying "6dbaf4508e75dcd426b5b974a67c462c70d46e1f" commits');
+        $this->assertInLogs('git-merge output: Already up-to-date.');
     }
 
-    public function testDeleteSet()
+    public function testFastForwardCommitSet()
     {
         $repository = PHING_TEST_BASE . '/tmp/git';
-        $this->executeTarget('deleteSet');
-        $this->assertInLogs('git-push: pushing to origin master:newbranch');
-        $this->assertInLogs('git-push: branch delete requested');
-        $this->assertInLogs('git-push: complete');
-    }
-
-    public function testMirrorSet()
-    {
-        $repository = PHING_TEST_BASE . '/tmp/git';
-        $this->executeTarget('mirrorSet');
-        $this->assertInLogs('git-push: mirror all refs');
-        $this->assertInLogs('git-push: complete');
+        $this->executeTarget('fastForwardCommitSet');
+        $this->assertInLogs('git-merge command: /usr/bin/git merge --no-ff \'origin/master\'');
+        $this->assertInLogs('git-merge: replaying "origin/master" commits');
+        $this->assertInLogs('Merge remote-tracking branch \'origin/master\' into merge-test-1');
     }
 
     public function testNoRepositorySpecified()
@@ -110,22 +101,21 @@ class GitPushTaskTest extends AbstractBuildFileTest
         );
     }
 
-    public function testWrongRepo()
+    public function testNoRemotesSpecified()
     {
         $this->expectBuildExceptionContaining(
-            'wrongRepo',
-            'Repo dir is wrong',
-            'You must specify readable directory as repository.'
+            'noRemotes',
+            'At least one commit is required',
+            '"remote" is required parameter'
         );
     }
 
-    public function testNoDestinationSpecified()
+    public function testWrongStrategySet()
     {
         $this->expectBuildExceptionContaining(
-            'noDestination',
-            'No source set',
-            'At least one destination must be provided'
+            'wrongStrategySet',
+            'Wrong strategy passed',
+            'Could not find merge strategy \'plain-wrong\''
         );
     }
-
 }

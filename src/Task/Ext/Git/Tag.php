@@ -18,6 +18,9 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Git;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Project;
 
@@ -32,7 +35,7 @@ use Phing\Project;
  * @see VersionControl_Git
  * @since 2.4.5
  */
-class GitTagTask extends GitBaseTask
+class Tag extends AbstractGitTask
 {
     /**
      * Make unsigned, annotated tag object. See -a of git-tag
@@ -221,7 +224,7 @@ class GitTagTask extends GitBaseTask
      */
     public function setAnnotate($flag)
     {
-        $this->annotate = (bool) $flag;
+        $this->annotate = (bool)$flag;
     }
 
     /**
@@ -245,7 +248,7 @@ class GitTagTask extends GitBaseTask
      */
     public function setSign($flag)
     {
-        $this->sign = (bool) $flag;
+        $this->sign = (bool)$flag;
     }
 
     /**
@@ -285,7 +288,7 @@ class GitTagTask extends GitBaseTask
      */
     public function setReplace($flag)
     {
-        $this->replace = (bool) $flag;
+        $this->replace = (bool)$flag;
     }
 
     /**
@@ -317,7 +320,7 @@ class GitTagTask extends GitBaseTask
      */
     public function setDelete($flag)
     {
-        $this->delete = (bool) $flag;
+        $this->delete = (bool)$flag;
     }
 
     /**
@@ -341,7 +344,7 @@ class GitTagTask extends GitBaseTask
      */
     public function setVerify($flag)
     {
-        $this->verify = (bool) $flag;
+        $this->verify = (bool)$flag;
     }
 
     /**
@@ -365,7 +368,7 @@ class GitTagTask extends GitBaseTask
      */
     public function setList($flag)
     {
-        $this->list = (bool) $flag;
+        $this->list = (bool)$flag;
     }
 
     /**
@@ -389,7 +392,7 @@ class GitTagTask extends GitBaseTask
      */
     public function setNum($num)
     {
-        $this->num = (int) $num;
+        $this->num = (int)$num;
     }
 
     /**

@@ -19,17 +19,17 @@
  * <http://phing.info>.
  */
 
-use Phing\Test\Helper\AbstractBuildFileTest;
+namespace Phing\Test\Task\Ext\Git;
 
-require_once '../classes/phing/tasks/ext/git/GitLogTask.php';
-require_once dirname(__FILE__) . '/GitTestsHelper.php';
+use Phing\Test\Helper\AbstractBuildFileTest;
+use Phing\Test\Helper\GitTestsHelper;
 
 /**
  * @author Victor Farazdagi <simple.square@gmail.com>
  * @version $Id$
  * @package phing.tasks.ext
  */
-class GitLogTaskTest extends AbstractBuildFileTest
+class LogTest extends AbstractBuildFileTest
 {
 
     private $testCommits = array(

@@ -18,8 +18,7 @@
  */
 
 use Phing\Test\Helper\AbstractBuildFileTest;
-
-require_once dirname(__FILE__) . '/../GitTasks/GitTestsHelper.php';
+use Phing\Test\Helper\GitTestsHelper;
 
 /**
  * @group svn

@@ -18,8 +18,12 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Git;
+
 use Phing\Exception\BuildException;
 use Phing\Task;
+use VersionControl_Git;
+use VersionControl_Git_Exception;
 
 
 /**
@@ -31,7 +35,7 @@ use Phing\Task;
  * @see VersionControl_Git
  * @since 2.4.3
  */
-abstract class GitBaseTask extends Task
+abstract class AbstractGitTask extends Task
 {
     /**
      * Bath to git binary
@@ -58,16 +62,18 @@ abstract class GitBaseTask extends Task
     {
         @include_once 'VersionControl/Git.php';
         if (false == class_exists('VersionControl_Git')) {
-            throw new BuildException("The Git tasks depend on PEAR\'s "
-                . "VersionControl_Git package.", $this->getLocation());
+            throw new BuildException(
+                "The Git tasks depend on PEAR\'s "
+                . "VersionControl_Git package.", $this->getLocation()
+            );
         }
     }
 
     /**
      * Set repository directory
      *
-     * @param  string      $repository Repo directory
-     * @return GitBaseTask
+     * @param  string $repository Repo directory
+     * @return AbstractGitTask
      */
     public function setRepository($repository)
     {
@@ -89,8 +95,8 @@ abstract class GitBaseTask extends Task
     /**
      * Set path to git executable
      *
-     * @param  string      $gitPath New path to git repository
-     * @return GitBaseTask
+     * @param  string $gitPath New path to git repository
+     * @return AbstractGitTask
      */
     public function setGitPath($gitPath)
     {
@@ -128,7 +134,8 @@ abstract class GitBaseTask extends Task
             } catch (VersionControl_Git_Exception $e) {
                 // re-package
                 throw new BuildException(
-                    'You must specify readable directory as repository.', $e);
+                    'You must specify readable directory as repository.', $e
+                );
 
             }
         }

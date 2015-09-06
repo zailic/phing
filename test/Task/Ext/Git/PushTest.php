@@ -19,17 +19,17 @@
  * <http://phing.info>.
  */
 
-use Phing\Test\Helper\AbstractBuildFileTest;
+namespace Phing\Test\Task\Ext\Git;
 
-require_once '../classes/phing/tasks/ext/git/GitFetchTask.php';
-require_once dirname(__FILE__) . '/GitTestsHelper.php';
+use Phing\Test\Helper\AbstractBuildFileTest;
+use Phing\Test\Helper\GitTestsHelper;
 
 /**
  * @author Victor Farazdagi <simple.square@gmail.com>
  * @version $Id$
  * @package phing.tasks.ext
  */
-class GitFetchTaskTest extends AbstractBuildFileTest
+class PushTest extends AbstractBuildFileTest
 {
 
     public function setUp()
@@ -50,29 +50,55 @@ class GitFetchTaskTest extends AbstractBuildFileTest
 
         $this->configureProject(
             PHING_TEST_BASE
-            . '/etc/tasks/ext/git/GitFetchTaskTest.xml'
+            . '/etc/tasks/ext/git/GitPushTaskTest.xml'
         );
     }
 
     public function tearDown()
     {
         GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/git');
+        GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/repo');
     }
 
     public function testAllParamsSet()
     {
         $repository = PHING_TEST_BASE . '/tmp/git';
         $this->executeTarget('allParamsSet');
-        $this->assertInLogs('git-fetch: branch "' . $repository . '" repository');
-        $this->assertInLogs('git-fetch output: '); // no output actually
+        $this->assertInLogs('git-push: pushing to origin master:foobranch');
+        $this->assertInLogs('git-push: complete');
     }
 
-    public function testFetchAllRemotes()
+    public function testAllReposSet()
     {
         $repository = PHING_TEST_BASE . '/tmp/git';
-        $this->executeTarget('fetchAllRemotes');
-        $this->assertInLogs('git-fetch: branch "' . $repository . '" repository');
-        $this->assertInLogs('git-fetch output: Fetching origin');
+        $this->executeTarget('allReposSet');
+        $this->assertInLogs('git-push: push to all refs');
+        $this->assertInLogs('git-push: complete');
+    }
+
+    public function testTagsSet()
+    {
+        $repository = PHING_TEST_BASE . '/tmp/git';
+        $this->executeTarget('tagsSet');
+        $this->assertInLogs('git-push: pushing to origin master:foobranch');
+        $this->assertInLogs('git-push: complete');
+    }
+
+    public function testDeleteSet()
+    {
+        $repository = PHING_TEST_BASE . '/tmp/git';
+        $this->executeTarget('deleteSet');
+        $this->assertInLogs('git-push: pushing to origin master:newbranch');
+        $this->assertInLogs('git-push: branch delete requested');
+        $this->assertInLogs('git-push: complete');
+    }
+
+    public function testMirrorSet()
+    {
+        $repository = PHING_TEST_BASE . '/tmp/git';
+        $this->executeTarget('mirrorSet');
+        $this->assertInLogs('git-push: mirror all refs');
+        $this->assertInLogs('git-push: complete');
     }
 
     public function testNoRepositorySpecified()
@@ -84,21 +110,22 @@ class GitFetchTaskTest extends AbstractBuildFileTest
         );
     }
 
-    public function testNoTargetSpecified()
+    public function testWrongRepo()
     {
         $this->expectBuildExceptionContaining(
-            'noTarget',
-            'Target is required',
-            'No remote repository specified'
+            'wrongRepo',
+            'Repo dir is wrong',
+            'You must specify readable directory as repository.'
         );
     }
 
-    public function testRefspecSet()
+    public function testNoDestinationSpecified()
     {
-        $repository = PHING_TEST_BASE . '/tmp/git';
-        $this->executeTarget('refspecSet');
-        $this->assertInLogs('git-fetch: branch "' . $repository . '" repository');
-        $this->assertInLogs('git-fetch output: ');
-        $this->assertInLogs('Deleted branch refspec-branch');
+        $this->expectBuildExceptionContaining(
+            'noDestination',
+            'No source set',
+            'At least one destination must be provided'
+        );
     }
+
 }

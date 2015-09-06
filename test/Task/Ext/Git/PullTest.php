@@ -19,16 +19,16 @@
  * <http://phing.info>.
  */
 
-use Phing\Test\Helper\AbstractBuildFileTest;
+namespace Phing\Test\Task\Ext\Git;
 
-require_once '../classes/phing/tasks/ext/git/GitPullTask.php';
-require_once dirname(__FILE__) . '/GitTestsHelper.php';
+use Phing\Test\Helper\AbstractBuildFileTest;
+use Phing\Test\Helper\GitTestsHelper;
 
 /**
  * @author Victor Farazdagi <simple.square@gmail.com>
  * @package phing.tasks.ext
  */
-class GitPullTaskTest extends AbstractBuildFileTest
+class PullTest extends AbstractBuildFileTest
 {
 
     public function setUp()
@@ -107,15 +107,15 @@ class GitPullTaskTest extends AbstractBuildFileTest
         $this->assertInLogs('git-pull: fetching from all remotes');
         $this->assertInLogs('git-pull: complete');
 
-/*        $lastLogLine = array_pop($this->logBuffer);
+        /*        $lastLogLine = array_pop($this->logBuffer);
 
-        if (strpos($lastLogLine, 'up-to-date') !== false ||
-            strpos($lastLogLine, 'up to date') !== false
-        ) {
-            $this->assertTrue(true);
-        } else {
-            $this->assertTrue(false, 'Last log line: ' . $lastLogLine);
-        }*/
+                if (strpos($lastLogLine, 'up-to-date') !== false ||
+                    strpos($lastLogLine, 'up to date') !== false
+                ) {
+                    $this->assertTrue(true);
+                } else {
+                    $this->assertTrue(false, 'Last log line: ' . $lastLogLine);
+                }*/
         $this->assertInLogs('Already up-to-date.');
     }
 

@@ -19,17 +19,17 @@
  * <http://phing.info>.
  */
 
-use Phing\Test\Helper\AbstractBuildFileTest;
+namespace Phing\Test\Task\Ext\Git;
 
-require_once '../classes/phing/tasks/ext/git/GitCloneTask.php';
-require_once dirname(__FILE__) . '/GitTestsHelper.php';
+use Phing\Test\Helper\AbstractBuildFileTest;
+use Phing\Test\Helper\GitTestsHelper;
 
 /**
  * @author Victor Farazdagi <simple.square@gmail.com>
  * @version $Id$
  * @package phing.tasks.ext
  */
-class GitCloneTaskTest extends AbstractBuildFileTest
+class FetchTest extends AbstractBuildFileTest
 {
 
     public function setUp()
@@ -40,12 +40,17 @@ class GitCloneTaskTest extends AbstractBuildFileTest
             $this->markTestSkipped('Testing not on a windows os.');
         }
 
+        if (is_readable(PHING_TEST_BASE . '/tmp/git')) {
+            // make sure we purge previously created directory
+            // if left-overs from previous run are found
+            GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/git');
+        }
         // set temp directory used by test cases
         mkdir(PHING_TEST_BASE . '/tmp/git');
 
         $this->configureProject(
             PHING_TEST_BASE
-            . '/etc/tasks/ext/git/GitCloneTaskTest.xml'
+            . '/etc/tasks/ext/git/GitFetchTaskTest.xml'
         );
     }
 
@@ -54,43 +59,20 @@ class GitCloneTaskTest extends AbstractBuildFileTest
         GitTestsHelper::rmdir(PHING_TEST_BASE . '/tmp/git');
     }
 
-    public function testWrongRepository()
+    public function testAllParamsSet()
     {
-        $this->expectBuildExceptionContaining(
-            'wrongRepository',
-            'Repository not readable',
-            'The remote end hung up unexpectedly'
-        );
+        $repository = PHING_TEST_BASE . '/tmp/git';
+        $this->executeTarget('allParamsSet');
+        $this->assertInLogs('git-fetch: branch "' . $repository . '" repository');
+        $this->assertInLogs('git-fetch output: '); // no output actually
     }
 
-    public function testGitClone()
+    public function testFetchAllRemotes()
     {
-        $bundle = PHING_TEST_BASE . '/etc/tasks/ext/git/phing-tests.git';
         $repository = PHING_TEST_BASE . '/tmp/git';
-        $gitFilesDir = $repository . '/.git';
-        $this->executeTarget('gitClone');
-
-        $this->assertInLogs('git-clone: cloning "' . $bundle . '" repository to "' . $repository . '" directory');
-        $this->assertTrue(is_dir($repository));
-        $this->assertTrue(is_dir($gitFilesDir));
-        // test that file is actully cloned
-        $this->assertTrue(is_readable($repository . '/README'));
-    }
-
-    public function testGitCloneBare()
-    {
-        $bundle = PHING_TEST_BASE . '/etc/tasks/ext/git/phing-tests.git';
-        $repository = PHING_TEST_BASE . '/tmp/git';
-        $gitFilesDir = $repository . '/.git';
-        $this->executeTarget('gitCloneBare');
-        $this->assertInLogs(
-            'git-clone: cloning (bare) "' . $bundle . '" repository to "' . $repository . '" directory'
-        );
-        $this->assertTrue(is_dir($repository));
-        $this->assertTrue(is_dir($repository . '/branches'));
-        $this->assertTrue(is_dir($repository . '/info'));
-        $this->assertTrue(is_dir($repository . '/hooks'));
-        $this->assertTrue(is_dir($repository . '/refs'));
+        $this->executeTarget('fetchAllRemotes');
+        $this->assertInLogs('git-fetch: branch "' . $repository . '" repository');
+        $this->assertInLogs('git-fetch output: Fetching origin');
     }
 
     public function testNoRepositorySpecified()
@@ -102,13 +84,21 @@ class GitCloneTaskTest extends AbstractBuildFileTest
         );
     }
 
-    public function testNoTargetPathSpecified()
+    public function testNoTargetSpecified()
     {
         $this->expectBuildExceptionContaining(
-            'noTargetPath',
-            'Target path is required',
-            '"targetPath" is required parameter'
+            'noTarget',
+            'Target is required',
+            'No remote repository specified'
         );
     }
 
+    public function testRefspecSet()
+    {
+        $repository = PHING_TEST_BASE . '/tmp/git';
+        $this->executeTarget('refspecSet');
+        $this->assertInLogs('git-fetch: branch "' . $repository . '" repository');
+        $this->assertInLogs('git-fetch output: ');
+        $this->assertInLogs('Deleted branch refspec-branch');
+    }
 }

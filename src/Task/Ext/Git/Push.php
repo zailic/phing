@@ -18,6 +18,9 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Git;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Project;
 
@@ -32,7 +35,7 @@ use Phing\Project;
  * @since 2.4.3
  * @link http://www.kernel.org/pub/software/scm/git/docs/git-push.html
  */
-class GitPushTask extends GitBaseTask
+class Push extends AbstractGitTask
 {
     /**
      * Instead of naming each ref to push, specifies that all refs
@@ -172,7 +175,7 @@ class GitPushTask extends GitBaseTask
      */
     public function setMirror($flag)
     {
-        $this->mirror = (boolean) $flag;
+        $this->mirror = (boolean)$flag;
     }
 
     /**
@@ -196,7 +199,7 @@ class GitPushTask extends GitBaseTask
      */
     public function setDelete($flag)
     {
-        $this->delete = (boolean) $flag;
+        $this->delete = (boolean)$flag;
     }
 
     /**

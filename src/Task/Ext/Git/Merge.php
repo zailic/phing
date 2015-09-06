@@ -18,6 +18,9 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Git;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Project;
 
@@ -32,7 +35,7 @@ use Phing\Project;
  * @since 2.4.3
  * @link http://www.kernel.org/pub/software/scm/git/docs/git-merge.html
  */
-class GitMergeTask extends GitBaseTask
+class Merge extends AbstractGitTask
 {
     /**
      * <commit> of git-merge
@@ -133,7 +136,8 @@ class GitMergeTask extends GitBaseTask
             if (false === in_array($strategy, $this->validStrategies)) {
                 throw new BuildException(
                     "Could not find merge strategy '" . $strategy . "'\n" .
-                    "Available strategies are: " . implode(', ', $this->validStrategies));
+                    "Available strategies are: " . implode(', ', $this->validStrategies)
+                );
             }
             $command->setOption('strategy', $strategy);
             if ($this->getStrategyOption()) {
@@ -258,7 +262,7 @@ class GitMergeTask extends GitBaseTask
      */
     public function setCommit($flag)
     {
-        $this->commit = (boolean) $flag;
+        $this->commit = (boolean)$flag;
     }
 
     /**
@@ -282,7 +286,7 @@ class GitMergeTask extends GitBaseTask
      */
     public function setNoCommit($flag)
     {
-        $this->noCommit = (boolean) $flag;
+        $this->noCommit = (boolean)$flag;
     }
 
     /**

@@ -19,17 +19,17 @@
  * <http://phing.info>.
  */
 
-use Phing\Test\Helper\AbstractBuildFileTest;
+namespace Phing\Test\Task\Ext\Git;
 
-require_once '../classes/phing/tasks/ext/git/GitMergeTask.php';
-require_once dirname(__FILE__) . '/GitTestsHelper.php';
+use Phing\Test\Helper\AbstractBuildFileTest;
+use Phing\Test\Helper\GitTestsHelper;
 
 /**
  * @author Victor Farazdagi <simple.square@gmail.com>
  * @version $Id$
  * @package phing.tasks.ext
  */
-class GitMergeTaskTest extends AbstractBuildFileTest
+class GcTest extends AbstractBuildFileTest
 {
 
     public function setUp()
@@ -50,7 +50,7 @@ class GitMergeTaskTest extends AbstractBuildFileTest
 
         $this->configureProject(
             PHING_TEST_BASE
-            . '/etc/tasks/ext/git/GitMergeTaskTest.xml'
+            . '/etc/tasks/ext/git/GitGcTaskTest.xml'
         );
     }
 
@@ -63,33 +63,7 @@ class GitMergeTaskTest extends AbstractBuildFileTest
     {
         $repository = PHING_TEST_BASE . '/tmp/git';
         $this->executeTarget('allParamsSet');
-        $this->assertInLogs('git-merge: replaying "merge-test-1 merge-test-2" commits');
-        $this->assertInLogs('git-merge output: Already up-to-date.');
-    }
-
-    public function testNoCommitSet()
-    {
-        $repository = PHING_TEST_BASE . '/tmp/git';
-        $this->executeTarget('noCommitSet');
-        $this->assertInLogs('git-merge: replaying "6dbaf4508e75dcd426b5b974a67c462c70d46e1f" commits');
-        $this->assertInLogs('git-merge output: Already up-to-date.');
-    }
-
-    public function testRemoteSet()
-    {
-        $repository = PHING_TEST_BASE . '/tmp/git';
-        $this->executeTarget('remoteSet');
-        $this->assertInLogs('git-merge: replaying "6dbaf4508e75dcd426b5b974a67c462c70d46e1f" commits');
-        $this->assertInLogs('git-merge output: Already up-to-date.');
-    }
-
-    public function testFastForwardCommitSet()
-    {
-        $repository = PHING_TEST_BASE . '/tmp/git';
-        $this->executeTarget('fastForwardCommitSet');
-        $this->assertInLogs('git-merge command: /usr/bin/git merge --no-ff \'origin/master\'');
-        $this->assertInLogs('git-merge: replaying "origin/master" commits');
-        $this->assertInLogs('Merge remote-tracking branch \'origin/master\' into merge-test-1');
+        $this->assertInLogs('git-gc: cleaning up "' . $repository . '" repository');
     }
 
     public function testNoRepositorySpecified()
@@ -101,21 +75,39 @@ class GitMergeTaskTest extends AbstractBuildFileTest
         );
     }
 
-    public function testNoRemotesSpecified()
+    public function testAutoParameter()
     {
-        $this->expectBuildExceptionContaining(
-            'noRemotes',
-            'At least one commit is required',
-            '"remote" is required parameter'
-        );
+        $repository = PHING_TEST_BASE . '/tmp/git';
+        $msg = 'git-gc: cleaning up "' . $repository . '" repository';
+
+        $this->executeTarget('autoParamSet');
+        $this->assertInLogs($msg);
     }
 
-    public function testWrongStrategySet()
+    public function testNoPruneParameter()
     {
-        $this->expectBuildExceptionContaining(
-            'wrongStrategySet',
-            'Wrong strategy passed',
-            'Could not find merge strategy \'plain-wrong\''
-        );
+        $repository = PHING_TEST_BASE . '/tmp/git';
+        $msg = 'git-gc: cleaning up "' . $repository . '" repository';
+
+        $this->executeTarget('nopruneParamSet');
+        $this->assertInLogs($msg);
+    }
+
+    public function testAggressiveParameter()
+    {
+        $repository = PHING_TEST_BASE . '/tmp/git';
+        $msg = 'git-gc: cleaning up "' . $repository . '" repository';
+
+        $this->executeTarget('aggressiveParamSet');
+        $this->assertInLogs($msg);
+    }
+
+    public function testPruneParameter()
+    {
+        $repository = PHING_TEST_BASE . '/tmp/git';
+        $msg = 'git-gc: cleaning up "' . $repository . '" repository';
+
+        $this->executeTarget('pruneParamSet');
+        $this->assertInLogs($msg);
     }
 }

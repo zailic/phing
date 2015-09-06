@@ -17,6 +17,8 @@
  * <http://phing.info>.
  */
 
+use Phing\Test\Helper\GitTestsHelper;
+
 require_once 'phing/tasks/ext/svn/AbstractSvnTaskTest.php';
 
 /**

@@ -18,6 +18,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Git;
+
 use Phing\Exception\BuildException;
 use Phing\Project;
 
@@ -31,7 +33,7 @@ use Phing\Project;
  * @see VersionControl_Git
  * @since 2.4.3
  */
-class GitInitTask extends GitBaseTask
+class Init extends AbstractGitTask
 {
 
     /**
@@ -81,6 +83,6 @@ class GitInitTask extends GitBaseTask
      */
     public function setBare($flag)
     {
-        $this->isBare = (bool) $flag;
+        $this->isBare = (bool)$flag;
     }
 }

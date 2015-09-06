@@ -18,6 +18,9 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Git;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Project;
 
@@ -32,7 +35,7 @@ use Phing\Project;
  * @see VersionControl_Git
  * @since 2.4.5
  */
-class GitLogTask extends GitBaseTask
+class Log extends AbstractGitTask
 {
     /**
      * Generate a diffstat. See --stat of git-log
@@ -174,7 +177,7 @@ class GitLogTask extends GitBaseTask
      */
     public function setNameStatus($flag)
     {
-        $this->nameStatus = (boolean) $flag;
+        $this->nameStatus = (boolean)$flag;
     }
 
     /**
@@ -198,7 +201,7 @@ class GitLogTask extends GitBaseTask
      */
     public function setMaxCount($count)
     {
-        $this->maxCount = (int) $count;
+        $this->maxCount = (int)$count;
     }
 
     /**
@@ -214,7 +217,7 @@ class GitLogTask extends GitBaseTask
      */
     public function setNoMerges($flag)
     {
-        $this->noMerges = (bool) $flag;
+        $this->noMerges = (bool)$flag;
     }
 
     /**

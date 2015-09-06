@@ -18,6 +18,9 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Git;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Project;
 
@@ -30,7 +33,7 @@ use Phing\Project;
  * @see VersionControl_Git
  * @since 2.4.3
  */
-class GitCheckoutTask extends GitBaseTask
+class Checkout extends AbstractGitTask
 {
     /**
      * Branch name

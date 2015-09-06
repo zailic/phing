@@ -18,8 +18,13 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Git;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Project;
+use VersionControl_Git;
+use VersionControl_Git_Exception;
 
 /**
  * Wrapper around git-clone
@@ -30,7 +35,7 @@ use Phing\Project;
  * @see VersionControl_Git
  * @since 2.4.3
  */
-class GitCloneTask extends GitBaseTask
+class CloneTask extends AbstractGitTask
 {
     /**
      * Whether --depth key should be set for git-clone
@@ -152,7 +157,7 @@ class GitCloneTask extends GitBaseTask
      */
     public function hasDepth()
     {
-        return (bool) $this->depth;
+        return (bool)$this->depth;
     }
 
     /**
@@ -199,7 +204,7 @@ class GitCloneTask extends GitBaseTask
      */
     public function setBare($flag)
     {
-        $this->isBare = (bool) $flag;
+        $this->isBare = (bool)$flag;
     }
 
 }

@@ -18,6 +18,9 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Git;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Project;
 
@@ -30,7 +33,7 @@ use Phing\Project;
  * @see VersionControl_Git
  * @since 2.4.3
  */
-class GitGcTask extends GitBaseTask
+class Gc extends AbstractGitTask
 {
     /**
      * --aggressive key to git-gc
@@ -113,7 +116,7 @@ class GitGcTask extends GitBaseTask
      */
     public function setAggressive($flag)
     {
-        $this->isAggressive = (bool) $flag;
+        $this->isAggressive = (bool)$flag;
     }
 
     /**
@@ -137,7 +140,7 @@ class GitGcTask extends GitBaseTask
      */
     public function setAuto($flag)
     {
-        $this->isAuto = (bool) $flag;
+        $this->isAuto = (bool)$flag;
     }
 
     /**
@@ -161,7 +164,7 @@ class GitGcTask extends GitBaseTask
      */
     public function setNoPrune($flag)
     {
-        $this->noPrune = (bool) $flag;
+        $this->noPrune = (bool)$flag;
     }
 
     /**

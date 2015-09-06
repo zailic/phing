@@ -18,6 +18,9 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Git;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Project;
 
@@ -31,7 +34,7 @@ use Phing\Project;
  * @see VersionControl_Git
  * @since 2.4.3
  */
-class GitPullTask extends GitBaseTask
+class Pull extends AbstractGitTask
 {
     /**
      * <repository> argument to git-pull
@@ -152,7 +155,8 @@ class GitPullTask extends GitBaseTask
             if (false === in_array($strategy, $this->validStrategies)) {
                 throw new BuildException(
                     "Could not find merge strategy '" . $strategy . "'\n" .
-                    "Available strategies are: " . implode(', ', $this->validStrategies));
+                    "Available strategies are: " . implode(', ', $this->validStrategies)
+                );
             }
             $command->setOption('strategy', $strategy);
             if ($this->getStrategyOption()) {
@@ -299,7 +303,7 @@ class GitPullTask extends GitBaseTask
      */
     public function setAppend($flag)
     {
-        $this->append = (boolean) $flag;
+        $this->append = (boolean)$flag;
     }
 
     /**
@@ -419,7 +423,7 @@ class GitPullTask extends GitBaseTask
      */
     public function setRebase($flag)
     {
-        $this->rebase = (boolean) $flag;
+        $this->rebase = (boolean)$flag;
     }
 
     /**
@@ -443,7 +447,7 @@ class GitPullTask extends GitBaseTask
      */
     public function setNoRebase($flag)
     {
-        $this->noRebase = (boolean) $flag;
+        $this->noRebase = (boolean)$flag;
     }
 
     /**

@@ -18,6 +18,9 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Git;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Project;
 use Phing\Type\FileSet;
@@ -30,7 +33,7 @@ use Phing\Type\FileSet;
  * @see VersionControl_Git
  * @since 2.4.3
  */
-class GitCommitTask extends GitBaseTask
+class Commit extends AbstractGitTask
 {
     /**
      * @var boolean
@@ -128,7 +131,7 @@ class GitCommitTask extends GitBaseTask
      */
     public function setAllFiles($flag)
     {
-        $this->allFiles = (bool) $flag;
+        $this->allFiles = (bool)$flag;
     }
 
     /**
