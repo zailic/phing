@@ -1,4 +1,7 @@
 <?php
+namespace Phing\Task\System;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Project;
 use Phing\Util\RegExp\RegExp;
@@ -22,8 +25,6 @@ use Phing\Util\RegExp\RegExp;
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-
-include_once 'phing/tasks/ext/property/AbstractPropertySetterTask.php';
 
 /**
  * Regular Expression Task for properties.
@@ -53,7 +54,7 @@ include_once 'phing/tasks/ext/property/AbstractPropertySetterTask.php';
  * @author    Siad Ardroumli <siad.ardroumli@gmail.com>
  * @package   phing.tasks.regex
  */
-class RegexTask extends AbstractPropertySetterTask
+class Regex extends AbstractPropertySetter
 {
     /** @var string $subject */
     private $subject;
@@ -81,7 +82,7 @@ class RegexTask extends AbstractPropertySetterTask
 
     /** @var int $limit */
     private $limit = -1;
-    
+
     public function init()
     {
         $this->reg = new Regexp();
@@ -94,7 +95,7 @@ class RegexTask extends AbstractPropertySetterTask
     {
         $this->limit = $limit;
     }
-    
+
     /**
      * @param string $subject
      */
@@ -219,7 +220,7 @@ class RegexTask extends AbstractPropertySetterTask
 
         try {
             if ($this->reg->matches($this->subject)) {
-                $output = $this->reg->getGroup((int) ltrim($this->match, '$'));
+                $output = $this->reg->getGroup((int)ltrim($this->match, '$'));
             }
         } catch (Exception $e) {
             throw new BuildException($e);

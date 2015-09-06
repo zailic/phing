@@ -17,6 +17,8 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Task\System;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\IOException;
@@ -112,7 +114,8 @@ class PathToFileSet extends Task
         }
         if (!$this->dir->isDirectory()) {
             throw new BuildException(
-                $this->dir->toString() . " is not a directory");
+                $this->dir->toString() . " is not a directory"
+            );
         }
         $path = $this->getProject()->getReference($this->pathRefId);
         if ($path == null) {
@@ -138,7 +141,8 @@ class PathToFileSet extends Task
             $includePattern = $this->getIncludePattern($dirNormal, $sourceFile);
             if ($includePattern === false && !$this->ignoreNonRelative) {
                 throw new BuildException(
-                    $sources[$i] . " is not relative to " . $this->dir->getAbsolutePath());
+                    $sources[$i] . " is not relative to " . $this->dir->getAbsolutePath()
+                );
             }
             if ($includePattern === false) {
                 continue;
@@ -165,4 +169,4 @@ class PathToFileSet extends Task
 
         return rtrim(str_replace('\\', '/', substr($fileNormal, strlen($dirNormal))), '/') . '/';
     }
-} 
+}

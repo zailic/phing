@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Task\System;
+
 use Phing\Exception\BuildException;
 use Phing\Task;
 
@@ -21,8 +23,7 @@ use Phing\Task;
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-
-abstract class AbstractPropertySetterTask extends Task
+abstract class AbstractPropertySetter extends Task
 {
     private $property;
     private $override = false;
@@ -44,7 +45,8 @@ abstract class AbstractPropertySetterTask extends Task
         }
     }
 
-    protected function setPropertyValue($value) {
+    protected function setPropertyValue($value)
+    {
         if ($value !== null) {
             if ($this->override) {
                 if ($this->getProject()->getUserProperty($this->property) == null) {

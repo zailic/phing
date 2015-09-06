@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Test\Task\System;
+
 use Phing\Test\Helper\AbstractBuildFileTest;
 
 /**
@@ -7,13 +9,13 @@ use Phing\Test\Helper\AbstractBuildFileTest;
  * @author  SiadArdroumli <siad.ardroumli@gmail.com>
  * @package phing.tasks.ext.property
  */
-class RegexTaskTest extends AbstractBuildFileTest
+class RegexTest extends AbstractBuildFileTest
 {
 
     public function setUp()
     {
         $this->configureProject(
-            PHING_TEST_BASE . '/etc/tasks/ext/property/RegExTaskTest.xml'
+            PHING_TEST_BASE . '/etc/tasks/system/RegExTaskTest.xml'
         );
     }
 
