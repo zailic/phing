@@ -1,7 +1,7 @@
 <?php
 
-require_once 'phing/tasks/ext/PhpLintTask.php';
+use Phing\Task\Ext\PhpLint;
 
-class TestPhpLintTask extends PhpLintTask
+class TestPhpLintTask extends PhpLint
 {
 }
