@@ -32,7 +32,7 @@ use Phing\Type\Reference;
  * This is for registering your own datatypes for use within a buildfile.
  *
  * If you find that you are using a particular class frequently, you may want to edit the
- * phing/types/defaults.properties file so that it is included by default.  You may also
+ * etc/types.properties file so that it is included by default.  You may also
  * want to submit it (if LGPL or compatible license) to be included in Phing distribution.
  *
  * <pre>

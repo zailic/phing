@@ -176,7 +176,7 @@ class Project
         $this->setSystemProperties();
 
         // load default tasks
-        $taskdefs = Phing::getResourcePath("phing/tasks/defaults.properties");
+        $taskdefs = Phing::getResourcePath("etc/tasks.properties");
 
         try { // try to load taskdefs
             $props = new PropertySetImpl();
@@ -191,7 +191,7 @@ class Project
         }
 
         // load default tasks
-        $typedefs = Phing::getResourcePath("phing/types/defaults.properties");
+        $typedefs = Phing::getResourcePath("etc/types.properties");
 
         try { // try to load typedefs
             $props = new PropertySetImpl();

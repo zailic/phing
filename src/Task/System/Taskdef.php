@@ -36,7 +36,7 @@ use Phing\Util\Properties\Properties;
  *
  * This is for registering your own tasks -- or any non-core Task -- for use within a buildfile.
  * If you find that you are using a particular class frequently, you may want to edit the
- * phing/tasks/defaults.properties file so that it is included by default. You may also
+ * etc/tasks.properties file so that it is included by default. You may also
  * want to submit it (if LGPL or compatible license) to be included in Phing distribution.
  *
  * <pre>
