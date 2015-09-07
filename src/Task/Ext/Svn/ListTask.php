@@ -60,15 +60,6 @@ class ListTask extends AbstractSvnTask
     }
 
     /**
-     * Sets whether to force compatibility with older SVN versions (< 1.2)
-     * @deprecated
-     * @param $force
-     */
-    public function setForceCompatible($force)
-    {
-    }
-
-    /**
      * Sets the max num of tags to display
      * @param $limit
      */

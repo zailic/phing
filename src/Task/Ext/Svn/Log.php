@@ -59,15 +59,6 @@ class Log extends AbstractSvnTask
     }
 
     /**
-     * Sets whether to force compatibility with older SVN versions (< 1.2)
-     * @deprecated
-     * @param $force
-     */
-    public function setForceCompatible($force)
-    {
-    }
-
-    /**
      * Sets the max num of log entries to get from svn
      * @param $limit
      */

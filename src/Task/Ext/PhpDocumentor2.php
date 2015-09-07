@@ -152,16 +152,6 @@ class PhpDocumentor2 extends Task
     }
 
     /**
-     * Forces phpDocumentor to be quiet
-     * @deprecated
-     * @param boolean $quiet
-     */
-    public function setQuiet($quiet)
-    {
-        $this->project->log(__CLASS__ . ": the 'quiet' option has been deprecated", Project::MSG_WARN);
-    }
-
-    /**
      * Task entry point
      * @see Task::main()
      */

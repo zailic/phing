@@ -325,23 +325,6 @@ class ProjectConfigurator
     }
 
     /**
-     * Replace ${} style constructions in the given value with the string value of the corresponding data types.
-     *
-     * @deprecated Call Project::replaceProperties instead; note that it will use the Properties contained in the Project.
-     *
-     * @param Project $project  the project that should be used for property look-ups
-     * @param string  $value    the string to be scanned for property references
-     * @param array   $keys     property keys
-     * @param int     $logLevel the level of generated log messages
-     *
-     * @return string  The replaced string or <code>null</code> if the string itself was null.
-     */
-    public static function replaceProperties(Project $project, $value, $keys, $logLevel = Project::MSG_VERBOSE)
-    {
-        return $project->replaceProperties($value, $logLevel);
-    }
-
-    /**
      * Scan Attributes for the id attribute and maybe add a reference to
      * project.
      *

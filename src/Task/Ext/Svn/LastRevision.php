@@ -58,17 +58,6 @@ class LastRevision extends AbstractSvnTask
     }
 
     /**
-     * Sets whether to force compatibility with older SVN versions (< 1.2)
-     *
-     * Retained for legacy reasons
-     * @deprecated
-     * @param $force
-     */
-    public function setForceCompatible($force)
-    {
-    }
-
-    /**
      * Sets whether to retrieve the last changed revision
      * @param $lastChanged
      */
