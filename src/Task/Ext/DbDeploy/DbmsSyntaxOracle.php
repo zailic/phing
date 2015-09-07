@@ -18,6 +18,10 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\DbDeploy;
+
+use PDO;
+use Phing\Task\Ext\DbDeploy\DbmsSyntax;
 
 /**
  * Utility class for generating necessary server-specific SQL commands
@@ -26,13 +30,21 @@
  * @version  $Id$
  * @package  phing.tasks.ext.dbdeploy
  */
-class DbmsSyntaxMsSql extends DbmsSyntax
+class DbmsSyntaxOracle extends DbmsSyntax
 {
+    /**
+     * @param $db
+     */
+    public function applyAttributes($db)
+    {
+        $db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+    }
+
     /**
      * @return string
      */
     public function generateTimestamp()
     {
-        return "DATEDIFF(s, '19700101', GETDATE())";
+        return "(sysdate - to_date('01-JAN-1970','DD-MON-YYYY')) * (86400)";
     }
 }

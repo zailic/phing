@@ -19,28 +19,52 @@
  * <http://phing.info>.
  */
 
+
+namespace Phing\Task\Ext\DbDeploy;
+
+use Phing\Task\Ext\DbDeploy\DbmsSyntaxMsSql;
+use Phing\Task\Ext\DbDeploy\DbmsSyntaxMysql;
+use Phing\Task\Ext\DbDeploy\DbmsSyntaxOracle;
+use Phing\Task\Ext\DbDeploy\DbmsSyntaxPgSQL;
+use Phing\Task\Ext\DbDeploy\DbmsSyntaxSQLite;
+use Exception;
+
 /**
- * Utility class for generating necessary server-specific SQL commands
+ * Factory for generating dbms-specific syntax-generating objects
  *
  * @author   Luke Crouch at SourceForge (http://sourceforge.net)
  * @version  $Id$
  * @package  phing.tasks.ext.dbdeploy
  */
-class DbmsSyntaxOracle extends DbmsSyntax
+class DbmsSyntaxFactory
 {
-    /**
-     * @param $db
-     */
-    public function applyAttributes($db)
-    {
-        $db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
-    }
+    private $dbms;
 
     /**
-     * @return string
+     * @param $dbms
      */
-    public function generateTimestamp()
+    public function __construct($dbms)
     {
-        return "(sysdate - to_date('01-JAN-1970','DD-MON-YYYY')) * (86400)";
+        $this->dbms = $dbms;
+    }
+
+    public function getDbmsSyntax()
+    {
+        switch ($this->dbms) {
+            case('sqlite') :
+                return new DbmsSyntaxSQLite();
+            case('mysql'):
+                return new DbmsSyntaxMysql();
+            case 'odbc':
+            case('mssql'):
+            case 'dblib':
+                return new DbmsSyntaxMsSql();
+            case('pgsql'):
+                return new DbmsSyntaxPgSQL();
+            case 'oci':
+                return new DbmsSyntaxOracle();
+            default:
+                throw new Exception($this->dbms . ' is not supported by dbdeploy task.');
+        }
     }
 }

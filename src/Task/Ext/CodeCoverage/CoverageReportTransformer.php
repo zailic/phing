@@ -1,10 +1,14 @@
 <?php
+namespace Phing\Task\Ext\CodeCoverage;
+
+use DOMDocument;
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\FileSystem\FileSystemFactory;
 use Phing\Io\Util\ExtendedFileStream;
 use Phing\Phing;
 use Phing\Task;
+use XSLTProcessor;
 
 /**
  * $Id$
@@ -108,7 +112,7 @@ class CoverageReportTransformer
      */
     public function setUseSortTable($useSortTable)
     {
-        $this->useSortTable = (boolean) $useSortTable;
+        $this->useSortTable = (boolean)$useSortTable;
     }
 
     public function transform()
@@ -135,7 +139,7 @@ class CoverageReportTransformer
 
         ExtendedFileStream::registerStream();
 
-        $toDir = (string) $this->toDir;
+        $toDir = (string)$this->toDir;
 
         // urlencode() the path if we're on Windows
         if (FileSystemFactory::getFileSystem()->getSeparator() == '\\') {

@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Task\Ext\CodeCoverage;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\IOException;
@@ -34,7 +36,7 @@ use Phing\Util\Properties\Properties;
  * @package phing.tasks.ext.coverage
  * @since 2.1.0
  */
-class CoverageMerger
+class CoverageMergeHelper
 {
     /**
      * @param $left
@@ -84,7 +86,7 @@ class CoverageMerger
     }
 
     /**
-     * @param  Project        $project
+     * @param  Project $project
      * @return Properties
      * @throws BuildException
      */
@@ -93,7 +95,9 @@ class CoverageMerger
         $coverageDatabase = $project->getProperty('coverage.database');
 
         if (!$coverageDatabase) {
-            throw new BuildException("Property coverage.database is not set - please include coverage-setup in your build file");
+            throw new BuildException(
+                "Property coverage.database is not set - please include coverage-setup in your build file"
+            );
         }
 
         $database = new File($coverageDatabase);
@@ -169,7 +173,7 @@ class CoverageMerger
                 $file = unserialize($props->getProperty($filename));
                 $left = $file['coverage'];
 
-                $coverageMerged = CoverageMerger::mergeCodeCoverage($left, $lines);
+                $coverageMerged = CoverageMergeHelper::mergeCodeCoverage($left, $lines);
 
                 $file['coverage'] = $coverageMerged;
                 $props->setProperty($filename, serialize($file));

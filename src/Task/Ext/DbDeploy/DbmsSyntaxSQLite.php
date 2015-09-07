@@ -18,21 +18,24 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\DbDeploy;
+
+use Phing\Task\Ext\DbDeploy\DbmsSyntax;
 
 /**
  * Utility class for generating necessary server-specific SQL commands
  *
- * @author   Remy BREUILS
+ * @author   Luke Crouch at SourceForge (http://sourceforge.net)
  * @version  $Id$
  * @package  phing.tasks.ext.dbdeploy
  */
-class DbmsSyntaxPgSQL extends DbmsSyntax
+class DbmsSyntaxSQLite extends DbmsSyntax
 {
     /**
      * @return string
      */
     public function generateTimestamp()
     {
-        return "NOW()";
+        return "strftime('%s','now')";
     }
 }

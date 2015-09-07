@@ -1,6 +1,9 @@
 <?php
+namespace Phing\Task\Ext\CodeCoverage;
+
 use Phing\Io\File;
 use Phing\Task;
+use Phing\Task\Ext\CodeCoverage\CoverageMergeHelper;
 use Phing\Type\FileSet;
 
 /**
@@ -32,7 +35,7 @@ use Phing\Type\FileSet;
  * @package phing.tasks.ext.coverage
  * @since 2.1.0
  */
-class CoverageMergerTask extends Task
+class CoverageMerger extends Task
 {
     /**
      * the list of filesets containing the .php filename rules
@@ -84,7 +87,7 @@ class CoverageMergerTask extends Task
         foreach ($files as $file) {
             $coverageInformation = unserialize(file_get_contents($file));
 
-            CoverageMerger::merge($this->project, array($coverageInformation));
+            CoverageMergeHelper::merge($this->project, array($coverageInformation));
         }
     }
 }

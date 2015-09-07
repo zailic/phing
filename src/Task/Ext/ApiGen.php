@@ -16,6 +16,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext;
+
 use Phing\Exception\BuildException;
 use Phing\Project;
 use Phing\Task;
@@ -29,7 +31,7 @@ use Phing\Task;
  * @author    Jaroslav Hanslík <kukulich@kukulich.cz>
  * @since     2.4.10
  */
-class ApiGenTask extends Task
+class ApiGen extends Task
 {
     /**
      * Default ApiGen executable name.
@@ -56,7 +58,7 @@ class ApiGenTask extends Task
      */
     public function setExecutable($executable)
     {
-        $this->executable = (string) $executable;
+        $this->executable = (string)$executable;
     }
 
     /**
@@ -66,7 +68,7 @@ class ApiGenTask extends Task
      */
     public function setConfig($config)
     {
-        $this->options['config'] = (string) $config;
+        $this->options['config'] = (string)$config;
     }
 
     /**
@@ -86,7 +88,7 @@ class ApiGenTask extends Task
      */
     public function setDestination($destination)
     {
-        $this->options['destination'] = (string) $destination;
+        $this->options['destination'] = (string)$destination;
     }
 
     /**
@@ -146,7 +148,7 @@ class ApiGenTask extends Task
      */
     public function setMain($main)
     {
-        $this->options['main'] = (string) $main;
+        $this->options['main'] = (string)$main;
     }
 
     /**
@@ -156,7 +158,7 @@ class ApiGenTask extends Task
      */
     public function setTitle($title)
     {
-        $this->options['title'] = (string) $title;
+        $this->options['title'] = (string)$title;
     }
 
     /**
@@ -166,7 +168,7 @@ class ApiGenTask extends Task
      */
     public function setBaseUrl($baseUrl)
     {
-        $this->options['base-url'] = (string) $baseUrl;
+        $this->options['base-url'] = (string)$baseUrl;
     }
 
     /**
@@ -176,7 +178,7 @@ class ApiGenTask extends Task
      */
     public function setGoogleCseId($googleCseId)
     {
-        $this->options['google-cse-id'] = (string) $googleCseId;
+        $this->options['google-cse-id'] = (string)$googleCseId;
     }
 
     /**
@@ -186,7 +188,7 @@ class ApiGenTask extends Task
      */
     public function setGoogleCseLabel($googleCseLabel)
     {
-        $this->options['google-cse-label'] = (string) $googleCseLabel;
+        $this->options['google-cse-label'] = (string)$googleCseLabel;
     }
 
     /**
@@ -196,7 +198,7 @@ class ApiGenTask extends Task
      */
     public function setGoogleAnalytics($googleAnalytics)
     {
-        $this->options['google-analytics'] = (string) $googleAnalytics;
+        $this->options['google-analytics'] = (string)$googleAnalytics;
     }
 
     /**
@@ -206,7 +208,7 @@ class ApiGenTask extends Task
      */
     public function setTemplateConfig($templateConfig)
     {
-        $this->options['template-config'] = (string) $templateConfig;
+        $this->options['template-config'] = (string)$templateConfig;
     }
 
     /**
@@ -216,7 +218,7 @@ class ApiGenTask extends Task
      */
     public function setAllowedHtml($allowedHtml)
     {
-        $this->options['allowed-html'] = (string) $allowedHtml;
+        $this->options['allowed-html'] = (string)$allowedHtml;
     }
 
     /**
@@ -226,7 +228,7 @@ class ApiGenTask extends Task
      */
     public function setGroups($groups)
     {
-        $this->options['groups'] = (string) $groups;
+        $this->options['groups'] = (string)$groups;
     }
 
     /**
@@ -236,7 +238,7 @@ class ApiGenTask extends Task
      */
     public function setAutocomplete($autocomplete)
     {
-        $this->options['autocomplete'] = (string) $autocomplete;
+        $this->options['autocomplete'] = (string)$autocomplete;
     }
 
     /**
@@ -248,7 +250,7 @@ class ApiGenTask extends Task
      */
     public function setAccessLevels($accessLevels)
     {
-        $this->options['access-levels'] = (string) $accessLevels;
+        $this->options['access-levels'] = (string)$accessLevels;
     }
 
     /**
@@ -258,7 +260,7 @@ class ApiGenTask extends Task
      */
     public function setInternal($internal)
     {
-        $this->options['internal'] = (bool) $internal;
+        $this->options['internal'] = (bool)$internal;
     }
 
     /**
@@ -268,7 +270,7 @@ class ApiGenTask extends Task
      */
     public function setPhp($php)
     {
-        $this->options['php'] = (bool) $php;
+        $this->options['php'] = (bool)$php;
     }
 
     /**
@@ -278,7 +280,7 @@ class ApiGenTask extends Task
      */
     public function setTree($tree)
     {
-        $this->options['tree'] = (bool) $tree;
+        $this->options['tree'] = (bool)$tree;
     }
 
     /**
@@ -288,7 +290,7 @@ class ApiGenTask extends Task
      */
     public function setDeprecated($deprecated)
     {
-        $this->options['deprecated'] = (bool) $deprecated;
+        $this->options['deprecated'] = (bool)$deprecated;
     }
 
     /**
@@ -298,7 +300,7 @@ class ApiGenTask extends Task
      */
     public function setTodo($todo)
     {
-        $this->options['todo'] = (bool) $todo;
+        $this->options['todo'] = (bool)$todo;
     }
 
     /**
@@ -308,7 +310,7 @@ class ApiGenTask extends Task
      */
     public function setSourceCode($sourceCode)
     {
-        $this->options['source-code'] = (bool) $sourceCode;
+        $this->options['source-code'] = (bool)$sourceCode;
     }
 
     /**
@@ -318,7 +320,7 @@ class ApiGenTask extends Task
      */
     public function setDownload($download)
     {
-        $this->options['download'] = (bool) $download;
+        $this->options['download'] = (bool)$download;
     }
 
     /**
@@ -328,7 +330,7 @@ class ApiGenTask extends Task
      */
     public function setReport($report)
     {
-        $this->options['report'] = (string) $report;
+        $this->options['report'] = (string)$report;
     }
 
     /**
@@ -338,7 +340,7 @@ class ApiGenTask extends Task
      */
     public function setWipeout($wipeout)
     {
-        $this->options['wipeout'] = (bool) $wipeout;
+        $this->options['wipeout'] = (bool)$wipeout;
     }
 
     /**
@@ -348,7 +350,7 @@ class ApiGenTask extends Task
      */
     public function setQuiet($quiet)
     {
-        $this->options['quiet'] = (bool) $quiet;
+        $this->options['quiet'] = (bool)$quiet;
     }
 
     /**
@@ -358,7 +360,7 @@ class ApiGenTask extends Task
      */
     public function setUpdateCheck($updateCheck)
     {
-        $this->options['update-check'] = (bool) $updateCheck;
+        $this->options['update-check'] = (bool)$updateCheck;
     }
 
     /**
@@ -368,7 +370,7 @@ class ApiGenTask extends Task
      */
     public function setDebug($debug)
     {
-        $this->options['debug'] = (bool) $debug;
+        $this->options['debug'] = (bool)$debug;
     }
 
     /**
@@ -386,10 +388,12 @@ class ApiGenTask extends Task
         if (!empty($this->options['config'])) {
             // Config check
             if (!is_file($this->options['config'])) {
-                throw new BuildException(sprintf(
-                    'Config file %s doesn\'t exist',
-                    $this->options['config']
-                ), $this->getLocation());
+                throw new BuildException(
+                    sprintf(
+                        'Config file %s doesn\'t exist',
+                        $this->options['config']
+                    ), $this->getLocation()
+                );
             }
         } else {
             // Source check

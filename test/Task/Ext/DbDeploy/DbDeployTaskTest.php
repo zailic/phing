@@ -1,4 +1,5 @@
 <?php
+
 /*
  *  $Id$
  *
@@ -19,43 +20,27 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Task\Ext\DbDeploy;
+
+use Phing\Test\Helper\AbstractBuildFileTest;
+
 
 /**
- * Factory for generating dbms-specific syntax-generating objects
- *
- * @author   Luke Crouch at SourceForge (http://sourceforge.net)
- * @version  $Id$
- * @package  phing.tasks.ext.dbdeploy
+ * @author Michiel Rook <mrook@php.net>
+ * @package phing.tasks.ext
  */
-class DbmsSyntaxFactory
+class DbDeployTaskTest extends AbstractBuildFileTest
 {
-    private $dbms;
 
-    /**
-     * @param $dbms
-     */
-    public function __construct($dbms)
+    public function setUp()
     {
-        $this->dbms = $dbms;
+        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/ext/dbdeploy/build.xml");
+        $this->executeTarget("prepare");
     }
 
-    public function getDbmsSyntax()
+    public function testDeployAndUndo()
     {
-        switch ($this->dbms) {
-            case('sqlite') :
-                return new DbmsSyntaxSQLite();
-            case('mysql'):
-                return new DbmsSyntaxMysql();
-            case 'odbc':
-            case('mssql'):
-            case 'dblib':
-                return new DbmsSyntaxMsSql();
-            case('pgsql'):
-                return new DbmsSyntaxPgSQL();
-            case 'oci':
-                return new DbmsSyntaxOracle();
-            default:
-                throw new Exception($this->dbms . ' is not supported by dbdeploy task.');
-        }
+        $this->expectLog("testDeploy", "Current db revision: 1");
+        $this->expectLog("testUndo", "Current db revision: 0");
     }
 }

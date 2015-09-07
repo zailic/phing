@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Task\Ext\CodeCoverage;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Project;
@@ -37,7 +39,7 @@ use Phing\Util\Properties\Properties;
  * @package phing.tasks.ext.coverage
  * @since 2.1.0
  */
-class CoverageSetupTask extends Task
+class CoverageSetup extends Task
 {
     /**
      * the list of filesets containing the .php filename rules

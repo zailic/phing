@@ -1,4 +1,6 @@
 <?php
+namespace Phing\Task\Ext\CodeCoverage;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Task;
@@ -6,6 +8,9 @@ use Phing\Type\Excludes;
 use Phing\Type\Path;
 use Phing\Util\Properties\Properties;
 use Phing\Util\StringHelper;
+use PHPUnitUtil;
+use ReflectionClass;
+use The;
 
 /**
  * $Id$
@@ -36,7 +41,7 @@ use Phing\Util\StringHelper;
  * @package phing.tasks.ext.coverage
  * @since   2.4.1
  */
-class CoverageThresholdTask extends Task
+class CoverageThreshold extends Task
 {
     /**
      * Holds an optional classpath

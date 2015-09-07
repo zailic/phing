@@ -18,6 +18,8 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext;
+
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Io\FileSystem\FileSystemFactory;
@@ -36,7 +38,7 @@ use Phing\Type\FileSet;
  * @since     2.4.10
  * @package   phing.tasks.ext.phpdoc
  */
-class PhpDocumentor2Task extends Task
+class PhpDocumentor2 extends Task
 {
     /**
      * List of filesets
@@ -116,20 +118,20 @@ class PhpDocumentor2Task extends Task
 
     /**
      * Sets the template to use
-     * @param strings $template
+     * @param string $template
      */
     public function setTemplate($template)
     {
-        $this->template = (string) $template;
+        $this->template = (string)$template;
     }
 
     /**
      * Sets the title of the project
-     * @param strings $title
+     * @param string $title
      */
     public function setTitle($title)
     {
-        $this->title = (string) $title;
+        $this->title = (string)$title;
     }
 
     /**
@@ -138,7 +140,7 @@ class PhpDocumentor2Task extends Task
      */
     public function setDefaultPackageName($defaultPackageName)
     {
-        $this->defaultPackageName = (string) $defaultPackageName;
+        $this->defaultPackageName = (string)$defaultPackageName;
     }
 
     /**
@@ -202,7 +204,9 @@ class PhpDocumentor2Task extends Task
             }
         } elseif (class_exists('Composer\\Autoload\\ClassLoader', false)) {
             if (!class_exists('phpDocumentor\\Bootstrap')) {
-                throw new BuildException('You need to install phpDocumentor 2 or add your include path to your composer installation.');
+                throw new BuildException(
+                    'You need to install phpDocumentor 2 or add your include path to your composer installation.'
+                );
             }
         } else {
             $phpDocumentorPath = $this->findPhpDocumentorPath();

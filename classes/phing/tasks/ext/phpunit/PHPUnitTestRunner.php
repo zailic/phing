@@ -1,6 +1,7 @@
 <?php
 use Phing\Exception\BuildException;
 use Phing\Project;
+use Phing\Task\Ext\CodeCoverage\CoverageMergeHelper;
 
 /**
  * $Id$
@@ -123,7 +124,7 @@ class PHPUnitTestRunner extends PHPUnit_Runner_BaseTestRunner implements PHPUnit
         $res = new PHPUnit_Framework_TestResult();
 
         if ($this->codecoverage) {
-            $whitelist = CoverageMerger::getWhiteList($this->project);
+            $whitelist = CoverageMergeHelper::getWhiteList($this->project);
 
             $this->codecoverage->filter()->addFilesToWhiteList($whitelist);
 
@@ -159,7 +160,7 @@ class PHPUnitTestRunner extends PHPUnit_Runner_BaseTestRunner implements PHPUnit
         }
 
         if ($this->codecoverage) {
-            CoverageMerger::merge($this->project, $this->codecoverage->getData());
+            CoverageMergeHelper::merge($this->project, $this->codecoverage->getData());
         }
 
         $this->checkResult($res);

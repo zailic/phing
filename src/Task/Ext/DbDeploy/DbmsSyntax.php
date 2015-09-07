@@ -19,6 +19,8 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Task\Ext\DbDeploy;
+
 /**
  * Utility class for generating necessary server-specific SQL commands
  *
@@ -26,13 +28,14 @@
  * @version  $Id$
  * @package  phing.tasks.ext.dbdeploy
  */
-class DbmsSyntaxMysql extends DbmsSyntax
+abstract class DbmsSyntax
 {
     /**
-     * @return string
+     * @param $db
      */
-    public function generateTimestamp()
+    public function applyAttributes($db)
     {
-        return "NOW()";
     }
+
+    abstract public function generateTimestamp();
 }

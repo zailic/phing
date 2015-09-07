@@ -18,6 +18,9 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext;
+
+use Exception;
 use Phing\Exception\BuildException;
 use Phing\Project;
 use Phing\Task;
@@ -35,7 +38,7 @@ use Phing\Type\FileSet;
  * @package phing.tasks.ext
  * @since 2.3.0
  */
-class JsMinTask extends Task
+class JsMin extends Task
 {
     /**
      * the source files

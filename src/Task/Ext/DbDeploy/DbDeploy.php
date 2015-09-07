@@ -18,6 +18,10 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\DbDeploy;
+
+use Exception;
+use PDO;
 use Phing\Exception\BuildException;
 use Phing\Task;
 use Phing\Type\FileSet;
@@ -34,7 +38,7 @@ use Phing\Type\FileSet;
  * @version  $Id$
  * @package  phing.tasks.ext.dbdeploy
  */
-class DbDeployTask extends Task
+class DbDeploy extends Task
 {
     /**
      * The tablename to use from the database for storing all changes
@@ -176,7 +180,7 @@ class DbDeployTask extends Task
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->dbmsSyntax->applyAttributes($dbh);
             $sql = "SELECT *
-                    FROM " . DbDeployTask::$TABLE_NAME . "
+                    FROM " . DbDeploy::$TABLE_NAME . "
                     WHERE delta_set = '$this->deltaSet'
                     ORDER BY change_number";
             foreach ($dbh->query($sql) as $change) {
@@ -217,7 +221,7 @@ class DbDeployTask extends Task
      * Generate the sql for doing/undoing the deployment and write it to a file
      *
      * @param  string $file
-     * @param  bool   $undo
+     * @param  bool $undo
      * @return void
      */
     protected function createOutputFile($file, $undo = false)
@@ -230,7 +234,7 @@ class DbDeployTask extends Task
     /**
      * Generate the sql for doing/undoing this deployment
      *
-     * @param  bool   $undo
+     * @param  bool $undo
      * @return string The sql
      */
     protected function generateSql($undo = false)
@@ -245,7 +249,7 @@ class DbDeployTask extends Task
                 $sql .= '-- Fragment begins: ' . $fileChangeNumber . ' --' . "\n";
 
                 if (!$undo) {
-                    $sql .= 'INSERT INTO ' . DbDeployTask::$TABLE_NAME . '
+                    $sql .= 'INSERT INTO ' . DbDeploy::$TABLE_NAME . '
                                 (change_number, delta_set, start_dt, applied_by, description)' .
                         ' VALUES (' . $fileChangeNumber . ', \'' . $this->deltaSet . '\', ' .
                         $this->dbmsSyntax->generateTimestamp() .
@@ -267,14 +271,14 @@ class DbDeployTask extends Task
 
                 if ($undo) {
                     $sql .= substr($contents, $split + 10) . "\n";
-                    $sql .= 'DELETE FROM ' . DbDeployTask::$TABLE_NAME . '
+                    $sql .= 'DELETE FROM ' . DbDeploy::$TABLE_NAME . '
 	                         WHERE change_number = ' . $fileChangeNumber . '
 	                         AND delta_set = \'' . $this->deltaSet . '\';' . "\n";
                 } else {
                     $sql .= substr($contents, 0, $split);
                     // Ensuring there's a newline after the final -- //
                     $sql .= PHP_EOL;
-                    $sql .= 'UPDATE ' . DbDeployTask::$TABLE_NAME . '
+                    $sql .= 'UPDATE ' . DbDeploy::$TABLE_NAME . '
 	                         SET complete_dt = ' . $this->dbmsSyntax->generateTimestamp() . '
 	                         WHERE change_number = ' . $fileChangeNumber . '
 	                         AND delta_set = \'' . $this->deltaSet . '\';' . "\n";
@@ -317,7 +321,7 @@ class DbDeployTask extends Task
      * Sort files in the patch files directory (ascending or descending depending on $undo boolean)
      *
      * @param  array $files
-     * @param  bool  $undo
+     * @param  bool $undo
      * @return void
      */
     protected function sortFiles(&$files, $undo)
@@ -333,7 +337,7 @@ class DbDeployTask extends Task
      * Determine if this patch file need to be deployed
      * (using fileChangeNumber, lastChangeAppliedInDb and $this->checkall)
      *
-     * @param  int    $fileChangeNumber
+     * @param  int $fileChangeNumber
      * @param  string $lastChangeAppliedInDb
      * @return bool   True or false if patch file needs to be deployed
      */
@@ -415,7 +419,7 @@ class DbDeployTask extends Task
     /**
      * Set the lastchangetoapply property
      *
-     * @param  int  $lastChangeToApply
+     * @param  int $lastChangeToApply
      * @return void
      */
     public function setLastChangeToApply($lastChangeToApply)
@@ -442,7 +446,7 @@ class DbDeployTask extends Task
      */
     public function setCheckAll($checkall)
     {
-        $this->checkall = (int) $checkall;
+        $this->checkall = (int)$checkall;
     }
 
     /**

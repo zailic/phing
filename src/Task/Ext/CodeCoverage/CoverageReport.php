@@ -1,9 +1,18 @@
 <?php
+namespace Phing\Task\Ext\CodeCoverage;
+
+use Phing\Task\Ext\CodeCoverage\CoverageReportTransformer;
+use DOMDocument;
+use DOMElement;
+use DOMNode;
+use GeSHi;
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Task;
 use Phing\Type\Path;
 use Phing\Util\Properties\Properties;
+use PHPUnitUtil;
+use ReflectionClass;
 
 /**
  * $Id$
@@ -34,13 +43,16 @@ use Phing\Util\Properties\Properties;
  * @package phing.tasks.ext.coverage
  * @since 2.1.0
  */
-class CoverageReportTask extends Task
+class CoverageReport extends Task
 {
     private $outfile = "coverage.xml";
 
     private $transformers = array();
 
-    /** the classpath to use (optional) */
+    /**
+     * the classpath to use (optional)
+     * @var Path
+     */
     private $classpath = null;
 
     /** the path to the GeSHi library (optional) */
@@ -154,7 +166,7 @@ class CoverageReportTask extends Task
     /**
      * Adds a subpackage to their package
      *
-     * @param string $packageName    The name of the package
+     * @param string $packageName The name of the package
      * @param string $subpackageName The name of the subpackage
      *
      * @author Benjamin Schultz <bschultz@proqrent.de>
@@ -203,8 +215,8 @@ class CoverageReportTask extends Task
     /**
      * Adds a class to their subpackage
      *
-     * @param string  $classname The name of the class
-     * @param DOMNode $element   The dom node to append to the subpackage element
+     * @param string $classname The name of the class
+     * @param DOMNode $element The dom node to append to the subpackage element
      *
      * @author Benjamin Schultz <bschultz@proqrent.de>
      * @return void
@@ -344,8 +356,8 @@ class CoverageReportTask extends Task
     /**
      * Transforms the coverage information
      *
-     * @param string $filename            The filename
-     * @param array  $coverageInformation Array with covergae information
+     * @param string $filename The filename
+     * @param array $coverageInformation Array with covergae information
      *
      * @author Michiel Rook <mrook@php.net>
      * @author Benjamin Schultz <bschultz@proqrent.de>
@@ -562,7 +574,9 @@ class CoverageReportTask extends Task
         $coverageDatabase = $this->project->getProperty('coverage.database');
 
         if (!$coverageDatabase) {
-            throw new BuildException("Property coverage.database is not set - please include coverage-setup in your build file");
+            throw new BuildException(
+                "Property coverage.database is not set - please include coverage-setup in your build file"
+            );
         }
 
         $database = new File($coverageDatabase);

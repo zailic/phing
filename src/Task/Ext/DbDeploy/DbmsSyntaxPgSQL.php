@@ -1,5 +1,4 @@
 <?php
-
 /*
  *  $Id$
  *
@@ -19,26 +18,24 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\DbDeploy;
 
-use Phing\Test\Helper\AbstractBuildFileTest;
-
+use Phing\Task\Ext\DbDeploy\DbmsSyntax;
 
 /**
- * @author Michiel Rook <mrook@php.net>
- * @package phing.tasks.ext
+ * Utility class for generating necessary server-specific SQL commands
+ *
+ * @author   Remy BREUILS
+ * @version  $Id$
+ * @package  phing.tasks.ext.dbdeploy
  */
-class DbDeployTaskTest extends AbstractBuildFileTest
+class DbmsSyntaxPgSQL extends DbmsSyntax
 {
-
-    public function setUp()
+    /**
+     * @return string
+     */
+    public function generateTimestamp()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/ext/dbdeploy/build.xml");
-        $this->executeTarget("prepare");
-    }
-
-    public function testDeployAndUndo()
-    {
-        $this->expectLog("testDeploy", "Current db revision: 1");
-        $this->expectLog("testUndo", "Current db revision: 0");
+        return "NOW()";
     }
 }
