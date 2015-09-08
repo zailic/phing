@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * $Id$
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -19,42 +19,33 @@
  * <http://phing.info>.
  */
 
-namespace Phing\Type;
-
-use ArrayIterator;
-use Iterator;
-use IteratorAggregate;
+namespace Phing\Task\Ext\Ioncube;
 
 /**
- * FileSet adapter to SPL's Iterator.
+ * Wrapper for comments for ionCube tasks
  *
- * @package phing.types
- * @author Alexey Shockov <alexey@shockov.com>
- * @since 2.4.0
+ * @author Michiel Rook <mrook@php.net>
+ * @version $Id$
+ * @package phing.tasks.ext.ioncube
+ * @since 2.2.0
  */
-class IterableFileSet extends FileSet implements IteratorAggregate
+class Comment
 {
+    private $value = "";
+
     /**
-     * @return Iterator
+     * @return string
      */
-    public function getIterator()
+    public function getValue()
     {
-        return new ArrayIterator($this->getFiles());
+        return $this->value;
     }
 
     /**
-     * @return array
+     * @param $txt
      */
-    private function getFiles()
+    public function addText($txt)
     {
-        $directoryScanner = $this->getDirectoryScanner($this->getProject());
-        $files = $directoryScanner->getIncludedFiles();
-
-        $baseDirectory = $directoryScanner->getBasedir();
-        foreach ($files as $index => $file) {
-            $files[$index] = realpath($baseDirectory . '/' . $file);
-        }
-
-        return $files;
+        $this->value = trim($txt);
     }
 }

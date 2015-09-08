@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id$
+ *  $Id$
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -19,42 +19,22 @@
  * <http://phing.info>.
  */
 
-namespace Phing\Type;
 
-use ArrayIterator;
-use Iterator;
-use IteratorAggregate;
+namespace Phing\Task\Ext\PhpCodeSniffer;
+
+use PHP_CodeSniffer;
 
 /**
- * FileSet adapter to SPL's Iterator.
+ * Wrapper to disable PHPCS's destructor
  *
- * @package phing.types
- * @author Alexey Shockov <alexey@shockov.com>
- * @since 2.4.0
+ * @author  Michiel Rook <mrook@php.net>
+ * @version $Id$
+ * @package phing.tasks.ext
  */
-class IterableFileSet extends FileSet implements IteratorAggregate
+class Wrapper extends PHP_CodeSniffer
 {
-    /**
-     * @return Iterator
-     */
-    public function getIterator()
+    public function __destruct()
     {
-        return new ArrayIterator($this->getFiles());
-    }
-
-    /**
-     * @return array
-     */
-    private function getFiles()
-    {
-        $directoryScanner = $this->getDirectoryScanner($this->getProject());
-        $files = $directoryScanner->getIncludedFiles();
-
-        $baseDirectory = $directoryScanner->getBasedir();
-        foreach ($files as $index => $file) {
-            $files[$index] = realpath($baseDirectory . '/' . $file);
-        }
-
-        return $files;
+        // override destructor
     }
 }

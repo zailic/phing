@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * $Id$
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -19,42 +19,43 @@
  * <http://phing.info>.
  */
 
-namespace Phing\Type;
+namespace Phing\Task\Ext\Zsdt;
 
-use ArrayIterator;
-use Iterator;
-use IteratorAggregate;
+use Phing\Exception\BuildException;
 
 /**
- * FileSet adapter to SPL's Iterator.
+ * Class ZendServerDeploymentToolTask
  *
- * @package phing.types
- * @author Alexey Shockov <alexey@shockov.com>
- * @since 2.4.0
+ * @author Siad Ardroumli <siad.ardroumli@gmail.com>
+ * @package phing.tasks.ext.zendserverdevelopmenttools
  */
-class IterableFileSet extends FileSet implements IteratorAggregate
+class Validate extends AbstractZsdtTask
 {
     /**
-     * @return Iterator
+     * @inheritdoc}
+     *
+     * @return void
      */
-    public function getIterator()
+    public function init()
     {
-        return new ArrayIterator($this->getFiles());
+        $this->action = 'validate';
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
+     *
+     * @throws BuildException
+     *
+     * @return void
      */
-    private function getFiles()
+    protected function validate()
     {
-        $directoryScanner = $this->getDirectoryScanner($this->getProject());
-        $files = $directoryScanner->getIncludedFiles();
+        parent::validate();
 
-        $baseDirectory = $directoryScanner->getBasedir();
-        foreach ($files as $index => $file) {
-            $files[$index] = realpath($baseDirectory . '/' . $file);
+        if ($this->descriptor === null) {
+            throw new BuildException('The package descriptor file have to be set.');
         }
 
-        return $files;
+        $this->arguments .= $this->descriptor;
     }
 }

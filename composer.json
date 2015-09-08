@@ -48,7 +48,7 @@
         "phpmd/phpmd": "~2.2"
     },
     "autoload": {
-        "classmap": ["classes/phing/"],
+        "classmap": ["classes/"],
         "psr-4": {
             "Phing\\": "src"
         }

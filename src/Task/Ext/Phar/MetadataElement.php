@@ -18,43 +18,67 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-
-namespace Phing\Type;
-
-use ArrayIterator;
-use Iterator;
-use IteratorAggregate;
+namespace Phing\Task\Ext\Phar;
 
 /**
- * FileSet adapter to SPL's Iterator.
- *
- * @package phing.types
+ * @package phing.tasks.ext.phar
  * @author Alexey Shockov <alexey@shockov.com>
  * @since 2.4.0
  */
-class IterableFileSet extends FileSet implements IteratorAggregate
+class MetadataElement extends Metadata
 {
     /**
-     * @return Iterator
+     * @var string
      */
-    public function getIterator()
+    private $name;
+    /**
+     * @var string
+     */
+    private $value;
+
+    /**
+     * @param string $value
+     */
+    public function setValue($value)
     {
-        return new ArrayIterator($this->getFiles());
+        $this->value = $value;
     }
 
     /**
-     * @return array
+     * @param string $name
      */
-    private function getFiles()
+    public function setName($name)
     {
-        $directoryScanner = $this->getDirectoryScanner($this->getProject());
-        $files = $directoryScanner->getIncludedFiles();
+        $this->name = $name;
+    }
 
-        $baseDirectory = $directoryScanner->getBasedir();
-        foreach ($files as $index => $file) {
-            $files[$index] = realpath($baseDirectory . '/' . $file);
-        }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-        return $files;
+    /**
+     * Return array of
+     *
+     * @return string|array
+     */
+    public function getValue()
+    {
+        /*
+         * Elements first!
+         */
+
+        return (empty($this->elements) ? $this->value : $this->elements);
+    }
+
+    /**
+     * @return string|array
+     */
+    public function toArray()
+    {
+        return (empty($this->elements) ? $this->value : parent::toArray());
     }
 }

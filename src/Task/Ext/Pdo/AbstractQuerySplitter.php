@@ -1,7 +1,10 @@
 <?php
-/*
- * $Id$
- *
+namespace Phing\Task\Ext\Pdo;
+
+use Phing\Io\AbstractReader;
+use Phing\Io\BufferedReader;
+
+/**
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -17,44 +20,48 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
+ *
+ * @version $Id$
+ * @package phing.tasks.ext.pdo
  */
-
-namespace Phing\Type;
-
-use ArrayIterator;
-use Iterator;
-use IteratorAggregate;
 
 /**
- * FileSet adapter to SPL's Iterator.
+ * Base class for classes that split SQL source into separate queries
  *
- * @package phing.types
- * @author Alexey Shockov <alexey@shockov.com>
- * @since 2.4.0
+ * @author  Alexey Borzov <avb@php.net>
+ * @package phing.tasks.ext.pdo
+ * @version $Id$
  */
-class IterableFileSet extends FileSet implements IteratorAggregate
+abstract class AbstractQuerySplitter
 {
     /**
-     * @return Iterator
+     * Task that uses the splitter
+     * @var SqlExec
      */
-    public function getIterator()
+    protected $parent;
+
+    /**
+     * Reader with SQL source
+     * @var BufferedReader
+     */
+    protected $sqlReader;
+
+    /**
+     * Constructor, sets the parent task and reader with SQL source
+     *
+     * @param SqlExec $parent
+     * @param \Phing\Io\AbstractReader $reader
+     */
+    public function __construct(SqlExec $parent, AbstractReader $reader)
     {
-        return new ArrayIterator($this->getFiles());
+        $this->parent = $parent;
+        $this->sqlReader = new BufferedReader($reader);
     }
 
     /**
-     * @return array
+     * Returns next query from SQL source, null if no more queries left
+     *
+     * @return string|null
      */
-    private function getFiles()
-    {
-        $directoryScanner = $this->getDirectoryScanner($this->getProject());
-        $files = $directoryScanner->getIncludedFiles();
-
-        $baseDirectory = $directoryScanner->getBasedir();
-        foreach ($files as $index => $file) {
-            $files[$index] = realpath($baseDirectory . '/' . $file);
-        }
-
-        return $files;
-    }
+    abstract public function nextQuery();
 }

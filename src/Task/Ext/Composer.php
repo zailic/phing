@@ -21,7 +21,7 @@
  */
 namespace Phing\Task\Ext;
 
-use Arg;
+use Phing\Task\Ext\SymfonyConsole\Arg;
 use Phing\Exception\BuildException;
 use Phing\Task;
 use Phing\Type\CommandLine;

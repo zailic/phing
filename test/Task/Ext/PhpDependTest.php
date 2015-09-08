@@ -1,6 +1,7 @@
 <?php
+
 /*
- * $Id$
+ *  $Id$
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -19,42 +20,42 @@
  * <http://phing.info>.
  */
 
-namespace Phing\Type;
+namespace Phing\Test\Task\Ext;
 
-use ArrayIterator;
-use Iterator;
-use IteratorAggregate;
+use Phing\Test\Helper\AbstractBuildFileTest;
+
 
 /**
- * FileSet adapter to SPL's Iterator.
+ * Tests for PhpDependTask
  *
- * @package phing.types
- * @author Alexey Shockov <alexey@shockov.com>
- * @since 2.4.0
+ * @author Michiel Rook <mrook@php.net>
+ * @package phing.tasks.ext.pdepend
  */
-class IterableFileSet extends FileSet implements IteratorAggregate
+class PhpDependTest extends AbstractBuildFileTest
 {
-    /**
-     * @return Iterator
-     */
-    public function getIterator()
+
+    public function setUp()
     {
-        return new ArrayIterator($this->getFiles());
+        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/ext/pdepend/build.xml");
     }
 
-    /**
-     * @return array
-     */
-    private function getFiles()
+    public function testLoggerSummary()
     {
-        $directoryScanner = $this->getDirectoryScanner($this->getProject());
-        $files = $directoryScanner->getIncludedFiles();
+        ob_start();
+        $this->executeTarget(__FUNCTION__);
+        ob_end_clean();
+        $filename = PHING_TEST_BASE . '/etc/tasks/ext/pdepend/tempoutput';
+        $this->assertFileExists($filename);
+        unlink($filename);
+    }
 
-        $baseDirectory = $directoryScanner->getBasedir();
-        foreach ($files as $index => $file) {
-            $files[$index] = realpath($baseDirectory . '/' . $file);
-        }
-
-        return $files;
+    public function testAnalyzer()
+    {
+        ob_start();
+        $this->executeTarget(__FUNCTION__);
+        ob_end_clean();
+        $filename = PHING_TEST_BASE . '/etc/tasks/ext/pdepend/tempoutput';
+        $this->assertFileExists($filename);
+        unlink($filename);
     }
 }

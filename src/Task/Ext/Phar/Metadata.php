@@ -19,42 +19,40 @@
  * <http://phing.info>.
  */
 
-namespace Phing\Type;
 
-use ArrayIterator;
-use Iterator;
-use IteratorAggregate;
+namespace Phing\Task\Ext\Phar;
 
 /**
- * FileSet adapter to SPL's Iterator.
- *
- * @package phing.types
+ * @package phing.tasks.ext.phar
  * @author Alexey Shockov <alexey@shockov.com>
  * @since 2.4.0
  */
-class IterableFileSet extends FileSet implements IteratorAggregate
+class Metadata
 {
     /**
-     * @return Iterator
+     * @var MetadataElement[]
      */
-    public function getIterator()
+    protected $elements = array();
+
+    /**
+     * @return MetadataElement
+     */
+    public function createElement()
     {
-        return new ArrayIterator($this->getFiles());
+        return ($this->elements[] = new MetadataElement());
     }
 
     /**
      * @return array
      */
-    private function getFiles()
+    public function toArray()
     {
-        $directoryScanner = $this->getDirectoryScanner($this->getProject());
-        $files = $directoryScanner->getIncludedFiles();
+        $metadata = array();
 
-        $baseDirectory = $directoryScanner->getBasedir();
-        foreach ($files as $index => $file) {
-            $files[$index] = realpath($baseDirectory . '/' . $file);
+        foreach ($this->elements as $element) {
+            $metadata[$element->getName()] = $element->toArray();
         }
 
-        return $files;
+        return $metadata;
     }
 }

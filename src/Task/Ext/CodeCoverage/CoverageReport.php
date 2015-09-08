@@ -11,7 +11,7 @@ use Phing\Io\File;
 use Phing\Task;
 use Phing\Type\Path;
 use Phing\Util\Properties\Properties;
-use PHPUnitUtil;
+use Phing\Task\Ext\PhpUnit\Util;
 use ReflectionClass;
 
 /**
@@ -223,7 +223,7 @@ class CoverageReport extends Task
      */
     protected function addClassToSubpackage($classname, $element)
     {
-        $subpackageName = PHPUnitUtil::getSubpackageName($classname);
+        $subpackageName = Util::getSubpackageName($classname);
 
         $subpackage = $this->getSubpackageElement($subpackageName);
 
@@ -365,7 +365,7 @@ class CoverageReport extends Task
      */
     protected function transformCoverageInformation($filename, $coverageInformation)
     {
-        $classes = PHPUnitUtil::getDefinedClasses($filename, $this->classpath);
+        $classes = Util::getDefinedClasses($filename, $this->classpath);
 
         if (is_array($classes)) {
             foreach ($classes as $classname) {
@@ -381,8 +381,8 @@ class CoverageReport extends Task
                 $classElement = $this->doc->createElement('class');
                 $classElement->setAttribute('name', $className);
 
-                $packageName = PHPUnitUtil::getPackageName($reflection->getName());
-                $subpackageName = PHPUnitUtil::getSubpackageName($reflection->getName());
+                $packageName = Util::getPackageName($reflection->getName());
+                $subpackageName = Util::getSubpackageName($reflection->getName());
 
                 if ($subpackageName !== null) {
                     $this->addSubpackageToPackage($packageName, $subpackageName);

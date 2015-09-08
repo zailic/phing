@@ -1,5 +1,10 @@
 <?php
-/*
+namespace Phing\Task\Ext\PhpCpd;
+
+use Phing\Io\File;
+use Phing\Project;
+
+/**
  * $Id$
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -19,42 +24,22 @@
  * <http://phing.info>.
  */
 
-namespace Phing\Type;
-
-use ArrayIterator;
-use Iterator;
-use IteratorAggregate;
-
 /**
- * FileSet adapter to SPL's Iterator.
+ * This abstract class describes classes that format the results of a PHPCPD run.
  *
- * @package phing.types
- * @author Alexey Shockov <alexey@shockov.com>
- * @since 2.4.0
+ * @package phing.tasks.ext.phpcpd.formatter
+ * @author  Benjamin Schultz <bschultz@proqrent.de>
+ * @version $Id$
  */
-class IterableFileSet extends FileSet implements IteratorAggregate
+abstract class AbstractResultFormatter
 {
     /**
-     * @return Iterator
+     * Processes a list of clones.
+     *
+     * @param object $clones
+     * @param Project $project
+     * @param boolean $useFile
+     * @param File|null $outFile
      */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->getFiles());
-    }
-
-    /**
-     * @return array
-     */
-    private function getFiles()
-    {
-        $directoryScanner = $this->getDirectoryScanner($this->getProject());
-        $files = $directoryScanner->getIncludedFiles();
-
-        $baseDirectory = $directoryScanner->getBasedir();
-        foreach ($files as $index => $file) {
-            $files[$index] = realpath($baseDirectory . '/' . $file);
-        }
-
-        return $files;
-    }
+    abstract public function processClones($clones, Project $project, $useFile = false, $outFile = null);
 }

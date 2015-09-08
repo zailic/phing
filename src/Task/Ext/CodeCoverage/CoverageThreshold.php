@@ -8,7 +8,7 @@ use Phing\Type\Excludes;
 use Phing\Type\Path;
 use Phing\Util\Properties\Properties;
 use Phing\Util\StringHelper;
-use PHPUnitUtil;
+use Phing\Task\Ext\PhpUnit\Util;
 use ReflectionClass;
 use The;
 
@@ -228,7 +228,7 @@ class CoverageThreshold extends Task
      */
     protected function calculateCoverageThreshold($filename, $coverageInformation)
     {
-        $classes = PHPUnitUtil::getDefinedClasses($filename, $this->_classpath);
+        $classes = Util::getDefinedClasses($filename, $this->_classpath);
 
         if (is_array($classes)) {
             foreach ($classes as $className) {

@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * $Id$
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -18,43 +18,42 @@
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
+namespace Phing\Task\Ext\Phk;
 
-namespace Phing\Type;
-
-use ArrayIterator;
-use Iterator;
-use IteratorAggregate;
 
 /**
- * FileSet adapter to SPL's Iterator.
- *
- * @package phing.types
  * @author Alexey Shockov <alexey@shockov.com>
- * @since 2.4.0
+ * @package phing.tasks.ext.phk
  */
-class IterableFileSet extends FileSet implements IteratorAggregate
+class WebAccess
 {
     /**
-     * @return Iterator
+     * @var array
      */
-    public function getIterator()
+    private $paths = array();
+
+    /**
+     * @return WebAccessPath
+     */
+    public function createPath()
     {
-        return new ArrayIterator($this->getFiles());
+        return ($this->paths[] = new WebAccessPath());
     }
 
     /**
      * @return array
      */
-    private function getFiles()
+    public function getPaths()
     {
-        $directoryScanner = $this->getDirectoryScanner($this->getProject());
-        $files = $directoryScanner->getIncludedFiles();
+        /*
+         * Get real paths...
+         */
+        $paths = array();
 
-        $baseDirectory = $directoryScanner->getBasedir();
-        foreach ($files as $index => $file) {
-            $files[$index] = realpath($baseDirectory . '/' . $file);
+        foreach ($this->paths as $path) {
+            $paths[] = $path->getPath();
         }
 
-        return $files;
+        return $paths;
     }
 }
