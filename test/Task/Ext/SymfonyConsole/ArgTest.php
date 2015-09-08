@@ -34,8 +34,8 @@ class ArgTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Arg::getName
-     * @covers Arg::setName
+     * @covers \Phing\Task\Ext\SymfonyConsole\Arg::getName
+     * @covers \Phing\Task\Ext\SymfonyConsole\Arg::setName
      */
     public function testSetGetName()
     {
@@ -45,8 +45,8 @@ class ArgTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Arg::getValue
-     * @covers Arg::setValue
+     * @covers \Phing\Task\Ext\SymfonyConsole\Arg::getValue
+     * @covers \Phing\Task\Ext\SymfonyConsole\Arg::setValue
      */
     public function testSetGetValue()
     {
@@ -56,8 +56,8 @@ class ArgTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Arg::getQuotes
-     * @covers Arg::setQuotes
+     * @covers \Phing\Task\Ext\SymfonyConsole\Arg::getQuotes
+     * @covers \Phing\Task\Ext\SymfonyConsole\Arg::setQuotes
      */
     public function testGetQuotes()
     {
@@ -67,7 +67,7 @@ class ArgTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Arg::__toString
+     * @covers \Phing\Task\Ext\SymfonyConsole\Arg::__toString
      */
     public function test__toString_withQuotes()
     {
@@ -80,7 +80,7 @@ class ArgTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Arg::__toString
+     * @covers \Phing\Task\Ext\SymfonyConsole\Arg::__toString
      */
     public function test__toString_withoutQuotes()
     {
@@ -93,7 +93,7 @@ class ArgTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Arg::__toString
+     * @covers \Phing\Task\Ext\SymfonyConsole\Arg::__toString
      */
     public function test__toString_justName()
     {
@@ -105,7 +105,7 @@ class ArgTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Arg::__toString
+     * @covers \Phing\Task\Ext\SymfonyConsole\Arg::__toString
      */
     public function test__toString_justValueWithoutQuotes()
     {
@@ -117,7 +117,7 @@ class ArgTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Arg::__toString
+     * @covers \Phing\Task\Ext\SymfonyConsole\Arg::__toString
      */
     public function test__toString_justValueWithQuotes()
     {

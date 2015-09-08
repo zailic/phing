@@ -58,8 +58,8 @@ class SymfonyConsoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SymfonyConsoleTask::setCommand
-     * @covers SymfonyConsoleTask::getCommand
+     * @covers \Phing\Task\Ext\SymfonyConsole\SymfonyConsole::setCommand
+     * @covers \Phing\Task\Ext\SymfonyConsole\SymfonyConsole::getCommand
      */
     public function testSetGetCommand()
     {
@@ -69,8 +69,8 @@ class SymfonyConsoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SymfonyConsoleTask::setConsole
-     * @covers SymfonyConsoleTask::getConsole
+     * @covers \Phing\Task\Ext\SymfonyConsole\SymfonyConsole::setConsole
+     * @covers \Phing\Task\Ext\SymfonyConsole\SymfonyConsole::getConsole
      */
     public function testSetGetConsole()
     {
@@ -80,8 +80,8 @@ class SymfonyConsoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SymfonyConsoleTask::setDebug
-     * @covers SymfonyConsoleTask::getDebug
+     * @covers \Phing\Task\Ext\SymfonyConsole\SymfonyConsole::setDebug
+     * @covers \Phing\Task\Ext\SymfonyConsole\SymfonyConsole::getDebug
      */
     public function testSetGetDebug()
     {
@@ -91,7 +91,7 @@ class SymfonyConsoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SymfonyConsoleTask::createArg
+     * @covers \Phing\Task\Ext\SymfonyConsole\SymfonyConsole::createArg
      */
     public function testCreateArg()
     {
@@ -101,7 +101,7 @@ class SymfonyConsoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SymfonyConsoleTask::getArgs
+     * @covers \Phing\Task\Ext\SymfonyConsole\SymfonyConsole::getArgs
      */
     public function testGetArgs()
     {
@@ -113,7 +113,7 @@ class SymfonyConsoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SymfonyConsoleTask::getCmdString
+     * @covers \Phing\Task\Ext\SymfonyConsole\SymfonyConsole::getCmdString
      * @todo Implement testMain().
      */
     public function testGetCmdString()
@@ -132,7 +132,7 @@ class SymfonyConsoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SymfonyConsoleTask::getCmdString
+     * @covers \Phing\Task\Ext\SymfonyConsole\SymfonyConsole::getCmdString
      */
     public function testNoDebugGetCmdString()
     {
@@ -151,7 +151,7 @@ class SymfonyConsoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SymfonyConsoleTask::getCmdString
+     * @covers \Phing\Task\Ext\SymfonyConsole\SymfonyConsole::getCmdString
      */
     public function testNoDebugOnlyOnce()
     {
