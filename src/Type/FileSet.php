@@ -21,6 +21,9 @@
 
 namespace Phing\Type;
 
+use ArrayIterator;
+use Iterator;
+
 /**
  * Moved out of MatchingTask to make it a standalone object that could
  * be referenced (by scripts for example).
@@ -34,7 +37,7 @@ namespace Phing\Type;
  * @author  Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
  * @author  Magesh Umasankar (Ant)
  */
-class FileSet extends AbstractFileSet
+class FileSet extends AbstractFileSet implements \IteratorAggregate
 {
     /**
      * Return a FileSet that has the same basedir and same patternsets as this one.
@@ -46,5 +49,29 @@ class FileSet extends AbstractFileSet
         } else {
             return new FileSet($this);
         }
+    }
+
+    /**
+     * @return Iterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->getFiles());
+    }
+
+    /**
+     * @return array
+     */
+    protected function getFiles()
+    {
+        $directoryScanner = $this->getDirectoryScanner($this->getProject());
+        $files = $directoryScanner->getIncludedFiles();
+
+        $baseDirectory = $directoryScanner->getBasedir();
+        foreach ($files as $index => $file) {
+            $files[$index] = realpath($baseDirectory . '/' . $file);
+        }
+
+        return $files;
     }
 }

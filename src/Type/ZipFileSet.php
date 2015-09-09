@@ -20,18 +20,17 @@ class ZipFileSet extends FileSet
 
     /**
      *  Get a list of files and directories specified in the fileset.
-     * @param Project $p
      * @param bool $includeEmpty
      * @throws BuildException
      * @return array a list of file and directory names, relative to
      *               the baseDir for the project.
      */
-    public function getFiles(Project $p, $includeEmpty = true)
+    public function getZipFiles($includeEmpty = true)
     {
 
         if ($this->files === null) {
 
-            $ds = $this->getDirectoryScanner($p);
+            $ds = $this->getDirectoryScanner($this->getProject());
             $this->files = $ds->getIncludedFiles();
 
             // build a list of directories implicitly added by any of the files

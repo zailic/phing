@@ -27,7 +27,6 @@ use Phing\Io\File;
 use Phing\Project;
 use Phing\Task\System\AbstractMatching;
 use Phing\Type\FileSet;
-use Phing\Type\IterableFileSet;
 
 
 /**
@@ -91,7 +90,7 @@ class PharPackage extends AbstractMatching
     private $signatureAlgorithm = Phar::SHA1;
 
     /**
-     * @var array
+     * @var FileSet[]
      */
     private $filesets = array();
 
@@ -118,7 +117,7 @@ class PharPackage extends AbstractMatching
      */
     public function createFileSet()
     {
-        $this->fileset = new IterableFileSet();
+        $this->fileset = new FileSet();
         $this->filesets[] = $this->fileset;
 
         return $this->fileset;

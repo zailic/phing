@@ -96,7 +96,7 @@ class Tar extends AbstractMatching
      */
     public function createTarFileSet()
     {
-        $this->fileset = new \Phing\Type\TarFileSet();
+        $this->fileset = new TarFileSet();
         $this->filesets[] = $this->fileset;
 
         return $this->fileset;
@@ -109,7 +109,7 @@ class Tar extends AbstractMatching
      */
     public function createFileSet()
     {
-        $this->fileset = new \Phing\Type\TarFileSet();
+        $this->fileset = new TarFileSet();
         $this->filesets[] = $this->fileset;
 
         return $this->fileset;
@@ -235,7 +235,7 @@ class Tar extends AbstractMatching
                 }
                 if (empty($this->filesets)) { // if there weren't any explicit filesets specivied, then
                     // create a default, all-inclusive fileset using the specified basedir.
-                    $mainFileSet = new \Phing\Type\TarFileSet($this->fileset);
+                    $mainFileSet = new TarFileSet($this->fileset);
                     $mainFileSet->setDir($this->baseDir);
                     $this->filesets[] = $mainFileSet;
                 }
@@ -264,7 +264,7 @@ class Tar extends AbstractMatching
             }
 
             foreach ($this->filesets as $fs) {
-                $files = $fs->getFiles($this->project, $this->includeEmpty);
+                $files = $fs->getTarFiles($this->includeEmpty);
                 if (count($files) > 1 && strlen($fs->getFullpath()) > 0) {
                     throw new BuildException(
                         "fullpath attribute may only "

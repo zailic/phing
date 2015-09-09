@@ -255,7 +255,7 @@ class Zip extends AbstractMatching
     public function areFilesetsUpToDate()
     {
         foreach ($this->filesets as $fs) {
-            $files = $fs->getFiles($this->project, $this->includeEmpty);
+            $files = $fs->getZipFiles($this->includeEmpty);
             if (!$this->archiveIsUpToDate($files, $fs->getDir($this->project))) {
                 return false;
             }
@@ -277,7 +277,7 @@ class Zip extends AbstractMatching
             $fsBasedir = (null != $this->baseDir) ? $this->baseDir :
                 $fs->getDir($this->project);
 
-            $files = $fs->getFiles($this->project, $this->includeEmpty);
+            $files = $fs->getZipFiles($this->includeEmpty);
 
             for ($i = 0, $fcount = count($files); $i < $fcount; $i++) {
                 $f = new File($fsBasedir, $files[$i]);

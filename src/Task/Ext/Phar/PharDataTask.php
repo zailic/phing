@@ -28,7 +28,6 @@ use Phing\Io\File;
 use Phing\Project;
 use Phing\Task\System\AbstractMatching;
 use Phing\Type\FileSet;
-use Phing\Type\IterableFileSet;
 use UnexpectedValueException;
 
 /**
@@ -57,7 +56,7 @@ class PharDataTask extends AbstractMatching
     private $baseDirectory;
 
     /**
-     * @var IterableFileSet[]
+     * @var FileSet[]
      */
     private $filesets = array();
 
@@ -66,7 +65,7 @@ class PharDataTask extends AbstractMatching
      */
     public function createFileSet()
     {
-        $this->fileset = new IterableFileSet();
+        $this->fileset = new FileSet();
         $this->filesets[] = $this->fileset;
         return $this->fileset;
     }
