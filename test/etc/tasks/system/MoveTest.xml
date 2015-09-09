@@ -1,0 +1,30 @@
+<project default="main" name="Test">
+	<property name="tmp.dir" value="tmp"/>
+	<resolvepath propertyName="tmp.dir.resolved" file="${tmp.dir}"/>
+
+	<target name="setup">
+		<mkdir dir="${tmp.dir}"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${tmp.dir}"/>
+	</target>
+
+	<target name="testMoveShouldNotThrowExceptionWhenFileNotFoundAndHaltOnErrorIsFalse">
+		<move file="no_such_file.txt" tofile="other_path.txt"
+		overwrite="true" haltonerror="false" />
+	</target>
+
+	<target name="testReplaceRegexpFilter">
+		<echo file="${tmp.dir}/sourcefile.txt">FOO</echo>
+		<move file="${tmp.dir}/sourcefile.txt" tofile="${tmp.dir}/anotherfile.bak" overwrite="true">
+			<filterchain>
+				<replaceregexp>
+					<regexp pattern="FOO" replace="BAR" ignoreCase="true"/>
+				</replaceregexp>
+			</filterchain>
+		</move>
+	</target>
+
+	<target name="main"/>
+</project>

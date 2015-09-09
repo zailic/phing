@@ -20,26 +20,44 @@
  * <http://phing.info>.
  */
 
+namespace Phing\Test\Task\System;
+
 use Phing\Test\Helper\AbstractBuildFileTest;
 
-
-/**
- * Regression test for ticket http://www.phing.info/trac/ticket/582
- * - Add haltonerror attribute to copy/move tasks
- *
- * @package phing.regression
- */
-class CopyMoveNoExceptionTest extends AbstractBuildFileTest
+class MoveTest extends AbstractBuildFileTest
 {
 
     public function setUp()
     {
-        $this->configureProject(PHING_TEST_BASE . "/etc/regression/582/build.xml");
+        $this->configureProject(PHING_TEST_BASE . "/etc/tasks/system/MoveTest.xml");
+        $this->executeTarget("setup");
     }
 
-    public function testPhingCallTask()
+    public function tearDown()
     {
-        $this->executeTarget("main");
+        $this->executeTarget("clean");
+    }
+
+    /**
+     * Regression test for ticket http://www.phing.info/trac/ticket/582
+     * - Add haltonerror attribute to copy/move tasks
+     */
+    public function testMoveShouldNotThrowExceptionWhenFileNotFoundAndHaltOnErrorIsFalse()
+    {
+        $this->executeTarget(__FUNCTION__);
         $this->assertInLogs("Could not find file ");
+    }
+
+    /**
+     * Regression test for ticket http://www.phing.info/trac/ticket/307
+     * - Replaceregexp filter works in Copy task but not Move task
+     */
+    public function testReplaceRegexpFilter()
+    {
+        $this->executeTarget(__FUNCTION__);
+
+        $contents = file_get_contents(PHING_TEST_BASE . "/etc/tasks/system/tmp/anotherfile.bak");
+
+        $this->assertEquals("BAR", $contents);
     }
 }
