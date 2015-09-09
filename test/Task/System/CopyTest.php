@@ -72,4 +72,14 @@ class CopyTest extends AbstractBuildFileTest
         $this->assertInLogs("Copying 2 files to");
         $this->assertGreaterThan(0, $this->project->getProperty('test.filesize'));
     }
+
+    /**
+     * Regression test for ticket http://www.phing.info/trac/ticket/229
+     * - CopyTask should accept filelist subelement
+     */
+    public function testCopyShouldAcceptFileList()
+    {
+        $this->executeTarget(__FUNCTION__);
+        $this->assertInLogs("Copying 2 files to");
+    }
 }
