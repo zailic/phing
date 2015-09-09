@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: michiel
- * Date: 9/4/15
- * Time: 11:31 PM
- */
+
 namespace Phing\Type;
 
 /**

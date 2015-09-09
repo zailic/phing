@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: michiel
- * Date: 9/6/15
- * Time: 9:48 AM
- */
+
 namespace Phing\Type;
 
 use Phing\Exception\BuildException;

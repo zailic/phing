@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: michiel
- * Date: 9/8/15
- * Time: 3:03 PM
- */
+
 namespace Phing\Task\Ext\Pdo;
 
 use Phing\Io\File;

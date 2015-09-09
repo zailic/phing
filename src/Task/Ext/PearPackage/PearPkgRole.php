@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: michiel
- * Date: 9/6/15
- * Time: 9:53 AM
- */
+
 namespace Phing\Task\Ext\PearPackage;
 
 /**

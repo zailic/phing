@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: michiel
- * Date: 9/4/15
- * Time: 11:30 PM
- */
-namespace Phing\Type;
 
-use the;
+namespace Phing\Type;
 
 /**
  * Helper class that implements the nested <reference>
@@ -24,9 +17,7 @@ class PhingReference extends Reference
      * Set the id that this reference to be stored under in the
      * new project.
      *
-     * @param the $targetid
-     * @internal param the $targetid id under which this reference will be passed to
-     *        the new project
+     * @param string $targetid
      */
     public function setToRefid($targetid)
     {
@@ -37,7 +28,7 @@ class PhingReference extends Reference
      * Get the id under which this reference will be stored in the new
      * project
      *
-     * @return the id of the reference in the new project.
+     * @return string the id of the reference in the new project.
      */
     public function getToRefid()
     {

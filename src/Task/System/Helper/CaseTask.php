@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: michiel
- * Date: 9/4/15
- * Time: 11:38 PM
- */
+
 namespace Phing\Task\System\Helper;
 
 use Phing\Task;

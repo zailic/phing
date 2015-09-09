@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: michiel
- * Date: 9/3/15
- * Time: 10:16 PM
- */
+
 namespace Phing\Condition;
 
 use Iterator;

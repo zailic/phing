@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: michiel
- * Date: 9/3/15
- * Time: 11:38 PM
- */
+
 namespace Phing\Task\System;
 
 use Phing\Condition\AbstractCondition;
