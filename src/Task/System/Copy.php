@@ -321,7 +321,8 @@ class Copy extends Task
                 }
             } else {
                 // terminate build
-                $this->logError("Could not find file " . $this->file->__toString() . " to copy.");
+                $this->logError("Could not find file " . $this->file->__toString() .
+                    " to " . $this->getTaskName() . ".");
             }
         }
 
