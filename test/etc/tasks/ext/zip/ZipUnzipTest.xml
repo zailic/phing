@@ -23,6 +23,19 @@
     	<delete file="${tmp.dir}/test.txt"/>
     	<unzip file="${tmp.dir}/simple-test.zip" todir="${tmp.dir}"/>
     </target>
-    
+
+    <target name="testExcludedFiles">
+        <zip destfile="${tmp.dir}/test.zip">
+            <fileset dir="." defaultexcludes="false">
+                <include name="**"/>
+                <exclude name="**/.gitignore"/>
+                <exclude name=".git/"/>
+                <exclude name="cache/"/>
+                <exclude name="build.xml"/>
+                <exclude name="data/config.php"/>
+            </fileset>
+        </zip>
+    </target>
+
     <target name="main"/>
 </project>

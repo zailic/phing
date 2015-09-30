@@ -38,7 +38,7 @@ class ZipUnzipTest extends AbstractBuildFileTest
     {
         $this->configureProject(
             PHING_TEST_BASE
-            . "/etc/tasks/ext/ZipUnzipTaskTest.xml"
+            . "/etc/tasks/ext/zip/ZipUnzipTest.xml"
         );
         $this->executeTarget("setup");
     }
@@ -51,7 +51,7 @@ class ZipUnzipTest extends AbstractBuildFileTest
     public function testSimpleZipContainsOneFile()
     {
         $filename = PHING_TEST_BASE .
-            "/etc/tasks/ext/tmp/simple-test.zip";
+            "/etc/tasks/ext/zip/tmp/simple-test.zip";
 
         $this->executeTarget(__FUNCTION__);
         $this->assertFileExists($filename);
@@ -73,5 +73,24 @@ class ZipUnzipTest extends AbstractBuildFileTest
 
         $this->assertFileExists($filename);
         $this->assertEquals('TEST', file_get_contents($filename));
+    }
+
+    /**
+     * Regression test for ticket http://www.phing.info/trac/ticket/137
+     * - Excluded files may be included in Zip/Tar tasks
+     */
+    public function testExcludedFiles()
+    {
+        $this->executeTarget(__FUNCTION__);
+
+        $expected = "Adding ./.git to archive.";
+
+        foreach ($this->logBuffer as $log) {
+            if (stripos($log, $expected) !== false) {
+                $this->fail(
+                    sprintf("Expected to find '%s' in logs: %s", $expected, var_export($this->logBuffer, true))
+                );
+            }
+        }
     }
 }
