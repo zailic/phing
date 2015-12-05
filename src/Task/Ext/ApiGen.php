@@ -29,6 +29,7 @@ use Phing\Task;
  * @package   phing.tasks.ext.apigen
  * @author    Martin Srank <martin@smasty.net>
  * @author    Jaroslav Hanslík <kukulich@kukulich.cz>
+ * @author    Lukáš Homza <lukashomza@gmail.com>
  * @since     2.4.10
  */
 class ApiGen extends Task
@@ -41,15 +42,18 @@ class ApiGen extends Task
     private $executable = 'apigen';
 
     /**
-     * Default options for ApiGen.
+     * Default ApiGen action.
      *
-     * @var array
+     * @var string
      */
-    private $options = array(
-        'progressbar' => false,
-        'colors' => false,
-        'update-check' => false
-    );
+    private $action = 'generate';
+
+    /**
+     * Default ApiGen options.
+     *
+     * @var string
+     */
+    private $options = array();
 
     /**
      * Sets the ApiGen executable name.
@@ -59,6 +63,16 @@ class ApiGen extends Task
     public function setExecutable($executable)
     {
         $this->executable = (string)$executable;
+    }
+
+    /**
+     * Sets the ApiGen action to be executed.
+     *
+     * @param string $action
+     */
+    public function setAction($action)
+    {
+        $this->action = (string) $action;
     }
 
     /**
@@ -119,16 +133,6 @@ class ApiGen extends Task
     public function setSkipDocPath($skipDocPath)
     {
         $this->options['skip-doc-path'] = explode(',', $skipDocPath);
-    }
-
-    /**
-     * Sets a name prefix to exclude elements from documentation generating.
-     *
-     * @param string $skipDocPrefix
-     */
-    public function setSkipDocPrefix($skipDocPrefix)
-    {
-        $this->options['skip-doc-prefix'] = explode(',', $skipDocPrefix);
     }
 
     /**
@@ -212,13 +216,13 @@ class ApiGen extends Task
     }
 
     /**
-     * Sets a list of HTML tags allowed in the documentation.
+     * Sets the template config file name.
      *
-     * @param string $allowedHtml
+     * @param string $templateTheme
      */
-    public function setAllowedHtml($allowedHtml)
+    public function setTemplateTheme($templateTheme)
     {
-        $this->options['allowed-html'] = (string)$allowedHtml;
+        $this->options['template-theme'] = (string) $templateTheme;
     }
 
     /**
@@ -232,16 +236,6 @@ class ApiGen extends Task
     }
 
     /**
-     * Sets element types for search input autocomplete.
-     *
-     * @param string $autocomplete
-     */
-    public function setAutocomplete($autocomplete)
-    {
-        $this->options['autocomplete'] = (string)$autocomplete;
-    }
-
-    /**
      * Sets the element access levels.
      *
      * Documentation only for methods and properties with the given access level will be generated.
@@ -250,7 +244,19 @@ class ApiGen extends Task
      */
     public function setAccessLevels($accessLevels)
     {
-        $this->options['access-levels'] = (string)$accessLevels;
+        $this->options['access-levels'] = (string) $accessLevels;
+    }
+
+    /**
+     * Sets the element access levels.
+     *
+     * Documentation only for methods and properties with the given access level will be generated.
+     *
+     * @param string $annotationGroups
+     */
+    public function setAnnotationGroups($annotationGroups)
+    {
+        $this->options['annotation-groups'] = (string) $annotationGroups;
     }
 
     /**
@@ -260,7 +266,9 @@ class ApiGen extends Task
      */
     public function setInternal($internal)
     {
-        $this->options['internal'] = (bool)$internal;
+        if((bool) $internal) {
+            $this->options['internal'] = null;
+        }
     }
 
     /**
@@ -270,7 +278,9 @@ class ApiGen extends Task
      */
     public function setPhp($php)
     {
-        $this->options['php'] = (bool)$php;
+        if((bool) $php) {
+            $this->options['php'] = null;
+        }
     }
 
     /**
@@ -280,7 +290,9 @@ class ApiGen extends Task
      */
     public function setTree($tree)
     {
-        $this->options['tree'] = (bool)$tree;
+        if((bool) $tree) {
+            $this->options['tree'] = null;
+        }
     }
 
     /**
@@ -290,7 +302,9 @@ class ApiGen extends Task
      */
     public function setDeprecated($deprecated)
     {
-        $this->options['deprecated'] = (bool)$deprecated;
+        if((bool) $deprecated) {
+            $this->options['deprecated'] = null;
+        }
     }
 
     /**
@@ -300,17 +314,21 @@ class ApiGen extends Task
      */
     public function setTodo($todo)
     {
-        $this->options['todo'] = (bool)$todo;
+        if((bool) $todo) {
+            $this->options['todo'] = null;
+        }
     }
 
     /**
      * Sets if highlighted source code files should be generated.
      *
-     * @param boolean $sourceCode
+     * @param boolean $noSourceCode
      */
-    public function setSourceCode($sourceCode)
+    public function setNoSourceCode($noSourceCode)
     {
-        $this->options['source-code'] = (bool)$sourceCode;
+        if((bool) $noSourceCode) {
+            $this->options['no-source-code'] = null;
+        }
     }
 
     /**
@@ -320,47 +338,9 @@ class ApiGen extends Task
      */
     public function setDownload($download)
     {
-        $this->options['download'] = (bool)$download;
-    }
-
-    /**
-     * Sets a file name for checkstyle report of poorly documented elements.
-     *
-     * @param string $report
-     */
-    public function setReport($report)
-    {
-        $this->options['report'] = (string)$report;
-    }
-
-    /**
-     * Sets if the destination directory should be wiped out first.
-     *
-     * @param boolean $wipeout
-     */
-    public function setWipeout($wipeout)
-    {
-        $this->options['wipeout'] = (bool)$wipeout;
-    }
-
-    /**
-     * Enables/disables scaning and generating messages.
-     *
-     * @param boolean $quiet
-     */
-    public function setQuiet($quiet)
-    {
-        $this->options['quiet'] = (bool)$quiet;
-    }
-
-    /**
-     * Enables/disables the check for ApiGen updates.
-     *
-     * @param boolean $updateCheck
-     */
-    public function setUpdateCheck($updateCheck)
-    {
-        $this->options['update-check'] = (bool)$updateCheck;
+        if((bool) $download) {
+            $this->options['download'] = null;
+        }
     }
 
     /**
@@ -370,7 +350,9 @@ class ApiGen extends Task
      */
     public function setDebug($debug)
     {
-        $this->options['debug'] = (bool)$debug;
+        if((bool) $debug) {
+            $this->options['debug'] = null;
+        }
     }
 
     /**
@@ -416,7 +398,7 @@ class ApiGen extends Task
         }
 
         // Execute ApiGen
-        exec(escapeshellcmd($this->executable) . ' ' . $this->constructArguments(), $output, $return);
+        exec(escapeshellcmd($this->executable) . ' ' . escapeshellcmd($this->action) . ' ' . $this->constructArguments(), $output, $return);
 
         $logType = 0 === $return ? Project::MSG_INFO : Project::MSG_ERR;
         foreach ($output as $line) {

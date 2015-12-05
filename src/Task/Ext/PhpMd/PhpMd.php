@@ -5,6 +5,7 @@ use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Task;
 use Phing\Type\FileSet;
+use Phing\Util\DataStore;
 use PHP_PMD_AbstractRule;
 use PHP_PMD_RuleSetFactory;
 use Phing\Task\Ext\PhpMd\FormatterElement;
@@ -106,6 +107,13 @@ class PhpMd extends Task
      * @var string
      */
     protected $pharLocation = "";
+
+    /**
+     * Cache data storage
+     *
+     * @var DataStore
+     */
+    protected $cache;
 
     /**
      * Set the input source file or directory.
@@ -213,6 +221,16 @@ class PhpMd extends Task
     }
 
     /**
+     * Whether to store last-modified times in cache
+     *
+     * @param File $file
+     */
+    public function setCacheFile(File $file)
+    {
+        $this->cache = new DataStore($file);
+    }
+
+    /**
      * Find PHPMD
      *
      * @return string
@@ -255,6 +273,39 @@ class PhpMd extends Task
     }
 
     /**
+     * Return the list of files to parse
+     *
+     * @return string[] list of absolute files to parse
+     */
+    protected function getFilesToParse()
+    {
+        $filesToParse = array();
+
+        if ($this->file instanceof File) {
+            $filesToParse[] = $this->file->getPath();
+        } else {
+            // append any files in filesets
+            foreach ($this->filesets as $fs) {
+                $dir = $fs->getDir($this->project)->getAbsolutePath();
+                foreach ($fs->getDirectoryScanner($this->project)->getIncludedFiles() as $filename) {
+                    $fileAbsolutePath = $dir . DIRECTORY_SEPARATOR . $filename;
+                    if ($this->cache) {
+                        $lastMTime = $this->cache->get($fileAbsolutePath);
+                        $currentMTime = filemtime($fileAbsolutePath);
+                        if ($lastMTime >= $currentMTime) {
+                            continue;
+                        } else {
+                            $this->cache->put($fileAbsolutePath, $currentMTime);
+                        }
+                    }
+                    $filesToParse[] = $fileAbsolutePath;
+                }
+            }
+        }
+        return $filesToParse;
+    }
+
+    /**
      * Executes PHPMD against File or a FileSet
      *
      * @throws BuildException - if the phpmd classes can't be loaded.
@@ -290,6 +341,12 @@ class PhpMd extends Task
             $reportRenderers[] = $fe->getRenderer();
         }
 
+        if ($this->newVersion && $this->cache) {
+            $reportRenderers[] = new RemoveFromCacheRenderer($this->cache);
+        } else {
+            $this->cache = null; // cache not compatible to old version
+        }
+
         // Create a rule set factory
         if ($this->newVersion) {
             $ruleSetClass = '\PHPMD\RuleSetFactory';
@@ -297,29 +354,20 @@ class PhpMd extends Task
 
         } else {
             if (!class_exists("PHP_PMD_RuleSetFactory")) {
-                @include 'PHP/PMD/RuleSetFactory.php';
+                    @include 'PHP/PMD/RuleSetFactory.php';
             }
             $ruleSetFactory = new PHP_PMD_RuleSetFactory();
         }
         $ruleSetFactory->setMinimumPriority($this->minimumPriority);
 
+        /**
+         * @var \PHPMD\PHPMD $phpmd
+         */
         $phpmd = new $className();
         $phpmd->setFileExtensions($this->allowedFileExtensions);
         $phpmd->setIgnorePattern($this->ignorePatterns);
 
-        $filesToParse = array();
-
-        if ($this->file instanceof File) {
-            $filesToParse[] = $this->file->getPath();
-        } else {
-            // append any files in filesets
-            foreach ($this->filesets as $fs) {
-                foreach ($fs->getDirectoryScanner($this->project)->getIncludedFiles() as $filename) {
-                    $f = new File($fs->getDir($this->project), $filename);
-                    $filesToParse[] = $f->getAbsolutePath();
-                }
-            }
-        }
+        $filesToParse = $this->getFilesToParse();
 
         if (count($filesToParse) > 0) {
             $inputPath = implode(',', $filesToParse);
@@ -327,6 +375,10 @@ class PhpMd extends Task
             $this->log('Processing files...');
 
             $phpmd->processFiles($inputPath, $this->rulesets, $reportRenderers, $ruleSetFactory);
+
+            if ($this->cache) {
+                $this->cache->commit();
+            }
 
             $this->log('Finished processing files');
         } else {

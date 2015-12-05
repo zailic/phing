@@ -33,10 +33,10 @@ use Phing\Io\PrintStream;
 use Phing\Listener\BuildLoggerInterface;
 use Phing\Listener\SilentLogger;
 use Phing\Parser\ProjectConfigurator;
+use Phing\Util\Properties\Properties;
 use Phing\Util\StringHelper;
 use Phing\Util\Timer;
 use Phing\Util\Properties\PropertySetImpl;
-use Properties;
 use SebastianBergmann\Version;
 use Phing\Listener\StreamRequiredBuildLoggerInterface;
 

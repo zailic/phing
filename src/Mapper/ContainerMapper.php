@@ -75,7 +75,7 @@ abstract class ContainerMapper implements FileNameMapperInterface
     /**
      * Return <code>true</code> if this <code>ContainerMapper</code> or any of
      * its sub-elements contains the specified <code>FileNameMapper</code>.
-     * @param FileNameMapper $fileNameMapper   the <code>FileNameMapper</code> to search for.
+     * @param FileNameMapperInterface $fileNameMapper   the <code>FileNameMapper</code> to search for.
      * @return boolean
      */
     protected function contains(FileNameMapperInterface $fileNameMapper)

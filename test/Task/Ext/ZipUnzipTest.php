@@ -65,7 +65,7 @@ class ZipUnzipTest extends AbstractBuildFileTest
     public function testUnzipSimpleZip()
     {
         $filename = PHING_TEST_BASE .
-            "/etc/tasks/ext/tmp/test.txt";
+            "/etc/tasks/ext/zip/tmp/test.txt";
 
         $this->assertFileNotExists($filename);
 

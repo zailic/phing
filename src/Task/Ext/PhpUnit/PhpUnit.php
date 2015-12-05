@@ -96,7 +96,9 @@ class PhpUnit extends Task
          * PEAR old-style, then composer, then PHAR
          */
         @include_once 'PHPUnit/Runner/Version.php';
-        @include_once 'phpunit/Runner/Version.php';
+        if (!class_exists('PHPUnit_Runner_Version')) {
+            @include_once 'phpunit/Runner/Version.php';
+        }
         if (!empty($this->pharLocation)) {
             $GLOBALS['_SERVER']['SCRIPT_NAME'] = '-';
             ob_start();
@@ -394,12 +396,14 @@ class PhpUnit extends Task
             }
         }
 
-        $browsers = $config->getSeleniumBrowserConfiguration();
+        if (method_exists($config, 'getSeleniumBrowserConfiguration')) {
+            $browsers = $config->getSeleniumBrowserConfiguration();
 
-        if (!empty($browsers) &&
-            class_exists('PHPUnit_Extensions_SeleniumTestCase')
-        ) {
-            PHPUnit_Extensions_SeleniumTestCase::$browsers = $browsers;
+            if (!empty($browsers) &&
+                class_exists('PHPUnit_Extensions_SeleniumTestCase')
+            ) {
+                PHPUnit_Extensions_SeleniumTestCase::$browsers = $browsers;
+            }
         }
 
         return $phpunit;
@@ -457,12 +461,16 @@ class PhpUnit extends Task
         }
 
         $autoloadNew = spl_autoload_functions();
-        foreach ($autoloadNew as $autoload) {
-            spl_autoload_unregister($autoload);
+        if(is_array($autoloadNew)) {
+            foreach ($autoloadNew as $autoload) {
+                spl_autoload_unregister($autoload);
+            }
         }
 
-        foreach ($autoloadSave as $autoload) {
-            spl_autoload_register($autoload);
+        if(is_array($autoloadSave)) {
+            foreach ($autoloadSave as $autoload) {
+                spl_autoload_register($autoload);
+            }
         }
     }
 

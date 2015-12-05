@@ -4,6 +4,8 @@ namespace Phing\Task\Ext;
 use Phing\Exception\BuildException;
 use Phing\Io\File;
 use Phing\Task;
+use Phing\Task\Ext\PhpLoc\FormatterElement;
+use Phing\Task\Ext\PhpLoc\FormatterFactory;
 use Phing\Type\FileSet;
 use Phing\Util\StringHelper;
 use SplFileInfo;
@@ -26,7 +28,6 @@ use SplFileInfo;
  * and is licensed under the LGPL. For more information please see
  * <http://phing.info>.
  */
-
 
 /**
  * Runs phploc a tool for quickly measuring the size of PHP projects.
@@ -82,16 +83,9 @@ class PhpLoc extends Task
     protected $fileSets = array();
 
     /**
-     * @var bool
+     * @var FormatterElement[]
      */
-    protected $oldVersion = false;
-
-    /**
-     * Flag for identifying if phploc library is between version 1.7.0 and 1.7.4
-     *
-     * @var bool
-     */
-    private $isOneSevenVersion = false;
+    protected $formatterElements = array();
 
     /**
      * @var string
@@ -171,6 +165,14 @@ class PhpLoc extends Task
     }
 
     /**
+     * @param FormatterElement $formatterElement
+     */
+    public function addFormatter(FormatterElement $formatterElement)
+    {
+        $this->formatterElements[] = $formatterElement;
+    }
+
+    /**
      * @throws BuildException
      */
     protected function loadDependencies()
@@ -190,24 +192,11 @@ class Application
 
         if (!class_exists('\SebastianBergmann\PHPLOC\Analyser')) {
             if (!@include_once 'SebastianBergmann/PHPLOC/autoload.php') {
-                if (!@include_once 'PHPLOC/Analyser.php') {
-                    throw new BuildException(
-                        'PHPLocTask depends on PHPLoc being installed and on include_path.',
-                        $this->getLocation()
-                    );
-                } else {
-                    $this->oldVersion = true;
-                }
+                throw new BuildException(
+                    'PHPLocTask depends on PHPLoc being installed and on include_path.',
+                    $this->getLocation()
+                );
             }
-        }
-
-        $versionClass = '\\SebastianBergmann\\PHPLOC\\Version';
-
-        if (class_exists($versionClass)
-            && version_compare(constant($versionClass . '::VERSION'), '1.7.0') >= 0
-            && version_compare(constant($versionClass . '::VERSION'), '2.0.0beta1') == -1
-        ) {
-            $this->isOneSevenVersion = true;
         }
     }
 
@@ -216,20 +205,6 @@ class Application
         $this->loadDependencies();
 
         $this->validateProperties();
-
-        if ($this->reportDirectory !== null && !is_dir($this->reportDirectory)) {
-            $reportOutputDir = new File($this->reportDirectory);
-
-            $logMessage = "Report output directory doesn't exist, creating: "
-                . $reportOutputDir->getAbsolutePath() . '.';
-
-            $this->log($logMessage);
-            $reportOutputDir->mkdirs();
-        }
-
-        if ($this->reportType !== 'cli') {
-            $this->reportFileName .= '.' . $this->reportType;
-        }
 
         if (count($this->fileSets) > 0) {
             foreach ($this->fileSets as $fileSet) {
@@ -277,16 +252,39 @@ class Application
             throw new BuildException('No file suffix defined.');
         }
 
-        if ($this->reportType === null) {
-            throw new BuildException('No report type defined.');
-        }
+        if (count($this->formatterElements) == 0) {
+            if ($this->reportType === null) {
+                throw new BuildException('No report type or formatters defined.');
+            }
 
-        if ($this->reportType !== null && !in_array($this->reportType, $this->acceptedReportTypes)) {
-            throw new BuildException('Unaccepted report type defined.');
-        }
+            if ($this->reportType !== null && !in_array($this->reportType, $this->acceptedReportTypes)) {
+                throw new BuildException('Unaccepted report type defined.');
+            }
 
-        if ($this->reportType !== 'cli' && $this->reportDirectory === null) {
-            throw new BuildException('No report output directory defined.');
+            if ($this->reportType !== 'cli' && $this->reportDirectory === null) {
+                throw new BuildException('No report output directory defined.');
+            }
+
+            if ($this->reportDirectory !== null && !is_dir($this->reportDirectory)) {
+                $reportOutputDir = new File($this->reportDirectory);
+
+                $logMessage = "Report output directory doesn't exist, creating: "
+                    . $reportOutputDir->getAbsolutePath() . '.';
+
+                $this->log($logMessage);
+                $reportOutputDir->mkdirs();
+            }
+
+            if ($this->reportType !== 'cli') {
+                $this->reportFileName .= '.' . $this->reportType;
+            }
+
+            $formatterElement = new FormatterElement();
+            $formatterElement->setType($this->reportType);
+            $formatterElement->setUseFile($this->reportDirectory !== null);
+            $formatterElement->setToDir($this->reportDirectory);
+            $formatterElement->setOutfile($this->reportFileName);
+            $this->formatterElements[] = $formatterElement;
         }
     }
 
@@ -305,94 +303,17 @@ class Application
         $files = $this->getFilesToCheck();
         $count = $this->getCountForFiles($files);
 
-        if ($this->reportType != 'cli') {
-            $logMessage = 'Writing report to: '
-                . $this->reportDirectory . DIRECTORY_SEPARATOR . $this->reportFileName;
+        foreach ($this->formatterElements as $formatterElement) {
+            $formatter = FormatterFactory::createFormatter($formatterElement);
 
-            $this->log($logMessage);
-        }
+            if ($formatterElement->getType() != 'cli') {
+                $logMessage = 'Writing report to: '
+                    . $formatterElement->getToDir() . DIRECTORY_SEPARATOR . $formatterElement->getOutfile();
 
-        switch ($this->reportType) {
-            case 'cli':
-                if ($this->oldVersion || $this->isOneSevenVersion) {
-                    if ($this->oldVersion) {
-                        require_once 'PHPLOC/TextUI/ResultPrinter/Text.php';
+                $this->log($logMessage);
+            }
 
-                        $printerClass = 'PHPLOC_TextUI_ResultPrinter_Text';
-                    } else {
-                        $printerClass = '\\SebastianBergmann\\PHPLOC\\TextUI\\ResultPrinter';
-                    }
-
-                    $printer = new $printerClass();
-                    $printer->printResult($count, $this->countTests);
-                } else {
-                    $outputClass = '\\Symfony\\Component\\Console\\Output\\ConsoleOutput';
-                    $printerClass = '\\SebastianBergmann\\PHPLOC\\Log\\Text';
-
-                    $output = new $outputClass();
-                    $printer = new $printerClass();
-                    $printer->printResult($output, $count, $this->countTests);
-                }
-                break;
-
-            case 'txt':
-                if ($this->oldVersion || $this->isOneSevenVersion) {
-                    if ($this->oldVersion) {
-                        require_once 'PHPLOC/TextUI/ResultPrinter/Text.php';
-
-                        $printerClass = 'PHPLOC_TextUI_ResultPrinter_Text';
-                    } else {
-                        $printerClass = '\\SebastianBergmann\\PHPLOC\\TextUI\\ResultPrinter';
-                    }
-
-                    $printer = new $printerClass();
-
-                    ob_start();
-                    $printer->printResult($count, $this->countTests);
-                    $result = ob_get_contents();
-                    ob_end_clean();
-
-                    file_put_contents($this->reportDirectory . DIRECTORY_SEPARATOR . $this->reportFileName, $result);
-                } else {
-                    $outputClass = '\\Symfony\\Component\\Console\\Output\\StreamOutput';
-                    $printerClass = '\\SebastianBergmann\\PHPLOC\\Log\\Text';
-
-                    $stream = fopen($this->reportDirectory . DIRECTORY_SEPARATOR . $this->reportFileName, 'a+');
-                    $output = new $outputClass($stream);
-                    $printer = new $printerClass();
-                    $printer->printResult($output, $count, $this->countTests);
-                }
-                break;
-
-            case 'xml':
-                if ($this->oldVersion) {
-                    require_once 'PHPLOC/TextUI/ResultPrinter/XML.php';
-
-                    $printerClass = 'PHPLOC_TextUI_ResultPrinter_XML';
-                } else {
-                    $printerClass = '\\SebastianBergmann\\PHPLOC\\Log\\XML';
-                }
-
-                $printer = new $printerClass();
-                $printer->printResult($this->reportDirectory . DIRECTORY_SEPARATOR . $this->reportFileName, $count);
-                break;
-
-            case 'csv':
-                if ($this->oldVersion) {
-                    require_once 'PHPLOC/TextUI/ResultPrinter/CSV.php';
-
-                    $printerClass = 'PHPLOC_TextUI_ResultPrinter_CSV';
-                } else {
-                    if ($this->isOneSevenVersion) {
-                        $printerClass = '\\SebastianBergmann\\PHPLOC\\Log\\CSV';
-                    } else {
-                        $printerClass = '\\SebastianBergmann\\PHPLOC\\Log\\CSV\\Single';
-                    }
-                }
-
-                $printer = new $printerClass();
-                $printer->printResult($this->reportDirectory . DIRECTORY_SEPARATOR . $this->reportFileName, $count);
-                break;
+            $formatter->printResult($count, $this->countTests);
         }
     }
 
@@ -421,7 +342,7 @@ class Application
      */
     protected function getCountForFiles(array $files)
     {
-        $analyserClass = ($this->oldVersion ? 'PHPLOC_Analyser' : '\\SebastianBergmann\\PHPLOC\\Analyser');
+        $analyserClass = '\\SebastianBergmann\\PHPLOC\\Analyser';
         $analyser = new $analyserClass();
 
         return $analyser->countFiles($files, $this->countTests);

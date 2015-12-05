@@ -233,6 +233,12 @@ class AbstractFileSet extends DataType implements SelectorContainerInterface
         return $this->defaultPatterns->createExcludesFile();
     }
 
+    public function setFile(File $file)
+    {
+        $this->setDir($file->getParentFile());
+        $this->createInclude()->setName($file->getName());
+    }
+
     /**
      * Sets the set of include patterns. Patterns may be separated by a comma
      * or a space.

@@ -70,4 +70,15 @@ class PhpCodeSnifferTest extends AbstractBuildFileTest
         );
         unlink(PHING_TEST_BASE . '/etc/tasks/ext/phpcs/report.txt');
     }
+
+    public function testPropertyOutput()
+    {
+        ob_start();
+        $this->executeTarget(__FUNCTION__);
+        $output = ob_get_clean();        
+        $this->assertPropertyEquals(
+            "PhpCodeSnifferTaskTest.testPropertyOutput",
+            "- Generic_Sniffs_PHP_DisallowShortOpenTagSniff" . PHP_EOL
+        );
+    }
 }

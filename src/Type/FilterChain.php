@@ -28,6 +28,7 @@ use Phing\Filter\HeadFilter;
 use Phing\Filter\IconvFilter;
 use Phing\Filter\LineContains;
 use Phing\Filter\LineContainsRegexp;
+use Phing\Filter\PhpArrayMapLines;
 use Phing\Filter\PrefixLines;
 use Phing\Filter\ReplaceRegexp;
 use Phing\Filter\ReplaceTokens;
@@ -44,8 +45,6 @@ use Phing\Filter\TidyFilter;
 use Phing\Filter\TranslateGettext;
 use Phing\Filter\XincludeFilter;
 use Phing\Filter\XsltFilter;
-use Phing\Type\FilterReader;
-use Phing\Type\Reference;
 
 /**
  * FilterChain may contain a chained set of filter readers.
@@ -171,6 +170,15 @@ class FilterChain extends DataType
      * @param PrefixLines $o
      */
     public function addEscapeUnicode(EscapeUnicode $o)
+    {
+        $o->setProject($this->project);
+        $this->filterReaders[] = $o;
+    }
+
+    /**
+     * @param PhpArrayMapLines $o
+     */
+    public function addPhpArrayMapLines(PhpArrayMapLines $o)
     {
         $o->setProject($this->project);
         $this->filterReaders[] = $o;

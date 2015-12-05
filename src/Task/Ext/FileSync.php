@@ -129,6 +129,12 @@ class FileSync extends Task
     protected $defaultOptions = '-rpKzl';
 
     /**
+     * Command options.
+     * @var string
+     */
+    protected $options;
+
+    /**
      * Connection type.
      * @var boolean
      */
