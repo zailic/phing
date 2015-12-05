@@ -18,7 +18,7 @@
         <p>The dot (<code class="literal">.</code>) matches only the root directory of the fileset. If a pattern ends with
             <code class="literal">/</code> or <code class="literal">\</code>, then <code class="literal">**</code> is appended, effectively
             matching all files and directories under the directory provided.</p>
-        <div class="table"><a name="idp60977104"></a><p class="formal-object-title"><span class="label">Table D.3: </span><span class="title"> Attributes for the <code class="literal">&lt;fileset&gt;</code> tag </span></p><div class="table-contents">
+        <div class="table"><a name="idm45935944953936"></a><p class="formal-object-title"><span class="label">Table D.3: </span><span class="title"> Attributes for the <code class="literal">&lt;fileset&gt;</code> tag </span></p><div class="table-contents">
             
             <table summary=" Attributes for the &lt;fileset&gt; tag " border="1"><colgroup><col class="name"><col class="type"><col class="description"><col class="default"><col class="required"></colgroup><thead><tr><th>Name</th><th>Type</th><th>Description</th><th>Default</th><th>Required</th></tr></thead><tbody><tr><td><code class="literal">dir</code></td><td><code class="literal">String</code></td><td>The directory, the paths given in
                                 <code class="literal">include</code>/<code class="literal">exclude</code> are relative
@@ -63,7 +63,7 @@
                     and also a file <code class="literal">test/sub/bar.html</code>.</p>
                 </li></ul></div>
         </div>
-        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idp61038416"></a>D.3.2 Usage Examples</h3></div></div></div>
+        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idm45935944892960"></a>D.3.2 Usage Examples</h3></div></div></div>
             
             <pre class="programlisting">&lt;fileset dir="/etc" &gt;
   &lt;include name="httpd/**" /&gt;
@@ -79,7 +79,7 @@
             <p> This will include the apache configuration and PHP configuration file from
                     <code class="literal">/etc</code>.</p>
         </div>
-        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idp61041296"></a>D.3.3 Nested tags</h3></div></div></div>
+        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idm45935944890064"></a>D.3.3 Nested tags</h3></div></div></div>
             
             <p> The tags that are supported by <code class="literal">Fileset</code> are:</p>
             <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
@@ -95,7 +95,7 @@
                 must have a <code class="literal">name</code> attribute that contains the pattern to
                 include/exclude.</p>
         </div>
-        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idp61050672"></a>D.3.4 Related types</h3></div></div></div>
+        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idm45935944880848"></a>D.3.4 Related types</h3></div></div></div>
             
             <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
                       <a class="link" href="PearPackageFileSet.html" title="D.6 PearPackageFileSet">pearpackagefileset</a>

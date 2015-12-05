@@ -1,15 +1,15 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>B.22 ImportTask</title><link rel="stylesheet" type="text/css" href="book.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="Phing User Guide"><link rel="up" href="app.coretasks.html" title="Appendix B. Core tasks"><link rel="prev" href="IfTask.html" title="B.21 IfTask"><link rel="next" href="IncludePathTask.html" title="B.23 IncludePathTask"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">B.22 ImportTask </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="IfTask.html">Prev</a> </td><th width="60%" align="center">Appendix B. Core tasks</th><td width="20%" align="right"> <a accesskey="n" href="IncludePathTask.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ImportTask"></a>B.22 ImportTask </h2></div></div></div>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>B.21 ImportTask</title><link rel="stylesheet" type="text/css" href="book.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="Phing User Guide"><link rel="up" href="app.coretasks.html" title="Appendix B. Core tasks"><link rel="prev" href="IfTask.html" title="B.20 IfTask"><link rel="next" href="IncludePathTask.html" title="B.22 IncludePathTask"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">B.21 ImportTask </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="IfTask.html">Prev</a> </td><th width="60%" align="center">Appendix B. Core tasks</th><td width="20%" align="right"> <a accesskey="n" href="IncludePathTask.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ImportTask"></a>B.21 ImportTask </h2></div></div></div>
         
         <p>Imports another build file into the current project.</p>
         <p>On execution it will read another Phing file into the same Project. Functionally it is
             nearly the same as copy and pasting the imported file onto the end of the importing
             file.</p>
         <p>The import task may only be used as a top-level task. This means that it may not be used in a target.</p>
-        <div class="table"><a name="idp48043872"></a><p class="formal-object-title"><span class="label">Table B.22: </span><span class="title">Attributes</span></p><div class="table-contents">
+        <div class="table"><a name="idm45935951305616"></a><p class="formal-object-title"><span class="label">Table B.21: </span><span class="title">Attributes</span></p><div class="table-contents">
             
             <table summary="Attributes" border="1"><colgroup><col class="name"><col class="type"><col class="description"><col class="default"><col class="required"></colgroup><thead><tr><th>Name</th><th>Type</th><th>Description</th><th>Default</th><th>Required</th></tr></thead><tbody><tr><td><code class="literal">file</code></td><td><code class="literal">String</code></td><td>The file to import.</td><td>n/a</td><td>Yes</td></tr><tr><td><code class="literal">optional</code></td><td><code class="literal">Boolean</code></td><td>If true, do not stop the build if the file does not exist.</td><td><code class="literal">false</code></td><td>No</td></tr></tbody></table>
         </div></div><br class="table-break">
-        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idp48062128"></a>B.22.1 Target Overriding</h3></div></div></div>
+        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idm45935951288032"></a>B.21.1 Target Overriding</h3></div></div></div>
             
             <p>If a target in the main file is also present in at least one of the imported
                 files, the one from the main file takes precedence.</p>
@@ -21,7 +21,7 @@
                 or imported buildfile(s)--for which it is a dependency, with a different
                 implementation.</p>
         </div>
-        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idp48065712"></a>B.22.2 Target namespacing</h3></div></div></div>
+        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idm45935951283888"></a>B.21.2 Target namespacing</h3></div></div></div>
             
             <p>A target defined in an imported file will always be available under the name
                 <code class="literal">importName</code>.<code class="literal">targetName</code>.</p>
@@ -31,7 +31,7 @@
                 On the other hand, by calling <code class="literal">builddocs.docs</code> from <span class="emphasis"><em>docs/build.xml</em></span>,
                 targets from the <code class="literal">builddocs</code> file can be sure to call "their" implementation.</p>
         </div>
-        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idp48071904"></a>B.22.3 Special Properties and Resolving Files Against the Imported File</h3></div></div></div>
+        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idm45935951278608"></a>B.21.3 Special Properties and Resolving Files Against the Imported File</h3></div></div></div>
             
             <p>Imported files are treated as they are present in the main buildfile.
                 However, However, this means that properties like <code class="literal">phing.file</code> and
@@ -90,7 +90,7 @@
 
         </div>
 
-        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idp48072384"></a>B.22.4 Examples</h3></div></div></div>
+        <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="idm45935951278352"></a>B.21.4 Examples</h3></div></div></div>
             
             <pre class="programlisting">&lt;import file="path/to/build.xml"/&gt;
 &lt;import file="path/to/build.xml" optional="true"/&gt;</pre>
@@ -103,4 +103,4 @@
   &lt;filelist dir="." files="path/to/build.xml"/&gt;
 &lt;/import&gt;</pre>
         </div>
-    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="IfTask.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="app.coretasks.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="IncludePathTask.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">B.21 IfTask  </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> B.23 IncludePathTask </td></tr></table></div></body></html>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="IfTask.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="app.coretasks.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="IncludePathTask.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">B.20 IfTask  </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> B.22 IncludePathTask </td></tr></table></div></body></html>
