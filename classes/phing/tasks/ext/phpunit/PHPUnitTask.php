@@ -481,11 +481,11 @@ class PHPUnitTask extends Task
             $pwd = dirname(__FILE__);
             $path = realpath($pwd . '/../../../');
 
-            $filter = new PHP_CodeCoverage_Filter();
+            $filter = new SebastianBergmann\CodeCoverageFilter();
             if (method_exists($filter, 'addDirectoryToBlacklist')) {
                 $filter->addDirectoryToBlacklist($path);
             }
-            $runner->setCodecoverage(new PHP_CodeCoverage(null, $filter));
+            $runner->setCodecoverage(new SebastianBergmann\CodeCoverage\CodeCoverage(null, $filter));
         }
 
         $runner->setUseCustomErrorHandler($this->usecustomerrorhandler);
