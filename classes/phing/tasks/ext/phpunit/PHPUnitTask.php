@@ -481,7 +481,7 @@ class PHPUnitTask extends Task
             $pwd = dirname(__FILE__);
             $path = realpath($pwd . '/../../../');
 
-            $filter = new SebastianBergmann\CodeCoverageFilter();
+            $filter = new SebastianBergmann\CodeCoverage\CodeCoverageFilter();
             if (method_exists($filter, 'addDirectoryToBlacklist')) {
                 $filter->addDirectoryToBlacklist($path);
             }
